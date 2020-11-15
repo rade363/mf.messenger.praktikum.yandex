@@ -1,7 +1,9 @@
 # Messenger
 
 ### Instructions
-Use `npm start` to run app locally at https://localhost:4000.
+Use `npm run start` to run app locally at http://localhost:4000.
+
+App is available for preview on [Netlify](https://pensive-austin-8ea525.netlify.app/).
 
 ### Folder structure explained
     .
