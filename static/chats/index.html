@@ -2,9 +2,209 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Chats | messenger</title>
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="../assets/style.css" type="text/css" rel="stylesheet" >
 </head>
-<body>
-
+<body class="body body_background_empty">
+    <main class="chat">
+        <aside class="chat__sidebar">
+            <nav class="chat__nav">
+                <div class="chat__topbar">
+                    <button class="chat__profile">Profile</button>
+                </div>
+                <div class="chat__search searchbar">
+                    <input class="searchbar__input" type="text" placeholder="Search" name="search" pattern="\S+"/>
+                </div>
+            </nav>
+            <ul class="chat__list chat-list">
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">John</span>
+                        <span class="chat-list__preview preview">Image</span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">20:37</span>
+                        <div class="chat-list__indicator">
+                            <span class="chat-list__unread">2</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Alex</span>
+                        <span class="chat-list__preview preview">:)</span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">17:51</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Viktor</span>
+                        <span class="chat-list__preview preview">
+                            <span class="preview__highlight">You:</span>
+                            Давно не виделись! Как п&mldr;
+                        </span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">17:40</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Developers</span>
+                        <span class="chat-list__preview preview">
+                            <span class="preview__highlight">Vlad:</span>
+                            What is this?
+                        </span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">16:05</span>
+                        <div class="chat-list__indicator">
+                            <span class="chat-list__unread">9</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Pavel</span>
+                        <span class="chat-list__preview preview">
+                            <span class="preview__highlight">You:</span>
+                            I will create my own Telegr&mldr;
+                        </span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">12:25</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Daniel</span>
+                        <span class="chat-list__preview preview">
+                            <span class="preview__highlight">You:</span>
+                            Damn, Daniel!
+                        </span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">MON</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Narayan</span>
+                        <span class="chat-list__preview preview">Thank you my friend!</span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">SAT</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Konstantin</span>
+                        <span class="chat-list__preview preview">We need to discuss something i&mldr;</span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">15/11/20</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Artemy</span>
+                        <span class="chat-list__preview preview">Image</span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">13/11/20</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Artemy</span>
+                        <span class="chat-list__preview preview">Image</span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">13/11/20</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Artemy</span>
+                        <span class="chat-list__preview preview">Image</span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">13/11/20</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Artemy</span>
+                        <span class="chat-list__preview preview">Image</span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">13/11/20</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Artemy</span>
+                        <span class="chat-list__preview preview">Image</span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">13/11/20</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Artemy</span>
+                        <span class="chat-list__preview preview">Image</span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">13/11/20</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Artemy</span>
+                        <span class="chat-list__preview preview">Image</span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">13/11/20</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+            </ul>
+        </aside>
+        <div class="chat__conversation chat__conversation_empty">
+            <div class="chat__empty">Please select a chat to start messaging</div>
+        </div>
+    </main>
 </body>
 </html>
