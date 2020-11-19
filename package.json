@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/rade363/mf.messenger.praktikum.yandex#readme",
   "devDependencies": {
-    "express": "^4.17.1"
+    "express": "4.17.1"
   }
 }
