@@ -2,9 +2,410 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Daniel | messenger</title>
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="../assets/style.css" type="text/css" rel="stylesheet" >
 </head>
-<body>
-
+<body class="body body_background_empty">
+    <main class="chat">
+        <aside class="chat__sidebar">
+            <nav class="chat__nav">
+                <div class="chat__topbar">
+                    <button class="chat__profile">Profile</button>
+                </div>
+                <div class="chat__search searchbar">
+                    <input class="searchbar__input" type="text" placeholder="Search" name="search" pattern="\S+"/>
+                </div>
+            </nav>
+            <ul class="chat__list chat-list">
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">John</span>
+                        <span class="chat-list__preview preview">Image</span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">20:37</span>
+                        <div class="chat-list__indicator">
+                            <span class="chat-list__unread">2</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Alex</span>
+                        <span class="chat-list__preview preview">:)</span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">17:51</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Viktor</span>
+                        <span class="chat-list__preview preview">
+                                <span class="preview__highlight">You:</span>
+                                Давно не виделись! Как п&mldr;
+                            </span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">17:40</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Developers</span>
+                        <span class="chat-list__preview preview">
+                                <span class="preview__highlight">Vlad:</span>
+                                What is this?
+                            </span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">16:05</span>
+                        <div class="chat-list__indicator">
+                            <span class="chat-list__unread">9</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Pavel</span>
+                        <span class="chat-list__preview preview">
+                                <span class="preview__highlight">You:</span>
+                                I will create my own Telegr&mldr;
+                            </span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">12:25</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item chat-list__item_active">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Daniel</span>
+                        <span class="chat-list__preview preview">
+                                <span class="preview__highlight">You:</span>
+                                Damn, Daniel!
+                            </span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">MON</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Narayan</span>
+                        <span class="chat-list__preview preview">Thank you my friend!</span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">SAT</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Konstantin</span>
+                        <span class="chat-list__preview preview">We need to discuss something i&mldr;</span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">15/11/20</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Artemy</span>
+                        <span class="chat-list__preview preview">Image</span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">13/11/20</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Artemy</span>
+                        <span class="chat-list__preview preview">Image</span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">13/11/20</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Artemy</span>
+                        <span class="chat-list__preview preview">Image</span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">13/11/20</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Artemy</span>
+                        <span class="chat-list__preview preview">Image</span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">13/11/20</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Artemy</span>
+                        <span class="chat-list__preview preview">Image</span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">13/11/20</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Artemy</span>
+                        <span class="chat-list__preview preview">Image</span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">13/11/20</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+                <li class="chat-list__item">
+                    <div class="chat-list__userpic"></div>
+                    <div class="chat-list__content">
+                        <span class="chat-list__username">Artemy</span>
+                        <span class="chat-list__preview preview">Image</span>
+                    </div>
+                    <div class="chat-list__meta">
+                        <span class="chat-list__datetime">13/11/20</span>
+                        <div class="chat-list__indicator"></div>
+                    </div>
+                </li>
+            </ul>
+        </aside>
+        <div class="chat__conversation conversation">
+            <div class="conversation__header">
+                <div class="conversation__user-info user-info">
+                    <span class="user-info__name">Daniel</span>
+                    <span class="user-info__activity">last seen 1 hour ago</span>
+                </div>
+                <button class="conversation__actions actions-button">
+                    <img class="actions-button__dots" src="../assets/img/three-dots.svg" alt="Chat actions" />
+                </button>
+                <div class="conversation__context context-menu">
+                    <button class="context__add context-button">
+                        <img class="context-button__icon" src="../assets/img/add.svg" alt="Add user" />
+                        <span class="context-button__text">Add user</span>
+                    </button>
+                    <button class="context__delete context-button">
+                        <img class="context-button__icon" src="../assets/img/delete.svg" alt="Delete user" />
+                        <span class="context-button__text">Delete conversation</span>
+                    </button>
+                </div>
+            </div>
+            <div class="conversation__list">
+                <div class="message message_incoming">
+                    <div class="message__bubble">
+                        <p class="message__text">Hello bro!</p>
+                        <div class="message__meta">
+                            <span class="message__time">10:44</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="message message_outgoing">
+                    <div class="message__bubble">
+                        <p class="message__text">Hey, what’s up? Have you heard the latest news?</p>
+                        <div class="message__meta">
+                            <span class="message__status">
+                                <img class="message__delivered" src="../assets/img/msg-delivered.svg" alt="Delivered" />
+                            </span>
+                            <span class="message__time">11:01</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="message message_incoming">
+                    <div class="message__bubble">
+                        <p class="message__text">Amazing! What are the news?</p>
+                        <div class="message__meta">
+                            <span class="message__time">11:03</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="message message_outgoing">
+                    <div class="message__bubble">
+                        <p class="message__text">“Vans, the original action sports brand and advocate for creative expression, is proud to announce three-time Grammy award-winning artist, musician  and producer Anderson .Paak as the brand’s first Global Music Ambassador. Vans and AP share a mutual passion to promote creative expression through their active support of art and music. AP is longtime fan of the brand and always aspires to uplift the community around him, making him a natural addition to the Vans family. The Vans x Anderson .Paak collection will be available worldwide on November 13 and will retail for €45 - €115 / £37 - £95.”</p>
+                        <div class="message__meta">
+                            <span class="message__status">
+                                <img class="message__delivered" src="../assets/img/msg-delivered.svg" alt="Delivered" />
+                            </span>
+                            <span class="message__time">11:07</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="message message_incoming">
+                    <div class="message__bubble">
+                        <p class="message__text">Pfff, “news”. I’ve already got them!</p>
+                        <div class="message__meta">
+                            <span class="message__time">11:56</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="message message_media message_incoming">
+                    <div class="message__bubble">
+                        <img class="message_media" src="../assets/img/vans.jpg" alt="Vans" />
+                        <div class="message__meta">
+                            <span class="message__time">11:57</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="message message_outgoing">
+                    <div class="message__bubble">
+                        <p class="message__text">Damn, Daniel!</p>
+                        <div class="message__meta">
+                            <span class="message__status">
+                                <img class="message__delivered" src="../assets/img/msg-delivered.svg" alt="Delivered" />
+                            </span>
+                            <span class="message__time">11:59</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="message message_outgoing">
+                    <div class="message__bubble">
+                        <p class="message__text">Some</p>
+                        <div class="message__meta">
+                            <span class="message__status">
+                                <img class="message__delivered" src="../assets/img/msg-sent.svg" alt="Delivered" />
+                            </span>
+                            <span class="message__time">11:01</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="message message_outgoing">
+                    <div class="message__bubble">
+                        <p class="message__text">more</p>
+                        <div class="message__meta">
+                            <span class="message__status">
+                                <img class="message__delivered" src="../assets/img/msg-sent.svg" alt="Delivered" />
+                            </span>
+                            <span class="message__time">11:01</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="message message_outgoing">
+                    <div class="message__bubble">
+                        <p class="message__text">messages</p>
+                        <div class="message__meta">
+                            <span class="message__status">
+                                <img class="message__delivered" src="../assets/img/msg-sent.svg" alt="Delivered" />
+                            </span>
+                            <span class="message__time">11:01</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="message message_outgoing">
+                    <div class="message__bubble">
+                        <p class="message__text">to</p>
+                        <div class="message__meta">
+                            <span class="message__status">
+                                <img class="message__delivered" src="../assets/img/msg-sent.svg" alt="Delivered" />
+                            </span>
+                            <span class="message__time">11:01</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="message message_outgoing">
+                    <div class="message__bubble">
+                        <p class="message__text">test</p>
+                        <div class="message__meta">
+                            <span class="message__status">
+                                <img class="message__delivered" src="../assets/img/msg-sent.svg" alt="Delivered" />
+                            </span>
+                            <span class="message__time">11:01</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="message message_outgoing">
+                    <div class="message__bubble">
+                        <p class="message__text">scroll</p>
+                        <div class="message__meta">
+                            <span class="message__status">
+                                <img class="message__delivered" src="../assets/img/msg-sent.svg" alt="Delivered" />
+                            </span>
+                            <span class="message__time">11:01</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="conversation__input-area input-area">
+                <button class="input-area__attachment attachment">
+                    <img class="attachment__image" src="../assets/img/attachment.svg" />
+                </button>
+                <input class="input-area__message" type="text" placeholder="Write a message&mldr;" name="message"/>
+                <button class="input-area__submit submit-message">
+                    <img class="submit-message__arrow" src="../assets/img/arrow-send-active.svg" alt="Send" />
+                </button>
+                <div class="attachments__context context-menu">
+                    <button class="attachments__photo context-button">
+                        <img class="context-button__icon" src="../assets/img/attachment-photo.svg" alt="Photo/Video" />
+                        <span class="context-button__text">Photo or Video</span>
+                    </button>
+                    <button class="attachments__file context-button">
+                        <img class="context-button__icon" src="../assets/img/attachment-file.svg" alt="File" />
+                        <span class="context-button__text">File</span>
+                    </button>
+                    <button class="attachments__location context-button">
+                        <img class="context-button__icon" src="../assets/img/attachment-location.svg" alt="Location" />
+                        <span class="context-button__text">Location</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+<div class="overlay overlay__add">
+    <div class="container modal">
+        <div class="modal__title">Add user</div>
+        <form class="add-user-form form">
+            <div class="add-user-form__item form__item">
+                <label class="form__label" for="username">Username</label>
+                <input class="add-user-form__input form__input" type="text" id="username" />
+                <label class="add-user-form__error modal__error form__error"></label>
+            </div>
+            <div class="form__item modal__buttons">
+                <button class="add-user-form__add form__button button button_thin button_primary">Add</button>
+                <button class="add-user-form__cancel form__button button button_thin button_secondary">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="overlay overlay__delete">
+    <div class="container modal delete-conversation">
+        <div class="modal__title">Delete conversation</div>
+        <div class="modal__message">Are you sure? <br/>This action cannot be undone.</div>
+        <div class="modal__buttons">
+            <button class="delete-conversation__approve button button_thin button_danger">Delete</button>
+            <button class="delete-conversation__cancel button button_thin button_secondary">Cancel</button>
+        </div>
+    </div>
+</div>
+<script src="index.js"></script>
 </body>
 </html>
