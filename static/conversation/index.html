@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="../assets/style.css" type="text/css" rel="stylesheet" >
 </head>
-<body class="body body_background_empty">
+<body class="body">
     <main class="chat">
         <aside class="chat__sidebar">
             <nav class="chat__nav">
@@ -389,9 +389,9 @@
                 <input class="add-user-form__input form__input" type="text" id="username" />
                 <label class="add-user-form__error modal__error form__error"></label>
             </div>
-            <div class="form__item modal__buttons">
-                <button class="add-user-form__add form__button button button_thin button_primary">Add</button>
-                <button class="add-user-form__cancel form__button button button_thin button_secondary">Cancel</button>
+            <div class="form__item modal__buttons double">
+                <button class="add-user-form__add form__button button button_thin button_primary double__child">Add</button>
+                <button class="add-user-form__cancel form__button button button_thin button_secondary double__child">Cancel</button>
             </div>
         </form>
     </div>
@@ -400,9 +400,9 @@
     <div class="container modal delete-conversation">
         <div class="modal__title">Delete conversation</div>
         <div class="modal__message">Are you sure? <br/>This action cannot be undone.</div>
-        <div class="modal__buttons">
-            <button class="delete-conversation__approve button button_thin button_danger">Delete</button>
-            <button class="delete-conversation__cancel button button_thin button_secondary">Cancel</button>
+        <div class="modal__buttons double">
+            <button class="delete-conversation__approve button button_thin button_danger double__child">Delete</button>
+            <button class="delete-conversation__cancel button button_thin button_secondary double__child">Cancel</button>
         </div>
     </div>
 </div>
