@@ -7,4 +7,3 @@
 
   [build]
   publish = "static"
-  command = "npm run start"
