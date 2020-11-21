@@ -9,8 +9,8 @@
     <link href="../assets/style.css" type="text/css" rel="stylesheet" >
 </head>
 <body class="body body_background_empty">
-    <main class="container">
-        <nav class="top-nav nav-auth_register">
+    <main class="container register">
+        <nav class="top-nav register__nav">
             <div class="top-nav__left">
                 <div class="nav-auth__back back-button">
                     <span class="back-button__arrow">‹</span>
@@ -18,52 +18,53 @@
                 </div>
             </div>
             <div class="top-nav__center">
-                <h1 class="nav-auth__title">messenger</h1>
+                <h1 class="top-nav__title">messenger</h1>
             </div>
             <div class="top-nav__right"></div>
         </nav>
-        <form class="form">
+        <form class="form register-form">
             <div class="form__item">
                 <label class="form__label" for="email">Email</label>
-                <input class="form__input" type="email" id="email" />
-                <label class="form__error"></label>
+                <input class="form__input register-form__email-input" type="email" id="email" />
+                <label class="form__error register-form__email-error"></label>
             </div>
             <div class="form__item double">
                 <div class="double__child form__item">
                     <label class="form__label" for="first_name">First name</label>
-                    <input class="form__input" type="text" id="first_name" />
-                    <label class="form__error"></label>
+                    <input class="form__input register-form__first-name-input" type="text" id="first_name" />
+                    <label class="form__error register-form__first-name-error"></label>
                 </div>
                 <div class="double__child form__item">
                     <label class="form__label" for="second_name">Last name</label>
-                    <input class="form__input" type="text" id="second_name" />
-                    <label class="form__error"></label>
+                    <input class="form__input register-form__last-name-input" type="text" id="second_name" />
+                    <label class="form__error register-form__last-name-error"></label>
                 </div>
             </div>
             <div class="form__item">
                 <label class="form__label" for="username">Login</label>
-                <input class="form__input" type="text" id="username" />
-                <label class="form__error"></label>
+                <input class="form__input register-form__login-input" type="text" id="username" />
+                <label class="form__error register-form__login-error"></label>
             </div>
             <div class="form__item">
                 <label class="form__label" for="phone">Phone</label>
-                <input class="form__input" type="text" id="phone" />
-                <label class="form__error"></label>
+                <input class="form__input register-form__phone-input" type="text" id="phone" />
+                <label class="form__error register-form__phone-error"></label>
             </div>
             <div class="form__item">
                 <label class="form__label" for="password">Password</label>
-                <input class="form__input" type="password" id="password" />
-                <label class="form__error"></label>
+                <input class="form__input register-form__password-input" type="password" id="password" />
+                <label class="form__error register-form__password-error"></label>
             </div>
             <div class="form__item">
                 <label class="form__label" for="password_repeat">Repeat password</label>
-                <input class="form__input" type="password" id="password_repeat" />
-                <label class="form__error"></label>
+                <input class="form__input register-form__password-repeat-input" type="password" id="password_repeat" />
+                <label class="form__error register-form__password-repeat-error"></label>
             </div>
-            <div class="form__item">
-                <button class="form__button button button_wide button_primary">Sign up</button>
+            <div class="form__item register-form__actions">
+                <button class="register-form__submit-button button button_wide button_primary">Sign up</button>
             </div>
         </form>
     </main>
+<script src="index.js"></script>
 </body>
 </html>

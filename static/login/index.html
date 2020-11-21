@@ -9,31 +9,32 @@
     <link href="../assets/style.css" type="text/css" rel="stylesheet" >
 </head>
 <body class="body body_background_empty">
-    <main class="container">
-        <nav class="top-nav nav-auth_login">
+    <main class="container login">
+        <nav class="top-nav login__nav">
             <div class="top-nav__left"></div>
             <div class="top-nav__center">
-                <h1 class="nav-auth__title">messenger</h1>
+                <h1 class="top-nav__title">messenger</h1>
             </div>
             <div class="top-nav__right"></div>
         </nav>
-        <form class="form">
+        <form class="form login-form">
             <div class="form__item">
                 <label class="form__label" for="username">Login</label>
-                <input class="form__input form__input_error" type="text" id="username" />
-                <label class="form__error">Invalid username</label>
+                <input class="form__input login-form__username-input" type="text" id="username" />
+                <label class="form__error login-form__username-error"></label>
             </div>
             <div class="form__item">
                 <label class="form__label" for="password">Password</label>
-                <input class="form__input" type="password" id="password" />
-                <label class="form__error"></label>
+                <input class="form__input login-form__password-input" type="password" id="password" />
+                <label class="form__error login-form__password-error"></label>
             </div>
-            <div class="form__item form__item_login">
-                <button class="form__button button button_wide button_primary">Sign in</button>
-                <span class="form__alternator">or</span>
-                <button class="form__button button button_wide button_secondary">Sign up</button>
+            <div class="form__item login-form__actions">
+                <button class="login-form__login-button button button_wide button_primary">Sign in</button>
+                <span class="login-form__alternative">or</span>
+                <button class="login-form__register-button button button_wide button_secondary">Sign up</button>
             </div>
         </form>
     </main>
+<script src="index.js"></script>
 </body>
 </html>

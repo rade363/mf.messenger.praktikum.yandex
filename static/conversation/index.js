@@ -39,14 +39,14 @@
             conversationActionsButton: document.querySelector(".conversation__actions"),
 
             addUserButton: document.querySelector(".context__add"),
-            addUserOverlay: document.querySelector(".overlay__add"),
-            usernameInput: document.querySelector(".add-user-form__input"),
-            usernameInputError: document.querySelector(".add-user-form__error"),
-            submitAddUserFormButton: document.querySelector(".add-user-form__add"),
-            cancelAddUserFormButton: document.querySelector(".add-user-form__cancel"),
+            addUserOverlay: document.querySelector(".add-user"),
+            usernameInput: document.querySelector(".add-user-form__username-input"),
+            usernameInputError: document.querySelector(".add-user-form__username-error"),
+            submitAddUserFormButton: document.querySelector(".add-user-form__add-button"),
+            cancelAddUserFormButton: document.querySelector(".add-user-form__cancel-button"),
 
             deleteConversationButton: document.querySelector(".context__delete"),
-            deleteConversationOverlay: document.querySelector(".overlay__delete"),
+            deleteConversationOverlay: document.querySelector(".delete-conversation"),
             approveDeleteButton: document.querySelector(".delete-conversation__approve"),
             cancelDeleteButton: document.querySelector(".delete-conversation__cancel"),
 
@@ -146,6 +146,9 @@
         const {value} = event.target;
         console.log("[INFO] Username", value);
         setStateProp("newUserToAddName", value);
+
+        view.usernameInputError.innerText = "";
+        removeClass(view.usernameInput, "form__input_error");
     }
 
     function handleAddUserSubmit(event) {
@@ -153,6 +156,7 @@
         if (isEmpty(state.newUserToAddName)) {
             console.log("[INFO] No user to add");
             view.usernameInputError.innerText = "Username cannot be empty";
+            addClass(view.usernameInput, "form__input_error");
             return null;
         }
         console.log(`[INFO] User ${state.newUserToAddName} will be added later in course`);
@@ -166,7 +170,7 @@
 
     function handleDeleteConversationButtonClick(event) {
         event.preventDefault();
-        console.log('[INFO] Conversation removal feature will be added later in course');
+        console.log("[INFO] Conversation removal feature will be added later in course");
     }
 
     function handleCancelDeleteConversationButtonClick(event) {

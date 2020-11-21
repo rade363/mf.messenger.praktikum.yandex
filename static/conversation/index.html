@@ -380,27 +380,27 @@
             </div>
         </div>
     </main>
-<div class="overlay overlay__add">
+<div class="overlay add-user">
     <div class="container modal">
         <div class="modal__title">Add user</div>
-        <form class="add-user-form form">
-            <div class="add-user-form__item form__item">
+        <form class="form add-user-form">
+            <div class="form__item">
                 <label class="form__label" for="username">Username</label>
-                <input class="add-user-form__input form__input" type="text" id="username" />
-                <label class="add-user-form__error modal__error form__error"></label>
+                <input class="form__input add-user-form__username-input" type="text" id="username" />
+                <label class="form__error add-user-form__username-error"></label>
             </div>
-            <div class="form__item modal__buttons double">
-                <button class="add-user-form__add form__button button button_thin button_primary double__child">Add</button>
-                <button class="add-user-form__cancel form__button button button_thin button_secondary double__child">Cancel</button>
+            <div class="form__item add-user-form__actions double">
+                <button class="add-user-form__add-button button button_thin button_primary double__child">Add</button>
+                <button class="add-user-form__cancel-button button button_thin button_secondary double__child">Cancel</button>
             </div>
         </form>
     </div>
 </div>
-<div class="overlay overlay__delete">
-    <div class="container modal delete-conversation">
+<div class="overlay delete-conversation">
+    <div class="container modal delete-conversation__modal">
         <div class="modal__title">Delete conversation</div>
         <div class="modal__message">Are you sure? <br/>This action cannot be undone.</div>
-        <div class="modal__buttons double">
+        <div class="modal__buttons delete-conversation__actions double">
             <button class="delete-conversation__approve button button_thin button_danger double__child">Delete</button>
             <button class="delete-conversation__cancel button button_thin button_secondary double__child">Cancel</button>
         </div>

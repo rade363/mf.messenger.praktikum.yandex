@@ -62,19 +62,13 @@
     display: flex;
     justify-content: right;
 }
-.nav-auth__title {
+.top-nav__title {
     font-family: 'Roboto Slab', serif;
     font-weight: normal;
     text-align: center;
     font-size: 30px;
     line-height: 30px;
     margin-bottom: 7px;
-}
-.nav-auth_login {
-    margin: 40px 0;
-}
-.nav-auth_register {
-    margin: 15px 0;
 }
 
 .form {
@@ -125,19 +119,6 @@
     color: var(--red);
 }
 
-.form__item_login {
-    margin-top: 80px;
-    margin-bottom: 25px;
-}
-.form__alternator {
-    display: block;
-    text-align: center;
-    margin-bottom: 15px;
-}
-.form__button {
-    margin-bottom: 15px;
-}
-
 .double {
     flex: 2;
     flex-direction: row;
@@ -146,6 +127,26 @@
     margin-right: 30px;
 }
 
+.login__nav {
+    margin: 40px 0;
+}
+.login-form__actions {
+    margin-top: 80px;
+    margin-bottom: 25px;
+}
+.login-form__alternative {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.register__nav {
+    margin: 15px 0;
+}
+.register-form__actions {
+    margin-bottom: 20px;
+}
 
 .button {
     font-size: 14px;
@@ -195,13 +196,13 @@
     color: var(--white);
 }
 
-
 .back-button {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     flex-direction: row;
     color: var(--blue);
+    cursor: pointer;
 }
 .back-button_hidden {
     visibility: hidden;
@@ -388,9 +389,6 @@
 }
 
 
-.searchbar {
-
-}
 .searchbar__input {
     width: 100%;
     padding: 7px 5px;
@@ -457,6 +455,19 @@
     display: flex;
     flex-direction: column;
 }
+.conversation__list {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    overflow-y: scroll;
+    margin: 10px 20px;
+}
+.conversation__input-area {
+    display: flex;
+    flex-direction: row;
+    height: 55px;
+    position: relative;
+}
 
 .context-menu {
     width: 250px;
@@ -490,21 +501,6 @@
     font-size: 14px;
 }
 
-.conversation__list {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    overflow-y: scroll;
-    margin: 10px 20px;
-}
-
-.conversation__input-area {
-    display: flex;
-    flex-direction: row;
-    height: 55px;
-    position: relative;
-}
-
 .user-info {
     display: flex;
     flex-direction: column;
@@ -522,7 +518,6 @@
     line-height: 10px;
     color: var(--fontGrey);
 }
-
 
 .actions-button {
     background-color: transparent;
@@ -571,7 +566,6 @@
     color: var(--white);
     border-radius: 8px 8px 0 8px;
 }
-
 .message__text {
     display: flex;
 }
@@ -606,6 +600,7 @@
     display: flex;
     margin-right: 15px;
 }
+
 .attachment {
     position: relative;
     width: 32px;
@@ -627,7 +622,6 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
-
 .attachments__context {
     display: none;
     position: absolute;
@@ -638,7 +632,6 @@
     display: flex;
     flex-direction: column;
 }
-
 
 .input-area__message {
     display: flex;
@@ -662,6 +655,7 @@
     border-color: var(--blue);
     color: var(--fontDarkGrey);
 }
+
 .submit-message {
     position: relative;
     width: 28px;
@@ -681,7 +675,6 @@
 .submit-message:hover .submit-message__arrow {
     opacity: 1;
 }
-
 .submit-message_active {
     background-color: var(--blue);
 }
@@ -705,7 +698,6 @@
     display: block;
 }
 
-
 .modal {
     padding: 40px 35px 15px 35px;
 }
@@ -728,18 +720,18 @@
     flex-direction: row;
 }
 
-.add-user-form__item {
-    margin-bottom: 25px;
+.add-user-form__actions {
+    margin-top: 25px;
+    margin-bottom: 30px;
 }
 
-.delete-conversation {
+.delete-conversation__modal {
     padding-bottom: 40px;
 }
 .delete-conversation .modal__message {
     text-align: center;
     margin: 60px 0;
 }
-
 
 .profile-nav {
     height: 55px;
@@ -771,6 +763,20 @@
 .profile__picture_empty {
     background: var(--searchGrey);
 }
+.profile__fullname {
+    font-size: 24px;
+    color: var(--fontDarkGrey);
+    margin-bottom: 20px;
+}
+.profile__info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: left;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
 .profile-pic {
     width: 130px;
     height: 130px;
@@ -799,6 +805,13 @@
     cursor: pointer;
     border: 2px solid var(--blue);
 }
+.profile-pic__input {
+    height: 120%;
+    width: 100%;
+    display: block;
+    margin-top: -20%;
+    cursor: pointer;
+}
 .profile-pic__label {
     position: absolute;
     top: 50%;
@@ -807,21 +820,7 @@
     text-align: center;
     font-size: 14px;
     color: var(--white);
-}
-
-
-.profile__fullname {
-    font-size: 24px;
-    color: var(--fontDarkGrey);
-    margin-bottom: 20px;
-}
-.profile__info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: left;
-    width: 100%;
-    margin-bottom: 20px;
+    pointer-events: none
 }
 
 .prop {
@@ -847,7 +846,6 @@
     color: var(--fontGrey);
 }
 
-
 .profile__action {
     width: 100%;
 }
@@ -855,18 +853,18 @@
     display: flex;
     margin-bottom: 22px;
 }
-
 .profile__edit {
     padding-top: 60px;
 }
-.form__item_profile-edit {
+.profile-form__actions {
     margin-top: 40px;
-    margin-bottom: 22px;
+    margin-bottom: 30px;
 }
 
-.centered {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.password-form {
+    padding-top: 60px;
+}
+.password-form__actions {
+    margin-top: 40px;
+    margin-bottom: 30px;
 }

@@ -22,40 +22,46 @@
             <div class="top-nav__right"></div>
         </nav>
         <div class="profile__edit container">
-            <form class="form">
+            <form class="form profile-form">
                 <div class="form__item">
                     <label class="form__label" for="email">Email</label>
-                    <input class="form__input" type="email" id="email" />
-                    <label class="form__error"></label>
+                    <input class="form__input profile-form__email-input" type="email" id="email" />
+                    <label class="form__error profile-form__email-error"></label>
                 </div>
                 <div class="form__item">
                     <label class="form__label" for="username">Login</label>
-                    <input class="form__input" type="text" id="username" />
-                    <label class="form__error"></label>
+                    <input class="form__input profile-form__login-input" type="text" id="username" />
+                    <label class="form__error profile-form__login-error"></label>
                 </div>
                 <div class="form__item double">
                     <div class="form__item double__child ">
                         <label class="form__label" for="first_name">First name</label>
-                        <input class="form__input" type="text" id="first_name" />
-                        <label class="form__error"></label>
+                        <input class="form__input profile-form__first-name-input" type="text" id="first_name" />
+                        <label class="form__error profile-form__first-name-error"></label>
                     </div>
                     <div class="form__item double__child">
                         <label class="form__label" for="second_name">Last name</label>
-                        <input class="form__input" type="text" id="second_name" />
-                        <label class="form__error"></label>
+                        <input class="form__input profile-form__last-name-input" type="text" id="second_name" />
+                        <label class="form__error profile-form__last-name-error"></label>
                     </div>
                 </div>
                 <div class="form__item">
-                    <label class="form__label" for="phone">Phone</label>
-                    <input class="form__input" type="text" id="phone" />
-                    <label class="form__error"></label>
+                    <label class="form__label" for="phone">Display name</label>
+                    <input class="form__input profile-display-name-input" type="text" id="display_name" />
+                    <label class="form__error profile-display-name-error"></label>
                 </div>
-                <div class="form__item form__item_profile-edit double">
-                    <button class="profile__edit-save button button_thin button_primary double__child">Save</button>
-                    <button class="profile__edit-cancel button button_thin button_secondary double__child">Cancel</button>
+                <div class="form__item">
+                    <label class="form__label" for="phone">Phone</label>
+                    <input class="form__input profile-form__phone-input" type="text" id="phone" />
+                    <label class="form__error profile-form__phone-error"></label>
+                </div>
+                <div class="form__item profile-form__actions double">
+                    <button class="profile-form__save-button button button_thin button_primary double__child">Save</button>
+                    <button class="profile-form__cancel-button button button_thin button_secondary double__child">Cancel</button>
                 </div>
             </form>
         </div>
     </main>
+<script src="index.js"></script>
 </body>
 </html>

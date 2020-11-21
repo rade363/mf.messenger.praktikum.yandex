@@ -21,29 +21,30 @@
             </div>
             <div class="top-nav__right"></div>
         </nav>
-        <div class="profile__edit container">
-            <form class="form">
+        <div class="container profile-password">
+            <form class="form password-form">
                 <div class="form__item">
                     <label class="form__label" for="password">Old password</label>
-                    <input class="form__input" type="password" id="old_password" />
-                    <label class="form__error"></label>
+                    <input class="form__input password-form__old-input" type="password" id="old_password" />
+                    <label class="form__error password-form__old-error"></label>
                 </div>
                 <div class="form__item">
                     <label class="form__label" for="password_repeat">New password</label>
-                    <input class="form__input" type="password" id="password" />
-                    <label class="form__error"></label>
+                    <input class="form__input password-form__new-input" type="password" id="password" />
+                    <label class="form__error password-form__new-error"></label>
                 </div>
                 <div class="form__item">
                     <label class="form__label" for="password">Repeat new password</label>
-                    <input class="form__input" type="password" id="password_repeat" />
-                    <label class="form__error"></label>
+                    <input class="form__input password-form__repeat-input" type="password" id="password_repeat" />
+                    <label class="form__error password-form__repeat-error"></label>
                 </div>
-                <div class="form__item form__item_profile-edit double">
-                    <button class="profile__edit-save button button_thin button_primary double__child">Save</button>
-                    <button class="profile__edit-cancel button button_thin button_secondary double__child">Cancel</button>
+                <div class="form__item password-form__actions double">
+                    <button class="password-form__save-button button button_thin button_primary double__child">Save</button>
+                    <button class="password-form__cancel-button button button_thin button_secondary double__child">Cancel</button>
                 </div>
             </form>
         </div>
     </main>
+<script src="index.js"></script>
 </body>
 </html>
