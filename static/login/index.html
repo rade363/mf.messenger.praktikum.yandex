@@ -10,28 +10,28 @@
 </head>
 <body class="body body_background_empty">
     <main class="container login">
-        <nav class="top-nav login__nav">
-            <div class="top-nav__left"></div>
-            <div class="top-nav__center">
-                <h1 class="top-nav__title">messenger</h1>
+        <header class="top-header login__header">
+            <div class="top-header__left"></div>
+            <div class="top-header__center">
+                <h1 class="top-header__title login__title">messenger</h1>
             </div>
-            <div class="top-nav__right"></div>
-        </nav>
+            <div class="top-header__right"></div>
+        </header>
         <form class="form login-form">
             <div class="form__item">
                 <label class="form__label" for="username">Login</label>
                 <input class="form__input login-form__username-input" type="text" id="username" />
-                <label class="form__error login-form__username-error"></label>
+                <span class="form__error login-form__username-error"></span>
             </div>
             <div class="form__item">
                 <label class="form__label" for="password">Password</label>
                 <input class="form__input login-form__password-input" type="password" id="password" />
-                <label class="form__error login-form__password-error"></label>
+                <span class="form__error login-form__password-error"></span>
             </div>
             <div class="form__item login-form__actions">
-                <button class="login-form__login-button button button_wide button_primary">Sign in</button>
+                <button class="login-form__login-button button button_wide button_primary" type="submit">Sign in</button>
                 <span class="login-form__alternative">or</span>
-                <button class="login-form__register-button button button_wide button_secondary">Sign up</button>
+                <a class="login-form__register-button button button_wide button_secondary" href="/register/">Sign up</a>
             </div>
         </form>
     </main>

@@ -21,21 +21,20 @@
             validateNewPasswords();
         });
 
-        view.saveButton.addEventListener("click", submitPasswordChange);
+        view.passwordForm.addEventListener("submit", submitPasswordChange);
     }
 
     function initView() {
         return {
+            passwordForm: document.querySelector(".password-form"),
+
             oldPasswordInput: document.querySelector(".password-form__old-input"),
             newPasswordInput: document.querySelector(".password-form__new-input"),
             repeatNewPasswordInput: document.querySelector(".password-form__repeat-input"),
 
             oldPasswordError: document.querySelector(".password-form__old-error"),
             newPasswordError: document.querySelector(".password-form__new-error"),
-            repeatNewPasswordError: document.querySelector(".password-form__repeat-error"),
-
-            saveButton: document.querySelector(".password-form__save-button"),
-            cancelButton: document.querySelector(".password-form__cancel-button")
+            repeatNewPasswordError: document.querySelector(".password-form__repeat-error")
         };
     }
 
@@ -112,6 +111,8 @@
 
         if (areFieldsValid) {
             console.log("[INFO] Password change form submitted (to be fixed later in course)", state);
+        } else {
+            console.error("[ERROR] [FORM] Invalid passwords");
         }
     }
 })();

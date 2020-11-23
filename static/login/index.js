@@ -13,20 +13,20 @@
         view.loginInput.addEventListener("input", (event) => setAuthProp(event, "login"));
         view.passwordInput.addEventListener("input", (event) => setAuthProp(event, "password"));
 
-        view.loginButton.addEventListener("click", submitAuthForm);
-        view.registerButton.addEventListener("click", showRegisterForm);
+        view.loginForm.addEventListener("submit", submitAuthForm);
     }
 
     function initView() {
         return {
+            loginForm: document.querySelector(".login-form"),
+
             loginInput: document.querySelector(".login-form__username-input"),
             passwordInput: document.querySelector(".login-form__password-input"),
 
             loginError: document.querySelector(".login-form__username-error"),
             passwordError: document.querySelector(".login-form__password-error"),
 
-            loginButton: document.querySelector(".login-form__login-button"),
-            registerButton: document.querySelector(".login-form__register-button")
+            loginButton: document.querySelector(".login-form__login-button")
         }
     }
 
@@ -78,11 +78,8 @@
 
         if (areFieldsValid) {
             console.log("[INFO] Auth fields valid, form will be submitted later in this course", state);
+        } else {
+            console.error("[ERROR] [FORM] Invalid credentials");
         }
-    }
-
-    function showRegisterForm(event) {
-        event.preventDefault();
-        console.log("[INFO] Register form will be opened later in this course");
     }
 })();

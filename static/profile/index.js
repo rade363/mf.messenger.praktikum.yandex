@@ -5,17 +5,17 @@
     function initInterface() {
         view = initView();
 
-        view.avatarInput.addEventListener("change", submitAvatarChange);
+        view.logoutButton.addEventListener("click", logOut)
     }
 
     function initView() {
         return {
-            avatarInput: document.querySelector(".profile-pic__input")
+            logoutButton: document.querySelector(".profile__log-out-button")
         };
     }
 
-    function submitAvatarChange(event) {
-        const {files} = event.target;
-        console.log("[INFO] Image will be changed later in the course", files);
+    function logOut(event) {
+        event.preventDefault();
+        console.log("[INFO] Logging out will be implemented later in the course");
     }
 })();

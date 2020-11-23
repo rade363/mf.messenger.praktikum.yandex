@@ -29,12 +29,13 @@
         });
         view.phoneInput.addEventListener("input", (event) => setNewAccountProp(event, "phone"));
 
-        view.submitButton.addEventListener("click", submitProfileEditForm);
-        view.backButton.addEventListener("click", openLoginScreen)
+        view.registerForm.addEventListener("submit", submitProfileEditForm);
     }
 
     function initView() {
         return {
+            registerForm: document.querySelector(".register-form"),
+
             emailInput: document.querySelector(".register-form__email-input"),
             loginInput: document.querySelector(".register-form__login-input"),
             firstNameInput: document.querySelector(".register-form__first-name-input"),
@@ -49,10 +50,7 @@
             lastNameError: document.querySelector(".register-form__last-name-error"),
             passwordError: document.querySelector(".register-form__password-error"),
             passwordRepeatError: document.querySelector(".register-form__password-repeat-error"),
-            phoneError: document.querySelector(".register-form__phone-error"),
-
-            submitButton: document.querySelector(".register-form__submit-button"),
-            backButton: document.querySelector(".nav-auth__back")
+            phoneError: document.querySelector(".register-form__phone-error")
         };
     }
 
@@ -129,11 +127,8 @@
 
         if (areFieldsValid) {
             console.log("[INFO] All fields valid, new account form will be submitted later in this course", state);
+        } else {
+            console.error("[ERROR] [FORM] Invalid/missing registration data");
         }
-    }
-
-    function openLoginScreen(event) {
-        event.preventDefault();
-        console.log("[INFO] Back to login feature will be added later in this course");
     }
 })();

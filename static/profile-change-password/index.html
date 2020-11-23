@@ -8,43 +8,43 @@
     <link href="../assets/style.css" type="text/css" rel="stylesheet" >
 </head>
 <body class="body body_background_profile">
-    <main class="profile">
-        <nav class="top-nav profile-nav">
-            <div class="top-nav__left">
-                <div class="profile-nav__back back-button">
+    <div class="profile">
+        <header class="top-header profile__header">
+            <div class="top-header__left">
+                <a class="top-header__back back-button" href="/chats/">
                     <span class="back-button__arrow">‹</span>
                     <span class="back-button__text">Back</span>
-                </div>
+                </a>
             </div>
-            <div class="top-nav__center">
-                <h1 class="profile-nav__title">Change password</h1>
+            <div class="top-header__center">
+                <h1 class="top-header__title profile__title">Profile</h1>
             </div>
-            <div class="top-nav__right"></div>
-        </nav>
-        <div class="container profile-password">
+            <div class="top-header__right"></div>
+        </header>
+        <main class="container profile__password-edit">
             <form class="form password-form">
                 <div class="form__item">
                     <label class="form__label" for="password">Old password</label>
                     <input class="form__input password-form__old-input" type="password" id="old_password" />
-                    <label class="form__error password-form__old-error"></label>
+                    <span class="form__error password-form__old-error"></span>
                 </div>
                 <div class="form__item">
                     <label class="form__label" for="password_repeat">New password</label>
                     <input class="form__input password-form__new-input" type="password" id="password" />
-                    <label class="form__error password-form__new-error"></label>
+                    <span class="form__error password-form__new-error"></span>
                 </div>
                 <div class="form__item">
                     <label class="form__label" for="password">Repeat new password</label>
                     <input class="form__input password-form__repeat-input" type="password" id="password_repeat" />
-                    <label class="form__error password-form__repeat-error"></label>
+                    <span class="form__error password-form__repeat-error"></span>
                 </div>
                 <div class="form__item password-form__actions double">
-                    <button class="password-form__save-button button button_thin button_primary double__child">Save</button>
-                    <button class="password-form__cancel-button button button_thin button_secondary double__child">Cancel</button>
+                    <button class="password-form__save-button button button_thin button_primary double__child" type="submit">Save</button>
+                    <a class="password-form__cancel-button button button_thin button_secondary double__child" href="/profile/">Cancel</a>
                 </div>
             </form>
-        </div>
-    </main>
+        </main>
+    </div>
 <script src="index.js"></script>
 </body>
 </html>

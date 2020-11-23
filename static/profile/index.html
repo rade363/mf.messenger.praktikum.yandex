@@ -8,26 +8,22 @@
     <link href="../assets/style.css" type="text/css" rel="stylesheet" >
 </head>
 <body class="body body_background_profile">
-    <main class="profile">
-        <nav class="top-nav profile-nav">
-            <div class="top-nav__left">
-                <div class="profile-nav__back back-button">
+    <div class="profile">
+        <header class="top-header profile__header">
+            <div class="top-header__left">
+                <a class="top-header__back back-button" href="/chats/">
                     <span class="back-button__arrow">‹</span>
                     <span class="back-button__text">Back</span>
-                </div>
+                </a>
             </div>
-            <div class="top-nav__center">
-                <h1 class="profile-nav__title">Profile</h1>
+            <div class="top-header__center">
+                <h1 class="top-header__title profile__title">Profile</h1>
             </div>
-            <div class="top-nav__right"></div>
-        </nav>
-        <div class="profile__card container">
+            <div class="top-header__right"></div>
+        </header>
+        <main class="container profile__card">
             <div class="profile__picture profile-pic profile__picture_empty">
                 <img class="profile-pic__image" src="../assets/img/userpic-empty.svg" alt="No avatar" />
-                <div class="profile-pic__edit">
-                    <span class="profile-pic__label">Edit</span>
-                    <input class="profile-pic__input" type="file" name="avatar" />
-                </div>
             </div>
             <div class="profile__fullname">Ivan Ivanov</div>
             <div class="profile__info">
@@ -58,13 +54,13 @@
             </div>
             <div class="profile__action">
                 <div class="profile__buttons double">
-                <button class="profile__edit-info button button_thin button_secondary double__child">Edit profile</button>
-                <button class="profile__change-password button button_thin button_secondary double__child">Change password</button>
+                    <a class="profile__edit-info-button button button_thin button_secondary double__child" href="/profile-edit-info/">Edit profile</a>
+                    <a class="profile__change-password-button button button_thin button_secondary double__child" href="/profile-change-password/">Change password</a>
+                </div>
+                <button class="profile__log-out-button button button_wide button_logout" type="button">Log out</button>
             </div>
-            <button class="profile__change-password button button_wide button_logout">Log out</button>
-            </div>
-        </div>
-    </main>
+        </main>
+    </div>
 <script src="index.js"></script>
 </body>
 </html>

@@ -1,7 +1,9 @@
 (function () {
     let state = {
+        searchKey: "",
         newMessage: "",
         newUserToAddName: "",
+        attachments: null,
         isAttachmentContextMenuOpen: false,
         isConversationActionsMenuOpen: false,
         isAddUserModalOpen: false,
@@ -14,15 +16,21 @@
     function initInterface() {
         view = initView();
 
+        view.searchInput.addEventListener("input", handleSearchInput);
+        view.searchForm.addEventListener("submit", submitSearchFilter);
+
         view.messageInput.addEventListener("input", setNewMessage);
-        view.submitMessageButton.addEventListener("click", handleSubmitMessage);
+        view.messageForm.addEventListener("submit", handleSubmitMessageForm);
 
         view.conversationActionsButton.addEventListener("click", handleConversationsButtonClick);
         view.attachmentButton.addEventListener("click", handleAttachmentsButtonClick);
+        view.attachmentPhotoInput.addEventListener("input", (event) => handleAttachmentInput(event, "photo"));
+        view.attachmentFileInput.addEventListener("input", (event) => handleAttachmentInput(event, "file"));
+        view.attachmentLocationInput.addEventListener("input", (event) => handleAttachmentInput(event, "location"));
 
         view.addUserButton.addEventListener("click", handleAddUserButtonClick);
         view.usernameInput.addEventListener("input", handleUsernameInput);
-        view.submitAddUserFormButton.addEventListener("click", handleAddUserSubmit);
+        view.addUserForm.addEventListener("submit", handleAddUserSubmit);
         view.cancelAddUserFormButton.addEventListener("click", handleCancelAddUserClick);
 
         view.deleteConversationButton.addEventListener("click", handleDeleteConversationContextButtonClick);
@@ -32,14 +40,19 @@
 
     function initView() {
         return {
-            messageInput: document.querySelector(".input-area__message"),
-            submitMessageButton: document.querySelector(".input-area__submit"),
+            searchInput: document.querySelector(".searchbar__input"),
+            searchForm: document.querySelector(".chat__search"),
+
+            messageForm: document.querySelector(".conversation__message-form"),
+            messageInput: document.querySelector(".message-form__message"),
+            submitMessageButton: document.querySelector(".message-form__submit-button"),
 
             conversationActionsMenu: document.querySelector(".conversation__context"),
-            conversationActionsButton: document.querySelector(".conversation__actions"),
+            conversationActionsButton: document.querySelector(".conversation__actions-button"),
 
             addUserButton: document.querySelector(".context__add"),
             addUserOverlay: document.querySelector(".add-user"),
+            addUserForm: document.querySelector(".add-user-form"),
             usernameInput: document.querySelector(".add-user-form__username-input"),
             usernameInputError: document.querySelector(".add-user-form__username-error"),
             submitAddUserFormButton: document.querySelector(".add-user-form__add-button"),
@@ -50,9 +63,24 @@
             approveDeleteButton: document.querySelector(".delete-conversation__approve"),
             cancelDeleteButton: document.querySelector(".delete-conversation__cancel"),
 
-            attachmentButton: document.querySelector(".input-area__attachment"),
-            attachmentContextMenu: document.querySelector(".attachments__context"),
+            attachmentButton: document.querySelector(".message-form__attachment-button"),
+            attachmentContextMenu: document.querySelector(".attachment-menu"),
+            attachmentPhotoInput: document.querySelector(".message-form__photo-input"),
+            attachmentFileInput: document.querySelector(".message-form__file-input"),
+            attachmentLocationInput: document.querySelector(".message-form__location-input")
         };
+    }
+
+    function handleSearchInput(event) {
+        const {value} = event.target;
+        console.log("[INFO] Search input", value);
+
+        setStateProp("searchKey", value);
+    }
+
+    function submitSearchFilter(event) {
+        event.preventDefault();
+        console.log("[INFO] Search form submitted, this will be handled later in this course", state.searchKey);
     }
 
     function setNewMessage(event) {
@@ -62,8 +90,8 @@
         setStateProp("newMessage", value);
 
         return isEmpty(value)
-            ? removeClass(view.submitMessageButton, "submit-message_active")
-            : addClass(view.submitMessageButton, "submit-message_active");
+            ? removeClass(view.submitMessageButton, "message-form__submit-button_active")
+            : addClass(view.submitMessageButton, "message-form__submit-button_active");
     }
 
     function addClass(element, className) {
@@ -89,12 +117,17 @@
         return value === undefined || value === null || value === "";
     }
 
-    function handleSubmitMessage() {
+    function handleSubmitMessageForm(event) {
+        event.preventDefault();
         if (isEmpty(state.newMessage)) {
             console.log("[INFO] No message to submit");
             return null;
         }
-        console.log(`[INFO] Message ${state.newMessage} will be submitted later in course`);
+        const messageObject = {
+            message: state.newMessage,
+            attachments: state.attachments
+        };
+        console.log(`[INFO] Message will be submitted later in course`, messageObject);
     }
 
     function handleConversationsButtonClick() {
@@ -108,9 +141,6 @@
             removeClass(view.conversationActionsMenu, "conversation__context_active");
             removeClass(this, "actions-button_active");
         }
-
-        const dotsImage = state.isConversationActionsMenuOpen ? "three-dots-active.svg" : "three-dots.svg";
-        this.innerHTML = `<img class="actions-button__dots" src="../assets/img/${dotsImage}" alt="Chat actions">`;
     }
 
     function handleAttachmentsButtonClick() {
@@ -118,11 +148,26 @@
         setStateProp("isAttachmentContextMenuOpen", isOpen);
 
         if (isOpen) {
-            addClass(view.attachmentContextMenu, "attachments__context_active");
-            addClass(this, "attachment_active");
+            addClass(view.attachmentContextMenu, "attachment-menu_active");
+            addClass(this, "message-form__attachment-button_active");
         } else {
-            removeClass(view.attachmentContextMenu, "attachments__context_active");
-            removeClass(this, "attachment_active");
+            removeClass(view.attachmentContextMenu, "attachment-menu_active");
+            removeClass(this, "message-form__attachment-button_active");
+        }
+    }
+
+    function handleAttachmentInput(event, attachmentType) {
+        const {files} = event.target;
+        console.log(`[INFO] Attachment ${attachmentType} uploaded: `, files);
+
+        setStateProp("attachments", files)
+        setStateProp("isAttachmentContextMenuOpen", false);
+
+        removeClass(view.attachmentContextMenu, "attachment-menu_active");
+        removeClass(view.attachmentButton, "message-form__attachment-button_active");
+
+        if (attachmentType === "location") {
+            console.log("[INFO] Not sure that location should be a file though... But we will probably figure this out later in this course?");
         }
     }
 
@@ -153,6 +198,7 @@
 
     function handleAddUserSubmit(event) {
         event.preventDefault();
+        console.log("[INFO] Form add user submit event");
         if (isEmpty(state.newUserToAddName)) {
             console.log("[INFO] No user to add");
             view.usernameInputError.innerText = "Username cannot be empty";
