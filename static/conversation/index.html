@@ -14,7 +14,7 @@
                 <div class="chat__topbar">
                     <a class="chat__profile-link" href="/profile/">Profile</a>
                 </div>
-                <form class="chat__search searchbar">
+                <form class="chat__search searchbar" method="POST">
                     <input class="searchbar__input" type="text" placeholder="Search" name="search" pattern="\S+"/>
                 </form>
             </nav>
@@ -365,7 +365,7 @@
                     </div>
                 </div>
             </main>
-            <form class="conversation__message-form message-form">
+            <form class="conversation__message-form message-form" method="POST">
                 <button class="message-form__attachment-button" type="button"></button>
                 <input class="message-form__message" type="text" placeholder="Write a message&mldr;" name="message"/>
                 <button class="message-form__submit-button" type="submit"></button>
@@ -392,7 +392,7 @@
 <div class="overlay add-user">
     <div class="container modal">
         <div class="modal__title">Add user</div>
-        <form class="form add-user-form">
+        <form class="form add-user-form" method="POST">
             <div class="form__item">
                 <label class="form__label" for="username">Username</label>
                 <input class="form__input add-user-form__username-input" type="text" id="username" />
