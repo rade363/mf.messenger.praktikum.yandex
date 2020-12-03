@@ -602,7 +602,7 @@
     background-position: 50% 50%;
     width: 10px;
 }
-.message__status_delivered {
+.message__status_read {
     background-image: url("img/msg-delivered.svg");
 }
 .message__status_sent {

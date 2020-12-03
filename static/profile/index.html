@@ -8,59 +8,8 @@
     <link href="../assets/style.css" type="text/css" rel="stylesheet" >
 </head>
 <body class="body body_background_profile">
-    <div class="profile">
-        <header class="top-header profile__header">
-            <div class="top-header__left">
-                <a class="top-header__back back-button" href="/chats/">
-                    <span class="back-button__arrow">‹</span>
-                    <span class="back-button__text">Back</span>
-                </a>
-            </div>
-            <div class="top-header__center">
-                <h1 class="top-header__title profile__title">Profile</h1>
-            </div>
-            <div class="top-header__right"></div>
-        </header>
-        <main class="container profile__card">
-            <div class="profile__picture profile-pic profile__picture_empty">
-                <img class="profile-pic__image" src="../assets/img/userpic-empty.svg" alt="No avatar" />
-            </div>
-            <div class="profile__fullname">Ivan Ivanov</div>
-            <div class="profile__info">
-                <div class="profile__email prop">
-                    <span class="prop__title">Email</span>
-                    <span class="prop__value">ivan.ivanov@yandex.ru</span>
-                </div>
-                <div class="profile__username prop">
-                    <span class="prop__title">Username</span>
-                    <span class="prop__value">ivan.ivanov</span>
-                </div>
-                <div class="profile__first-name prop">
-                    <span class="prop__title">First name</span>
-                    <span class="prop__value">Ivan</span>
-                </div>
-                <div class="profile__last-name prop">
-                    <span class="prop__title">Last name</span>
-                    <span class="prop__value">Ivanov</span>
-                </div>
-                <div class="profile__display-name prop">
-                    <span class="prop__title">Display name</span>
-                    <span class="prop__value">Ivan Ivanov</span>
-                </div>
-                <div class="profile__phone prop">
-                    <span class="prop__title">Phone</span>
-                    <span class="prop__value">+7(911)123-45-67</span>
-                </div>
-            </div>
-            <div class="profile__action">
-                <div class="profile__buttons double">
-                    <a class="profile__edit-info-button button button_thin button_secondary double__child" href="/profile-edit-info/">Edit profile</a>
-                    <a class="profile__change-password-button button button_thin button_secondary double__child" href="/profile-change-password/">Change password</a>
-                </div>
-                <button class="profile__log-out-button button button_wide button_logout" type="button">Log out</button>
-            </div>
-        </main>
-    </div>
+    <div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
 <script src="index.js"></script>
 </body>
 </html>

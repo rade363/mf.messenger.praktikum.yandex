@@ -9,62 +9,8 @@
     <link href="../assets/style.css" type="text/css" rel="stylesheet" >
 </head>
 <body class="body body_background_empty">
-    <main class="container register">
-        <header class="top-header register__header">
-            <div class="top-header__left">
-                <a class="top-header__back back-button" href="/login/">
-                    <span class="back-button__arrow">‹</span>
-                    <span class="back-button__text">Back</span>
-                </a>
-            </div>
-            <div class="top-header__center">
-                <h1 class="top-header__title register__title">messenger</h1>
-            </div>
-            <div class="top-header__right"></div>
-        </header>
-        <form class="form register-form" method="POST">
-            <div class="form__item">
-                <label class="form__label" for="email">Email</label>
-                <input class="form__input register-form__email-input" type="email" id="email" />
-                <span class="form__error register-form__email-error"></span>
-            </div>
-            <div class="form__item double">
-                <div class="double__child form__item">
-                    <label class="form__label" for="first_name">First name</label>
-                    <input class="form__input register-form__first-name-input" type="text" id="first_name" />
-                    <span class="form__error register-form__first-name-error"></span>
-                </div>
-                <div class="double__child form__item">
-                    <label class="form__label" for="second_name">Last name</label>
-                    <input class="form__input register-form__last-name-input" type="text" id="second_name" />
-                    <span class="form__error register-form__last-name-error"></span>
-                </div>
-            </div>
-            <div class="form__item">
-                <label class="form__label" for="username">Login</label>
-                <input class="form__input register-form__login-input" type="text" id="username" />
-                <span class="form__error register-form__login-error"></span>
-            </div>
-            <div class="form__item">
-                <label class="form__label" for="phone">Phone</label>
-                <input class="form__input register-form__phone-input" type="tel" id="phone" />
-                <span class="form__error register-form__phone-error"></span>
-            </div>
-            <div class="form__item">
-                <label class="form__label" for="password">Password</label>
-                <input class="form__input register-form__password-input" type="password" id="password" />
-                <span class="form__error register-form__password-error"></span>
-            </div>
-            <div class="form__item">
-                <label class="form__label" for="password_repeat">Repeat password</label>
-                <input class="form__input register-form__password-repeat-input" type="password" id="password_repeat" />
-                <span class="form__error register-form__password-repeat-error"></span>
-            </div>
-            <div class="form__item register-form__actions">
-                <button class="register-form__submit-button button button_wide button_primary" type="submit">Sign up</button>
-            </div>
-        </form>
-    </main>
+    <div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
 <script src="index.js"></script>
 </body>
 </html>

@@ -9,32 +9,8 @@
     <link href="../assets/style.css" type="text/css" rel="stylesheet" >
 </head>
 <body class="body body_background_empty">
-    <main class="container login">
-        <header class="top-header login__header">
-            <div class="top-header__left"></div>
-            <div class="top-header__center">
-                <h1 class="top-header__title login__title">messenger</h1>
-            </div>
-            <div class="top-header__right"></div>
-        </header>
-        <form class="form login-form" method="POST">
-            <div class="form__item">
-                <label class="form__label" for="username">Login</label>
-                <input class="form__input login-form__username-input" type="text" id="username" />
-                <span class="form__error login-form__username-error"></span>
-            </div>
-            <div class="form__item">
-                <label class="form__label" for="password">Password</label>
-                <input class="form__input login-form__password-input" type="password" id="password" />
-                <span class="form__error login-form__password-error"></span>
-            </div>
-            <div class="form__item login-form__actions">
-                <button class="login-form__login-button button button_wide button_primary" type="submit">Sign in</button>
-                <span class="login-form__alternative">or</span>
-                <a class="login-form__register-button button button_wide button_secondary" href="/register/">Sign up</a>
-            </div>
-        </form>
-    </main>
+    <div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
 <script src="index.js"></script>
 </body>
 </html>

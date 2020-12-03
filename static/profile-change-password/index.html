@@ -8,43 +8,8 @@
     <link href="../assets/style.css" type="text/css" rel="stylesheet" >
 </head>
 <body class="body body_background_profile">
-    <div class="profile">
-        <header class="top-header profile__header">
-            <div class="top-header__left">
-                <a class="top-header__back back-button" href="/chats/">
-                    <span class="back-button__arrow">‹</span>
-                    <span class="back-button__text">Back</span>
-                </a>
-            </div>
-            <div class="top-header__center">
-                <h1 class="top-header__title profile__title">Profile</h1>
-            </div>
-            <div class="top-header__right"></div>
-        </header>
-        <main class="container profile__password-edit">
-            <form class="form password-form" method="POST">
-                <div class="form__item">
-                    <label class="form__label" for="password">Old password</label>
-                    <input class="form__input password-form__old-input" type="password" id="old_password" />
-                    <span class="form__error password-form__old-error"></span>
-                </div>
-                <div class="form__item">
-                    <label class="form__label" for="password_repeat">New password</label>
-                    <input class="form__input password-form__new-input" type="password" id="password" />
-                    <span class="form__error password-form__new-error"></span>
-                </div>
-                <div class="form__item">
-                    <label class="form__label" for="password">Repeat new password</label>
-                    <input class="form__input password-form__repeat-input" type="password" id="password_repeat" />
-                    <span class="form__error password-form__repeat-error"></span>
-                </div>
-                <div class="form__item password-form__actions double">
-                    <button class="password-form__save-button button button_thin button_primary double__child" type="submit">Save</button>
-                    <a class="password-form__cancel-button button button_thin button_secondary double__child" href="/profile/">Cancel</a>
-                </div>
-            </form>
-        </main>
-    </div>
+    <div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
 <script src="index.js"></script>
 </body>
 </html>

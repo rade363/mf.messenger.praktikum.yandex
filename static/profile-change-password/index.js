@@ -9,6 +9,8 @@
     document.addEventListener("DOMContentLoaded", initInterface);
 
     function initInterface() {
+        renderInterface();
+
         view = initView();
 
         view.oldPasswordInput.addEventListener("input", (event) => setPasswordProp(event, "oldPassword"));
@@ -24,17 +26,61 @@
         view.passwordForm.addEventListener("submit", submitPasswordChange);
     }
 
+    function renderInterface() {
+        const template = Handlebars.compile(getTemplate());
+        Handlebars.registerHelper('if_eq', function(a, b, opts) {
+            return a === b ? opts.fn(this) : opts.inverse(this);
+        });
+        const data = {
+            title: "Profile",
+            backButton: {
+                url: "/chats/"
+            },
+            form: {
+                name: "password-form",
+                inputFields: [
+                    {
+                        label: "Old password",
+                        name: "old-password",
+                        type: "password"
+                    },
+                    {
+                        label: "New password",
+                        name: "new-password",
+                        type: "password"
+                    },
+                    {
+                        label: "Repeat new password",
+                        name: "password-repeat",
+                        type: "password"
+                    }
+                ],
+                submitButton: {
+                    className: "save-button button button_thin button_primary double__child",
+                    text: "Save",
+                    type: "submit"
+                },
+                cancelLink: {
+                    className: "cancel-button button button_thin button_secondary double__child",
+                    text: "Cancel",
+                    url: "/profile/"
+                }
+            }
+        };
+        document.getElementById("root").innerHTML = template(data);
+    }
+
     function initView() {
         return {
             passwordForm: document.querySelector(".password-form"),
 
-            oldPasswordInput: document.querySelector(".password-form__old-input"),
-            newPasswordInput: document.querySelector(".password-form__new-input"),
-            repeatNewPasswordInput: document.querySelector(".password-form__repeat-input"),
+            oldPasswordInput: document.querySelector(".password-form__old-password-input"),
+            newPasswordInput: document.querySelector(".password-form__new-password-input"),
+            repeatNewPasswordInput: document.querySelector(".password-form__password-repeat-input"),
 
-            oldPasswordError: document.querySelector(".password-form__old-error"),
-            newPasswordError: document.querySelector(".password-form__new-error"),
-            repeatNewPasswordError: document.querySelector(".password-form__repeat-error")
+            oldPasswordError: document.querySelector(".password-form__old-password-error"),
+            newPasswordError: document.querySelector(".password-form__new-password-error"),
+            repeatNewPasswordError: document.querySelector(".password-form__password-repeat-error")
         };
     }
 
@@ -114,5 +160,37 @@
         } else {
             console.error("[ERROR] [FORM] Invalid passwords");
         }
+    }
+
+    function getTemplate() {
+        return `<div class="profile">
+        <header class="top-header profile__header">
+            <div class="top-header__left">
+                <a class="top-header__back back-button" href="{{backButton.url}}">
+                    <span class="back-button__arrow">‹</span>
+                    <span class="back-button__text">Back</span>
+                </a>
+            </div>
+            <div class="top-header__center">
+                <h1 class="top-header__title profile__title">{{title}}</h1>
+            </div>
+            <div class="top-header__right"></div>
+        </header>
+        <main class="container profile__password-edit">
+            <form class="form password-form" method="POST">
+                {{#each form.inputFields}}
+                <div class="form__item">
+                    <label class="form__label" for="{{name}}">{{label}}</label>
+                    <input class="form__input {{../form.name}}__{{name}}-input" type="{{type}}" id="{{name}}" />
+                    <span class="form__error {{../form.name}}__{{name}}-error"></span>
+                </div>
+                {{/each}}
+                <div class="form__item {{form.name}}__actions double">
+                    <button class="{{form.name}}__{{form.submitButton.className}}" type="{{form.submitButton.type}}">{{form.submitButton.text}}</button>
+                    <a class="{{form.name}}__{{form.cancelLink.className}}" href="{{form.cancelLink.url}}">{{form.cancelLink.text}}</a>
+                </div>
+            </form>
+        </main>
+    </div>`;
     }
 })();
