@@ -1,7 +1,8 @@
 document.addEventListener("DOMContentLoaded", renderInterface);
-function renderInterface() {
+
+function renderInterface(): void {
     const template = Handlebars.compile(getTemplate());
-    const data = {
+    const data: TemplateData = {
         code: 500,
         description: "Something went wrong",
         button: {
@@ -10,9 +11,13 @@ function renderInterface() {
             text: "Go back"
         }
     };
-    document.getElementById("root").innerHTML = template(data);
+    const root = document.getElementById("root");
+    if (root) {
+        root.innerHTML = template(data);
+    }
 }
-function getTemplate() {
+
+function getTemplate(): string {
     return `<main class="container">
     <div class="error">
         <h1 class="error__code">{{code}}</h1>
@@ -21,4 +26,5 @@ function getTemplate() {
     </div>
 </main>`;
 }
-//# sourceMappingURL=index.js.map
+
+export default {};

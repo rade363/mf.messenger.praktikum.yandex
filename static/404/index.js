@@ -1,10 +1,10 @@
+// global Handlebars, document
 document.addEventListener("DOMContentLoaded", renderInterface);
-
 function renderInterface() {
     const template = Handlebars.compile(getTemplate());
     const data = {
         code: 400,
-        description: "Not found",
+        description: "Not found yo",
         button: {
             class: "error__link-back button button_thin button_primary",
             url: "/chats/",
@@ -13,7 +13,6 @@ function renderInterface() {
     };
     document.getElementById("root").innerHTML = template(data);
 }
-
 function getTemplate() {
     return `<main class="container">
     <div class="error">
@@ -23,3 +22,4 @@ function getTemplate() {
     </div>
 </main>`;
 }
+//# sourceMappingURL=index.js.map

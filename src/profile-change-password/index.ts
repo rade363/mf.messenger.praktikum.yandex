@@ -1,33 +1,47 @@
-import { useState } from "../assets/js/modules/state.js";
-import { isEmpty } from "../assets/js/modules/helpers.js";
-import { addClass, removeClass } from "../assets/js/modules/domHelpers.js";
-let state = {
+import {useState} from "../assets/js/modules/state.js";
+import {isEmpty} from "../assets/js/modules/helpers.js";
+import {addClass, removeClass, setInnerText} from "../assets/js/modules/domHelpers.js";
+
+let state: State = {
     oldPassword: useState(""),
     newPassword: useState(""),
     repeatNewPassword: useState("")
 };
-let view = {};
+let view: ViewType = {};
+
 document.addEventListener("DOMContentLoaded", initInterface);
-function initInterface() {
+
+function initInterface(): void {
     renderInterface();
+
     view = initView();
-    view.oldPasswordInput.addEventListener("input", (event) => setStatePropValue(event, "oldPassword"));
-    view.newPasswordInput.addEventListener("input", (event) => {
-        setStatePropValue(event, "newPassword");
-        validateNewPasswords();
-    });
-    view.repeatNewPasswordInput.addEventListener("input", (event) => {
-        setStatePropValue(event, "repeatNewPassword");
-        validateNewPasswords();
-    });
-    view.passwordForm.addEventListener("submit", submitPasswordChange);
+
+    if (view.oldPasswordInput) {
+        view.oldPasswordInput.addEventListener("input", (event) => setStatePropValue(event, "oldPassword"));
+    }
+    if (view.newPasswordInput) {
+        view.newPasswordInput.addEventListener("input", (event) => {
+            setStatePropValue(event, "newPassword");
+            validateNewPasswords();
+        });
+    }
+    if (view.repeatNewPasswordInput) {
+        view.repeatNewPasswordInput.addEventListener("input", (event) => {
+            setStatePropValue(event, "repeatNewPassword");
+            validateNewPasswords();
+        });
+    }
+    if (view.passwordForm) {
+        view.passwordForm.addEventListener("submit", submitPasswordChange);
+    }
 }
-function renderInterface() {
+
+function renderInterface(): void {
     const template = Handlebars.compile(getTemplate());
     Handlebars.registerHelper('if_eq', function (a, b, opts) {
         return a === b ? opts.fn(this) : opts.inverse(this);
     });
-    const data = {
+    const data: TemplateData = {
         title: "Profile",
         backButton: {
             url: "/chats/"
@@ -63,75 +77,96 @@ function renderInterface() {
             }
         }
     };
-    document.getElementById("root").innerHTML = template(data);
+    const root = document.getElementById("root");
+    if (root) {
+        root.innerHTML = template(data);
+    }
 }
-function initView() {
+
+function initView(): ViewType {
     return {
         passwordForm: document.querySelector(".password-form"),
+
         oldPasswordInput: document.querySelector(".password-form__old-password-input"),
         newPasswordInput: document.querySelector(".password-form__new-password-input"),
         repeatNewPasswordInput: document.querySelector(".password-form__password-repeat-input"),
+
         oldPasswordError: document.querySelector(".password-form__old-password-error"),
         newPasswordError: document.querySelector(".password-form__new-password-error"),
         repeatNewPasswordError: document.querySelector(".password-form__password-repeat-error")
     };
 }
-function setStatePropValue(event, propName) {
-    const { value } = event.target;
+
+function setStatePropValue(event: Event, propName: string): void {
+    const element = event.target as HTMLInputElement;
+    const {value} = element;
     console.log(`[INFO] ${propName}`, value);
+
     const [, setStateCallback] = state[propName];
     setStateCallback(value);
-    if (view[`${propName}Error`]) {
-        view[`${propName}Error`].innerText = "";
-        removeClass(view[`${propName}Input`], "form__input_error");
-    }
+
+    setInnerText(view[`${propName}Error`], "");
+    removeClass(view[`${propName}Input`], "form__input_error");
 }
-function validateNewPasswords() {
+
+function validateNewPasswords(): Boolean {
     const [getNewPassword] = state.newPassword;
     const [getRepeatNewPassword] = state.repeatNewPassword;
     const newPassword = getNewPassword();
     const repeatNewPassword = getRepeatNewPassword();
+
     if (isEmpty(newPassword) || isEmpty(repeatNewPassword)) {
         return false;
     }
+
     if (newPassword !== repeatNewPassword) {
-        view.newPasswordError.innerText = "Passwords do not match";
-        view.repeatNewPasswordError.innerText = "Passwords do not match";
+        setInnerText(view.newPasswordError, "Passwords do not match")
+        setInnerText(view.repeatNewPasswordError, "Passwords do not match")
+
         addClass(view.newPasswordInput, "form__input_error");
         addClass(view.repeatNewPasswordInput, "form__input_error");
         return false;
     }
-    view.newPasswordError.innerText = "";
-    view.repeatNewPasswordError.innerText = "";
+
+    setInnerText(view.newPasswordError, "")
+    setInnerText(view.repeatNewPasswordError, "")
+
     removeClass(view.newPasswordInput, "form__input_error");
     removeClass(view.repeatNewPasswordInput, "form__input_error");
+    return true;
 }
-function submitPasswordChange(event) {
+
+function submitPasswordChange(event: Event): void {
     event.preventDefault();
     let areFieldsValid = true;
-    const formObj = {};
+    const formObj: FormObject = {};
+
     Object.entries(state).forEach(keyValuePair => {
         const [propName, propStateMethods] = keyValuePair;
         const [getPropValue] = propStateMethods;
         const propValue = getPropValue();
+
         formObj[propName] = propValue;
+
         if (isEmpty(propValue)) {
             areFieldsValid = false;
             addClass(view[`${propName}Input`], "form__input_error");
-            view[`${propName}Error`].innerText = "Cannot be empty";
+            setInnerText(view[`${propName}Error`], "Cannot be empty");
         }
     });
+
     if (formObj.newPassword !== formObj.repeatNewPassword) {
         areFieldsValid = false;
     }
+
     if (areFieldsValid) {
         console.log("[INFO] Password change form submitted (to be fixed later in course)", formObj);
-    }
-    else {
+    } else {
         console.error("[ERROR] [FORM] Invalid passwords");
     }
 }
-function getTemplate() {
+
+function getTemplate(): string {
     return `<div class="profile">
     <header class="top-header profile__header">
         <div class="top-header__left">
@@ -162,4 +197,5 @@ function getTemplate() {
     </main>
 </div>`;
 }
-//# sourceMappingURL=index.js.map
+
+export default {};

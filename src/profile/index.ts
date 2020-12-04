@@ -1,13 +1,19 @@
-let view = {};
+let view: ViewType = {};
 document.addEventListener("DOMContentLoaded", initInterface);
-function initInterface() {
+
+function initInterface(): void {
     renderInterface();
+
     view = initView();
-    view.logoutButton.addEventListener("click", logOut);
+
+    if (view.logoutButton) {
+        view.logoutButton.addEventListener("click", logOut);
+    }
 }
-function renderInterface() {
+
+function renderInterface(): void {
     const template = Handlebars.compile(getTemplate());
-    const data = {
+    const data: TemplateData = {
         title: "Profile",
         backButton: {
             url: "/chats/"
@@ -67,18 +73,24 @@ function renderInterface() {
             text: "Log out"
         }
     };
-    document.getElementById("root").innerHTML = template(data);
+    const root = document.getElementById("root");
+    if (root) {
+        root.innerHTML = template(data);
+    }
 }
-function initView() {
+
+function initView(): ViewType {
     return {
         logoutButton: document.querySelector(".profile__log-out-button")
     };
 }
-function logOut(event) {
+
+function logOut(event: Event) {
     event.preventDefault();
     console.log("[INFO] Logging out will be implemented later in the course");
 }
-function getTemplate() {
+
+function getTemplate(): string {
     return `<div class="profile">
     <header class="top-header profile__header">
         <div class="top-header__left">
@@ -115,4 +127,3 @@ function getTemplate() {
     </main>
 </div>`;
 }
-//# sourceMappingURL=index.js.map

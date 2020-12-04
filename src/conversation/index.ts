@@ -1,7 +1,8 @@
-import { useState } from "../assets/js/modules/state.js";
-import { isEmpty } from "../assets/js/modules/helpers.js";
-import { addClass, removeClass, toggleClass } from "../assets/js/modules/domHelpers.js";
-let state = {
+import {useState} from "../assets/js/modules/state.js";
+import {isEmpty} from "../assets/js/modules/helpers.js";
+import {addClass, removeClass, setInnerText, toggleClass} from "../assets/js/modules/domHelpers.js";
+
+let state: State = {
     searchKey: useState(""),
     newMessage: useState(""),
     newUserToAddName: useState(""),
@@ -11,44 +12,86 @@ let state = {
     isAddUserModalOpen: useState(false),
     isDeleteConversationModalOpen: useState(false)
 };
-let view = {};
+let view: ViewType = {};
+
 document.addEventListener("DOMContentLoaded", initInterface);
-function initInterface() {
+
+function initInterface(): void {
     renderInterface();
+
     view = initView();
-    view.searchInput.addEventListener("input", (event) => setStatePropValue(event, "searchKey"));
-    view.searchForm.addEventListener("submit", submitSearchFilter);
-    view.messageInput.addEventListener("input", setNewMessage);
-    view.messageForm.addEventListener("submit", handleSubmitMessageForm);
-    view.conversationActionsButton.addEventListener("click", handleConversationsButtonClick);
-    view.attachmentButton.addEventListener("click", handleAttachmentsButtonClick);
-    view.attachmentPhotoInput.addEventListener("input", handleAttachment);
-    view.attachmentFileInput.addEventListener("input", handleAttachment);
-    view.attachmentLocationInput.addEventListener("input", handleAttachment);
-    view.addUserButton.addEventListener("click", handleAddUserButtonClick);
-    view.usernameInput.addEventListener("input", (event) => {
-        setStatePropValue(event, "newUserToAddName");
-        view.usernameInputError.innerText = "";
-        removeClass(view.usernameInput, "form__input_error");
-    });
-    view.addUserForm.addEventListener("submit", handleAddUserSubmit);
-    view.cancelAddUserFormButton.addEventListener("click", handleCancelAddUserClick);
-    view.deleteConversationButton.addEventListener("click", handleDeleteConversationContextButtonClick);
-    view.approveDeleteButton.addEventListener("click", handleDeleteConversationButtonClick);
-    view.cancelDeleteButton.addEventListener("click", handleCancelDeleteConversationButtonClick);
+
+    if (view.searchInput) {
+        view.searchInput.addEventListener("input", (event) => setStatePropValue(event, "searchKey"));
+    }
+    if (view.searchForm) {
+        view.searchForm.addEventListener("submit", submitSearchFilter);
+    }
+
+    if (view.messageInput) {
+        view.messageInput.addEventListener("input", setNewMessage);
+    }
+    if (view.messageForm) {
+        view.messageForm.addEventListener("submit", handleSubmitMessageForm);
+    }
+
+    if (view.conversationActionsButton) {
+        view.conversationActionsButton.addEventListener("click", handleConversationsButtonClick);
+    }
+    if (view.attachmentButton) {
+        view.attachmentButton.addEventListener("click", handleAttachmentsButtonClick);
+    }
+    if (view.attachmentPhotoInput) {
+        view.attachmentPhotoInput.addEventListener("input", handleAttachment);
+    }
+    if (view.attachmentFileInput) {
+        view.attachmentFileInput.addEventListener("input", handleAttachment);
+    }
+    if (view.attachmentLocationInput) {
+        view.attachmentLocationInput.addEventListener("input", handleAttachment);
+    }
+
+    if (view.addUserButton) {
+        view.addUserButton.addEventListener("click", handleAddUserButtonClick);
+    }
+    if (view.usernameInput) {
+        view.usernameInput.addEventListener("input", (event: Event) => {
+            setStatePropValue(event, "newUserToAddName");
+            setInnerText(view.usernameInputError, "");
+            removeClass(view.usernameInput, "form__input_error");
+        });
+    }
+
+    if (view.addUserForm) {
+        view.addUserForm.addEventListener("submit", handleAddUserSubmit);
+    }
+    if (view.cancelAddUserFormButton) {
+        view.cancelAddUserFormButton.addEventListener("click", handleCancelAddUserClick);
+    }
+
+    if (view.deleteConversationButton) {
+        view.deleteConversationButton.addEventListener("click", handleDeleteConversationContextButtonClick);
+    }
+    if (view.approveDeleteButton) {
+        view.approveDeleteButton.addEventListener("click", handleDeleteConversationButtonClick);
+    }
+    if (view.cancelDeleteButton) {
+        view.cancelDeleteButton.addEventListener("click", handleCancelDeleteConversationButtonClick);
+    }
 }
-function renderInterface() {
+
+function renderInterface(): void {
     const template = Handlebars.compile(getTemplate());
-    Handlebars.registerHelper('gt', function (a, b, opts) {
+    Handlebars.registerHelper('gt', function(a, b, opts) {
         return a > b ? opts.fn(this) : opts.inverse(this);
     });
-    Handlebars.registerHelper('notEmpty', function (a, opts) {
+    Handlebars.registerHelper('notEmpty', function(a, opts) {
         return a !== "" ? opts.fn(this) : opts.inverse(this);
     });
-    Handlebars.registerHelper('isTrue', function (a, opts) {
+    Handlebars.registerHelper('isTrue', function(a, opts) {
         return a === true ? opts.fn(this) : opts.inverse(this);
     });
-    const data = {
+    const data: TemplateData = {
         profileLink: {
             url: "/profile/",
             text: "Profile"
@@ -314,17 +357,24 @@ function renderInterface() {
             title: "Add user"
         }
     };
-    document.getElementById("root").innerHTML = template(data);
+    const root = document.getElementById("root");
+    if (root) {
+        root.innerHTML = template(data);
+    }
 }
-function initView() {
+
+function initView(): ViewType {
     return {
         searchInput: document.querySelector(".searchbar__input"),
         searchForm: document.querySelector(".chat__search"),
+
         messageForm: document.querySelector(".conversation__message-form"),
         messageInput: document.querySelector(".message-form__message"),
         submitMessageButton: document.querySelector(".message-form__submit-button"),
+
         conversationActionsMenu: document.querySelector(".conversation__context"),
         conversationActionsButton: document.querySelector(".conversation__actions-button"),
+
         addUserButton: document.querySelector(".context__add"),
         addUserOverlay: document.querySelector(".add-user"),
         addUserForm: document.querySelector(".add-user-form"),
@@ -332,10 +382,12 @@ function initView() {
         usernameInputError: document.querySelector(".add-user-form__username-error"),
         submitAddUserFormButton: document.querySelector(".add-user-form__add-button"),
         cancelAddUserFormButton: document.querySelector(".add-user-form__cancel-button"),
+
         deleteConversationButton: document.querySelector(".context__delete"),
         deleteConversationOverlay: document.querySelector(".delete-conversation"),
         approveDeleteButton: document.querySelector(".delete-conversation__approve"),
         cancelDeleteButton: document.querySelector(".delete-conversation__cancel"),
+
         attachmentButton: document.querySelector(".message-form__attachment-button"),
         attachmentContextMenu: document.querySelector(".attachment-menu"),
         attachmentPhotoInput: document.querySelector(".message-form__photo-input"),
@@ -343,29 +395,34 @@ function initView() {
         attachmentLocationInput: document.querySelector(".message-form__location-input")
     };
 }
-function setStatePropValue(event, propName) {
-    const { value } = event.target;
+
+function setStatePropValue(event: Event, propName: string): void {
+    const element = event.target as HTMLInputElement;
+    const {value} = element;
     console.log(`[INFO] ${propName}`, value);
+
     const [, setStateCallback] = state[propName];
     setStateCallback(value);
-    if (view[`${propName}Error`]) {
-        view[`${propName}Error`].innerText = "";
-        removeClass(view[`${propName}Input`], "form__input_error");
-    }
+
+    setInnerText(view[`${propName}Error`], "");
+    removeClass(view[`${propName}Input`], "form__input_error");
 }
-function submitSearchFilter(event) {
+
+function submitSearchFilter(event: Event): void {
     event.preventDefault();
     const [getSearchKey] = state.searchKey;
     const searchKey = getSearchKey();
     console.log("[INFO] Search form submitted, this will be handled later in this course", searchKey);
 }
-function setNewMessage(event) {
+
+function setNewMessage(event: Event): void {
     setStatePropValue(event, "newMessage");
     const [getNewMessage] = state.newMessage;
     const newMessage = getNewMessage();
     toggleClass(isEmpty(newMessage), view.submitMessageButton, "message-form__submit-button_active");
 }
-function handleSubmitMessageForm(event) {
+
+function handleSubmitMessageForm(event: Event): void | null {
     event.preventDefault();
     const [getNewMessage] = state.newMessage;
     const message = getNewMessage();
@@ -373,6 +430,7 @@ function handleSubmitMessageForm(event) {
         console.log("[INFO] No message to submit");
         return null;
     }
+
     const [getAttachments] = state.attachments;
     const attachments = getAttachments();
     const messageObject = {
@@ -381,71 +439,99 @@ function handleSubmitMessageForm(event) {
     };
     console.log(`[INFO] Message will be submitted later in course`, messageObject);
 }
-function handleConversationsButtonClick(event) {
+
+function handleConversationsButtonClick(event: Event): void {
     const [getIsConversationActionsMenuOpen, setIsConversationActionsMenuOpen] = state.isConversationActionsMenuOpen;
     const isOpen = getIsConversationActionsMenuOpen();
-    setIsConversationActionsMenuOpen((isOpen) => !isOpen);
-    toggleClass(isOpen, view.conversationActionsMenu, "conversation__context_active");
-    toggleClass(isOpen, event.target, "actions-button_active");
+    const element = event.target as HTMLElement;
+    if (typeof isOpen === "boolean") {
+        setIsConversationActionsMenuOpen((isOpen: Boolean) => !isOpen);
+
+        toggleClass(isOpen, view.conversationActionsMenu, "conversation__context_active");
+        toggleClass(isOpen, element, "actions-button_active");
+    }
 }
-function handleAttachmentsButtonClick(event) {
+
+function handleAttachmentsButtonClick(event: Event): void {
     const [getIsAttachmentContextMenuOpen, setIsAttachmentContextMenuOpen] = state.isAttachmentContextMenuOpen;
     const isOpen = getIsAttachmentContextMenuOpen();
-    setIsAttachmentContextMenuOpen((isOpen) => !isOpen);
-    toggleClass(isOpen, view.attachmentContextMenu, "attachment-menu_active");
-    toggleClass(isOpen, event.target, "message-form__attachment-button_active");
+    const element = event.target as HTMLElement;
+
+    if (typeof isOpen === "boolean") {
+        setIsAttachmentContextMenuOpen((isOpen:Boolean) => !isOpen);
+
+        toggleClass(isOpen, view.attachmentContextMenu, "attachment-menu_active");
+        toggleClass(isOpen, element, "message-form__attachment-button_active");
+    }
 }
-function handleAttachment(event) {
+
+function handleAttachment(event: Event): void {
     setStatePropValue(event, "attachments");
     const [, setIsAttachmentContextMenuOpen] = state.isAttachmentContextMenuOpen;
     setIsAttachmentContextMenuOpen(false);
     removeClass(view.attachmentContextMenu, "attachment-menu_active");
     removeClass(view.attachmentButton, "message-form__attachment-button_active");
 }
-function handleAddUserButtonClick() {
+
+function handleAddUserButtonClick(): void {
     const [getIsAddUserModalOpen, setIsAddUserModalOpen] = state.isAddUserModalOpen;
     const isAddUserModalOpen = getIsAddUserModalOpen();
-    toggleClass(isAddUserModalOpen, view.addUserOverlay, "overlay_active");
-    setIsAddUserModalOpen(true);
+    if (typeof isAddUserModalOpen === "boolean") {
+        toggleClass(isAddUserModalOpen, view.addUserOverlay, "overlay_active");
+        setIsAddUserModalOpen(true);
+    }
 }
-function handleDeleteConversationContextButtonClick() {
+
+function handleDeleteConversationContextButtonClick(): void {
     const [getIsDeleteConversationModalOpen, setIsDeleteConversationModalOpen] = state.isDeleteConversationModalOpen;
     const isDeleteConversationModalOpen = getIsDeleteConversationModalOpen();
-    toggleClass(isDeleteConversationModalOpen, view.deleteConversationOverlay, "overlay_active");
-    setIsDeleteConversationModalOpen(true);
+    if (typeof isDeleteConversationModalOpen === "boolean") {
+        toggleClass(isDeleteConversationModalOpen, view.deleteConversationOverlay, "overlay_active");
+        setIsDeleteConversationModalOpen(true);
+    }
 }
-function handleAddUserSubmit(event) {
+
+function handleAddUserSubmit(event: Event): void | null {
     event.preventDefault();
     console.log("[INFO] Form add user submit event");
+
     const [getNewUserToAddName] = state.newUserToAddName;
     const newUserToAddName = getNewUserToAddName();
     if (isEmpty(newUserToAddName)) {
         console.log("[INFO] No user to add");
-        view.usernameInputError.innerText = "Username cannot be empty";
+        setInnerText(view.usernameInputError, "Username cannot be empty");
         addClass(view.usernameInput, "form__input_error");
         return null;
     }
     console.log(`[INFO] User ${newUserToAddName} will be added later in course`);
 }
-function handleCancelAddUserClick(event) {
+
+function handleCancelAddUserClick(event: Event): void {
     event.preventDefault();
     const [getIsAddUserModalOpen, setIsAddUserModalOpen] = state.isAddUserModalOpen;
     const isAddUserModalOpen = getIsAddUserModalOpen();
-    toggleClass(isAddUserModalOpen, view.addUserOverlay, "overlay_active");
-    setIsAddUserModalOpen(false);
+    if (typeof isAddUserModalOpen === "boolean") {
+        toggleClass(isAddUserModalOpen, view.addUserOverlay, "overlay_active");
+        setIsAddUserModalOpen(false);
+    }
 }
-function handleDeleteConversationButtonClick(event) {
+
+function handleDeleteConversationButtonClick(event: Event): void {
     event.preventDefault();
     console.log("[INFO] Conversation removal feature will be added later in course");
 }
-function handleCancelDeleteConversationButtonClick(event) {
+
+function handleCancelDeleteConversationButtonClick(event: Event): void {
     event.preventDefault();
     const [getIsDeleteConversationModalOpen, setIsDeleteConversationModalOpen] = state.isDeleteConversationModalOpen;
     const isDeleteConversationModalOpen = getIsDeleteConversationModalOpen();
-    toggleClass(isDeleteConversationModalOpen, view.deleteConversationOverlay, "overlay_active");
-    setIsDeleteConversationModalOpen(false);
+    if (typeof isDeleteConversationModalOpen === "boolean") {
+        toggleClass(isDeleteConversationModalOpen, view.deleteConversationOverlay, "overlay_active");
+        setIsDeleteConversationModalOpen(false);
+    }
 }
-function getTemplate() {
+
+function getTemplate(): string {
     return `<div class="chat">
     <aside class="chat__sidebar">
         <nav class="chat__nav">
@@ -561,4 +647,3 @@ function getTemplate() {
 </div>
 </div>`;
 }
-//# sourceMappingURL=index.js.map

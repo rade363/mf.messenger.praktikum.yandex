@@ -1,7 +1,8 @@
-import { useState } from "../assets/js/modules/state.js";
-import { isEmpty } from "../assets/js/modules/helpers.js";
-import { addClass, removeClass } from "../assets/js/modules/domHelpers.js";
-const state = {
+import {useState} from "../assets/js/modules/state.js";
+import {isEmpty} from "../assets/js/modules/helpers.js";
+import {addClass, removeClass, setInnerText} from "../assets/js/modules/domHelpers.js";
+
+const state: State = {
     email: useState(""),
     login: useState(""),
     firstName: useState(""),
@@ -10,32 +11,61 @@ const state = {
     passwordRepeat: useState(""),
     phone: useState("")
 };
-let view = {};
+
+let view: ViewType = {};
+
 document.addEventListener("DOMContentLoaded", initInterface);
-function initInterface() {
+
+function initInterface(): void {
     renderInterface();
+
     view = initView();
-    view.emailInput.addEventListener("input", (event) => setStatePropValue(event, "email"));
-    view.loginInput.addEventListener("input", (event) => setStatePropValue(event, "login"));
-    view.firstNameInput.addEventListener("input", (event) => setStatePropValue(event, "firstName"));
-    view.lastNameInput.addEventListener("input", (event) => setStatePropValue(event, "lastName"));
-    view.passwordInput.addEventListener("input", (event) => {
-        setStatePropValue(event, "password");
-        validateNewPasswords();
-    });
-    view.passwordRepeatInput.addEventListener("input", (event) => {
-        setStatePropValue(event, "passwordRepeat");
-        validateNewPasswords();
-    });
-    view.phoneInput.addEventListener("input", (event) => setStatePropValue(event, "phone"));
-    view.registerForm.addEventListener("submit", submitProfileEditForm);
+
+    if (view.emailInput) {
+        view.emailInput.addEventListener("input", (event) => setStatePropValue(event,  "email"));
+    }
+
+    if (view.loginInput) {
+        view.loginInput.addEventListener("input", (event) => setStatePropValue(event, "login"));
+    }
+
+    if (view.firstNameInput) {
+        view.firstNameInput.addEventListener("input", (event) => setStatePropValue(event, "firstName"));
+    }
+
+    if (view.lastNameInput) {
+        view.lastNameInput.addEventListener("input", (event) => setStatePropValue(event, "lastName"));
+    }
+
+    if (view.passwordInput) {
+        view.passwordInput.addEventListener("input", (event) => {
+            setStatePropValue(event, "password");
+            validateNewPasswords();
+        });
+    }
+
+    if (view.passwordRepeatInput) {
+        view.passwordRepeatInput.addEventListener("input", (event) => {
+            setStatePropValue(event, "passwordRepeat");
+            validateNewPasswords();
+        });
+    }
+
+    if (view.phoneInput) {
+        view.phoneInput.addEventListener("input", (event) => setStatePropValue(event, "phone"));
+    }
+
+    if (view.registerForm) {
+        view.registerForm.addEventListener("submit", submitProfileEditForm);
+    }
 }
-function renderInterface() {
+
+function renderInterface(): void {
     const template = Handlebars.compile(getTemplate());
-    Handlebars.registerHelper('if_eq', function (a, b, opts) {
+    Handlebars.registerHelper('if_eq', function(a, b, opts) {
         return a === b ? opts.fn(this) : opts.inverse(this);
     });
-    const data = {
+    const data: TemplateData = {
         title: "messenger",
         backButton: {
             url: "/login/"
@@ -93,11 +123,16 @@ function renderInterface() {
             }
         }
     };
-    document.getElementById("root").innerHTML = template(data);
+    const root = document.getElementById("root");
+    if (root) {
+        root.innerHTML = template(data);
+    }
 }
-function initView() {
+
+function initView(): ViewType {
     return {
         registerForm: document.querySelector(".register-form"),
+
         emailInput: document.querySelector(".register-form__email-input"),
         loginInput: document.querySelector(".register-form__login-input"),
         firstNameInput: document.querySelector(".register-form__first-name-input"),
@@ -105,6 +140,7 @@ function initView() {
         passwordInput: document.querySelector(".register-form__password-input"),
         passwordRepeatInput: document.querySelector(".register-form__password-repeat-input"),
         phoneInput: document.querySelector(".register-form__phone-input"),
+
         emailError: document.querySelector(".register-form__email-error"),
         loginError: document.querySelector(".register-form__login-error"),
         firstNameError: document.querySelector(".register-form__first-name-error"),
@@ -114,62 +150,77 @@ function initView() {
         phoneError: document.querySelector(".register-form__phone-error")
     };
 }
-function setStatePropValue(event, propName) {
-    const { value } = event.target;
+
+function setStatePropValue(event: Event, propName: string): void {
+    const element = event.target as HTMLInputElement;
+    const {value} = element;
     console.log(`[INFO] ${propName}`, value);
+
     const [, setStateCallback] = state[propName];
     setStateCallback(value);
-    if (view[`${propName}Error`]) {
-        view[`${propName}Error`].innerText = "";
-        removeClass(view[`${propName}Input`], "form__input_error");
-    }
+
+    setInnerText(view[`${propName}Error`], "");
+    removeClass(view[`${propName}Input`], "form__input_error");
 }
-function validateNewPasswords() {
+
+function validateNewPasswords(): Boolean {
     const [getPassword] = state.password;
     const [getPasswordRepeat] = state.passwordRepeat;
     const password = getPassword();
     const passwordRepeat = getPasswordRepeat();
+
     if (isEmpty(password) || isEmpty(passwordRepeat)) {
         return false;
     }
+
     if (password !== passwordRepeat) {
-        view.passwordError.innerText = "Passwords do not match";
-        view.passwordRepeatError.innerText = "Passwords do not match";
+        setInnerText(view.passwordError, "Passwords do not match")
+        setInnerText(view.passwordRepeatError, "Passwords do not match")
+
         addClass(view.passwordInput, "form__input_error");
         addClass(view.passwordRepeatInput, "form__input_error");
         return false;
     }
-    view.passwordError.innerText = "";
-    view.passwordRepeatError.innerText = "";
+
+    setInnerText(view.passwordError, "")
+    setInnerText(view.passwordRepeatError, "")
+
     removeClass(view.passwordInput, "form__input_error");
     removeClass(view.passwordRepeatInput, "form__input_error");
+    return true;
 }
-function submitProfileEditForm(event) {
+
+function submitProfileEditForm(event: Event): void {
     event.preventDefault();
     let areFieldsValid = true;
-    const formObj = {};
+    const formObj: FormObject = {};
+
     Object.entries(state).forEach(keyValuePair => {
         const [propName, propStateMethods] = keyValuePair;
         const [getPropValue] = propStateMethods;
         const propValue = getPropValue();
+
         formObj[propName] = propValue;
+
         if (isEmpty(propValue)) {
             areFieldsValid = false;
             addClass(view[`${propName}Input`], "form__input_error");
-            view[`${propName}Error`].innerText = "Cannot be empty";
+            setInnerText(view[`${propName}Error`], "Cannot be empty");
         }
     });
+
     if (formObj.password !== formObj.passwordRepeat) {
         areFieldsValid = false;
     }
+
     if (areFieldsValid) {
         console.log("[INFO] All fields valid, new account form will be submitted later in this course", formObj);
-    }
-    else {
+    } else {
         console.error("[ERROR] [FORM] Invalid/missing registration data");
     }
 }
-function getTemplate() {
+
+function getTemplate(): string {
     return `<main class="container register">
     <header class="top-header register__header">
         <div class="top-header__left">
@@ -209,4 +260,5 @@ function getTemplate() {
     </form>
 </main>`;
 }
-//# sourceMappingURL=index.js.map
+
+export default {};

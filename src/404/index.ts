@@ -1,18 +1,23 @@
 document.addEventListener("DOMContentLoaded", renderInterface);
-function renderInterface() {
+
+function renderInterface(): void {
     const template = Handlebars.compile(getTemplate());
-    const data = {
-        code: 500,
-        description: "Something went wrong",
+    const data: TemplateData = {
+        code: 400,
+        description: "Not found yo",
         button: {
             class: "error__link-back button button_thin button_primary",
             url: "/chats/",
             text: "Go back"
         }
     };
-    document.getElementById("root").innerHTML = template(data);
+    const root = document.getElementById("root");
+    if (root) {
+        root.innerHTML = template(data);
+    }
 }
-function getTemplate() {
+
+function getTemplate(): string {
     return `<main class="container">
     <div class="error">
         <h1 class="error__code">{{code}}</h1>
@@ -21,4 +26,5 @@ function getTemplate() {
     </div>
 </main>`;
 }
-//# sourceMappingURL=index.js.map
+
+export default {};

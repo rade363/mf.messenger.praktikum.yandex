@@ -1,25 +1,33 @@
-import { useState } from "../assets/js/modules/state.js";
-import { removeClass } from "../assets/js/modules/domHelpers.js";
-let state = {
+import {useState} from "../assets/js/modules/state.js";
+import {removeClass, setInnerText} from "../assets/js/modules/domHelpers.js";
+
+let state: State = {
     searchKey: useState("")
 };
-let view = {};
+let view: ViewType = {};
+
 document.addEventListener("DOMContentLoaded", initInterface);
+
 function initInterface() {
     renderInterface();
     view = initView();
-    view.searchInput.addEventListener("input", (event) => setStatePropValue(event, "searchKey"));
-    view.searchForm.addEventListener("submit", submitSearchFilter);
+    if (view.searchInput) {
+        view.searchInput.addEventListener("input", (event) => setStatePropValue(event, "searchKey"));
+    }
+    if (view.searchForm) {
+        view.searchForm.addEventListener("submit", submitSearchFilter);
+    }
 }
-function renderInterface() {
+
+function renderInterface(): void {
     const template = Handlebars.compile(getTemplate());
-    Handlebars.registerHelper('gt', function (a, b, opts) {
+    Handlebars.registerHelper('gt', function(a, b, opts) {
         return a > b ? opts.fn(this) : opts.inverse(this);
     });
-    Handlebars.registerHelper('notEmpty', function (a, opts) {
+    Handlebars.registerHelper('notEmpty', function(a, opts) {
         return a !== "" ? opts.fn(this) : opts.inverse(this);
     });
-    const data = {
+    const data: TemplateData = {
         profileLink: {
             url: "/profile/",
             text: "Profile"
@@ -154,31 +162,39 @@ function renderInterface() {
         ],
         conversationSelected: false
     };
-    document.getElementById("root").innerHTML = template(data);
+    const root = document.getElementById("root");
+    if (root) {
+        root.innerHTML = template(data);
+    }
 }
-function initView() {
+
+function initView(): ViewType {
     return {
         searchInput: document.querySelector(".searchbar__input"),
         searchForm: document.querySelector(".chat__search")
     };
 }
-function setStatePropValue(event, propName) {
-    const { value } = event.target;
+
+function setStatePropValue(event: Event, propName: string): void {
+    const element = event.target as HTMLInputElement;
+    const {value} = element;
     console.log(`[INFO] ${propName}`, value);
+
     const [, setStateCallback] = state[propName];
     setStateCallback(value);
-    if (view[`${propName}Error`]) {
-        view[`${propName}Error`].innerText = "";
-        removeClass(view[`${propName}Input`], "form__input_error");
-    }
+
+    setInnerText(view[`${propName}Error`], "");
+    removeClass(view[`${propName}Input`], "form__input_error");
 }
-function submitSearchFilter(event) {
+
+function submitSearchFilter(event: Event) {
     event.preventDefault();
     const [getSearchKey] = state.searchKey;
     const searchKey = getSearchKey();
     console.log("[INFO] Search form submitted, this will be handled later in this course", searchKey);
 }
-function getTemplate() {
+
+function getTemplate(): string {
     return `<div class="chat">
     <aside class="chat__sidebar">
         <nav class="chat__nav">
@@ -221,4 +237,3 @@ function getTemplate() {
     </main>
 </div>`;
 }
-//# sourceMappingURL=index.js.map
