@@ -1,4 +1,6 @@
 @import url(reset.css);
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap');
 
 :root {
     --blue: #4285F4;
@@ -413,7 +415,7 @@
     border-radius: 4px;
     border: 1px solid var(--fontGrey);
     color: var(--fontGrey);
-    background-image: url("img/magnifier.svg");
+    background-image: url("../img/magnifier.svg");
     background-size: 15px;
     background-repeat: no-repeat;
     background-position-y: center;
@@ -425,7 +427,7 @@
 }
 .searchbar__input:focus {
     border-color: var(--blue);
-    background-image: url("img/magnifier-dark.svg");
+    background-image: url("../img/magnifier-dark.svg");
     background-position-x: 7px;
     text-indent: 20px;
     color: var(--fontDarkGrey);
@@ -549,17 +551,17 @@
     position: relative;
     cursor: pointer;
     background-color: transparent;
-    background-image: url("img/three-dots.svg");
+    background-image: url("../img/three-dots.svg");
     background-repeat: no-repeat;
     background-position: 50% 50%;
 }
 .conversation__actions-button:hover {
     background-color: var(--hoverLightBlue);
-    background-image: url("img/three-dots-active.svg");
+    background-image: url("../img/three-dots-active.svg");
 }
 .actions-button_active {
     background-color: var(--hoverLightBlue);
-    background-image: url("img/three-dots-active.svg");
+    background-image: url("../img/three-dots-active.svg");
 }
 
 .message {
@@ -603,10 +605,10 @@
     width: 10px;
 }
 .message__status_read {
-    background-image: url("img/msg-delivered.svg");
+    background-image: url("../img/msg-delivered.svg");
 }
 .message__status_sent {
-    background-image: url("img/msg-sent.svg");
+    background-image: url("../img/msg-sent.svg");
 }
 .message__time {
     display: flex;
@@ -636,7 +638,7 @@
     border: 0;
     background-color: transparent;
     cursor: pointer;
-    background-image: url("img/attachment.svg");
+    background-image: url("../img/attachment.svg");
     background-repeat: no-repeat;
     background-position: 50% 50%;
 }
@@ -676,7 +678,7 @@
     border-radius: 100%;
     border: 0;
     background-color: var(--fontGrey);
-    background-image: url("img/arrow-send-active.svg");
+    background-image: url("../img/arrow-send-active.svg");
     background-repeat: no-repeat;
     background-position: 50% 50%;
     cursor: pointer;
