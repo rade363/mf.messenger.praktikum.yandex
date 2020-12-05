@@ -1,6 +1,6 @@
 import {useState} from "../assets/js/modules/state.js";
 import {isEmpty} from "../assets/js/modules/helpers.js";
-import {addClass, removeClass, setInnerText} from "../assets/js/modules/domHelpers.js";
+import {addEventListener, addClass, removeClass, setInnerText} from "../assets/js/modules/domHelpers.js";
 import profileEditInfoTemplate from "../assets/js/pages/profileEditInfo.js";
 
 let state: IState = {
@@ -21,31 +21,15 @@ function initInterface(): void {
 
     view = initView();
 
-    if (view.avatarInput) {
-        view.avatarInput.addEventListener("input", setAvatarUpload);
-    }
-    if (view.emailInput) {
-        view.emailInput.addEventListener("input", (event) => setStatePropValue(event, "email"));
-    }
-    if (view.loginInput) {
-        view.loginInput.addEventListener("input", (event) => setStatePropValue(event, "login"));
-    }
-    if (view.firstNameInput) {
-        view.firstNameInput.addEventListener("input", (event) => setStatePropValue(event, "firstName"));
-    }
-    if (view.lastNameInput) {
-        view.lastNameInput.addEventListener("input", (event) => setStatePropValue(event, "lastName"));
-    }
-    if (view.displayNameInput) {
-        view.displayNameInput.addEventListener("input", (event) => setStatePropValue(event, "displayName"));
-    }
-    if (view.phoneInput) {
-        view.phoneInput.addEventListener("input", (event) => setStatePropValue(event, "phone"));
-    }
+    addEventListener(view.avatarInput, "input", setAvatarUpload);
+    addEventListener(view.emailInput, "input", (event) => setStatePropValue(event, "email"));
+    addEventListener(view.loginInput, "input", (event) => setStatePropValue(event, "login"));
+    addEventListener(view.firstNameInput, "input", (event) => setStatePropValue(event, "firstName"));
+    addEventListener(view.lastNameInput, "input", (event) => setStatePropValue(event, "lastName"));
+    addEventListener(view.displayNameInput, "input", (event) => setStatePropValue(event, "displayName"));
+    addEventListener(view.phoneInput, "input", (event) => setStatePropValue(event, "phone"));
 
-    if (view.profileForm) {
-        view.profileForm.addEventListener("submit", submitProfileEditForm);
-    }
+    addEventListener(view.profileForm, "submit", submitProfileEditForm);
 }
 
 function renderInterface(): void {

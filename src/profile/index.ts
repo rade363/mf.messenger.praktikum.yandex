@@ -1,3 +1,4 @@
+import {addEventListener} from "../assets/js/modules/domHelpers.js";
 import profileTemplate from "../assets/js/pages/profile.js";
 
 let view: IViewType = {};
@@ -8,9 +9,7 @@ function initInterface(): void {
 
     view = initView();
 
-    if (view.logoutButton) {
-        view.logoutButton.addEventListener("click", logOut);
-    }
+    addEventListener(view.logoutButton, "click", logOut);
 }
 
 function renderInterface(): void {

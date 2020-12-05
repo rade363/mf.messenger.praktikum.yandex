@@ -1,6 +1,6 @@
 import { useState } from "../assets/js/modules/state.js";
 import { isEmpty } from "../assets/js/modules/helpers.js";
-import { addClass, removeClass, setInnerText } from "../assets/js/modules/domHelpers.js";
+import { initEventListener, addClass, removeClass, setInnerText } from "../assets/js/modules/domHelpers.js";
 import profileChangePasswordTemplate from "../assets/js/pages/profileChangePassword.js";
 let state = {
     oldPassword: useState(""),
@@ -12,24 +12,16 @@ document.addEventListener("DOMContentLoaded", initInterface);
 function initInterface() {
     renderInterface();
     view = initView();
-    if (view.oldPasswordInput) {
-        view.oldPasswordInput.addEventListener("input", (event) => setStatePropValue(event, "oldPassword"));
-    }
-    if (view.newPasswordInput) {
-        view.newPasswordInput.addEventListener("input", (event) => {
-            setStatePropValue(event, "newPassword");
-            validateNewPasswords();
-        });
-    }
-    if (view.repeatNewPasswordInput) {
-        view.repeatNewPasswordInput.addEventListener("input", (event) => {
-            setStatePropValue(event, "repeatNewPassword");
-            validateNewPasswords();
-        });
-    }
-    if (view.passwordForm) {
-        view.passwordForm.addEventListener("submit", submitPasswordChange);
-    }
+    initEventListener(view.oldPasswordInput, "input", (event) => setStatePropValue(event, "oldPassword"));
+    initEventListener(view.newPasswordInput, "input", (event) => {
+        setStatePropValue(event, "newPassword");
+        validateNewPasswords();
+    });
+    initEventListener(view.repeatNewPasswordInput, "input", (event) => {
+        setStatePropValue(event, "repeatNewPassword");
+        validateNewPasswords();
+    });
+    initEventListener(view.passwordForm, "submit", submitPasswordChange);
 }
 function renderInterface() {
     const template = Handlebars.compile(profileChangePasswordTemplate);

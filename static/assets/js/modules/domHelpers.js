@@ -18,4 +18,9 @@ export function setInnerText(element, text) {
         element.innerText = text;
     }
 }
+export function initEventListener(element, eventName, callback) {
+    if (element) {
+        element.addEventListener(eventName, callback);
+    }
+}
 //# sourceMappingURL=domHelpers.js.map

@@ -1,6 +1,6 @@
 import { useState } from "../assets/js/modules/state.js";
 import { isEmpty } from "../assets/js/modules/helpers.js";
-import { addClass, removeClass, setInnerText } from "../assets/js/modules/domHelpers.js";
+import { addClass, initEventListener, removeClass, setInnerText } from "../assets/js/modules/domHelpers.js";
 import registerTemplate from "../assets/js/pages/register.js";
 const state = {
     email: useState(""),
@@ -16,36 +16,20 @@ document.addEventListener("DOMContentLoaded", initInterface);
 function initInterface() {
     renderInterface();
     view = initView();
-    if (view.emailInput) {
-        view.emailInput.addEventListener("input", (event) => setStatePropValue(event, "email"));
-    }
-    if (view.loginInput) {
-        view.loginInput.addEventListener("input", (event) => setStatePropValue(event, "login"));
-    }
-    if (view.firstNameInput) {
-        view.firstNameInput.addEventListener("input", (event) => setStatePropValue(event, "firstName"));
-    }
-    if (view.lastNameInput) {
-        view.lastNameInput.addEventListener("input", (event) => setStatePropValue(event, "lastName"));
-    }
-    if (view.passwordInput) {
-        view.passwordInput.addEventListener("input", (event) => {
-            setStatePropValue(event, "password");
-            validateNewPasswords();
-        });
-    }
-    if (view.passwordRepeatInput) {
-        view.passwordRepeatInput.addEventListener("input", (event) => {
-            setStatePropValue(event, "passwordRepeat");
-            validateNewPasswords();
-        });
-    }
-    if (view.phoneInput) {
-        view.phoneInput.addEventListener("input", (event) => setStatePropValue(event, "phone"));
-    }
-    if (view.registerForm) {
-        view.registerForm.addEventListener("submit", submitProfileEditForm);
-    }
+    initEventListener(view.emailInput, "input", (event) => setStatePropValue(event, "email"));
+    initEventListener(view.loginInput, "input", (event) => setStatePropValue(event, "login"));
+    initEventListener(view.firstNameInput, "input", (event) => setStatePropValue(event, "firstName"));
+    initEventListener(view.lastNameInput, "input", (event) => setStatePropValue(event, "lastName"));
+    initEventListener(view.passwordInput, "input", (event) => {
+        setStatePropValue(event, "password");
+        validateNewPasswords();
+    });
+    initEventListener(view.passwordRepeatInput, "input", (event) => {
+        setStatePropValue(event, "passwordRepeat");
+        validateNewPasswords();
+    });
+    initEventListener(view.phoneInput, "input", (event) => setStatePropValue(event, "phone"));
+    initEventListener(view.registerForm, "submit", submitProfileEditForm);
 }
 function renderInterface() {
     const template = Handlebars.compile(registerTemplate);

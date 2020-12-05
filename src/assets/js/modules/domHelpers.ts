@@ -21,3 +21,9 @@ export function setInnerText(element: HTMLElement | null, text: string): void {
         element.innerText = text;
     }
 }
+
+export function addEventListener(element: HTMLElement | null, eventName: string, callback:(event: Event) => unknown): void {
+    if (element) {
+        element.addEventListener(eventName, callback);
+    }
+}

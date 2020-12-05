@@ -1,6 +1,6 @@
 import {useState} from "../assets/js/modules/state.js";
 import {isEmpty} from "../assets/js/modules/helpers.js";
-import {addClass, removeClass, setInnerText} from "../assets/js/modules/domHelpers.js";
+import {addEventListener, addClass, removeClass, setInnerText} from "../assets/js/modules/domHelpers.js";
 import loginTemplate from "../assets/js/pages/login.js";
 
 let state: IState = {
@@ -16,15 +16,9 @@ function initInterface(): void {
 
     view = initView();
 
-    if (view.loginInput) {
-        view.loginInput.addEventListener("input", (event) => setStatePropValue(event, "login"));
-    }
-    if (view.passwordInput) {
-        view.passwordInput.addEventListener("input", (event) => setStatePropValue(event, "password"));
-    }
-    if (view.loginForm) {
-        view.loginForm.addEventListener("submit", submitAuthForm);
-    }
+    addEventListener(view.loginInput, "input", (event) => setStatePropValue(event, "login"));
+    addEventListener(view.passwordInput, "input", (event) => setStatePropValue(event, "password"));
+    addEventListener(view.loginForm, "submit", submitAuthForm);
 }
 
 function renderInterface(): void {

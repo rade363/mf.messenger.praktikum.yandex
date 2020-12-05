@@ -1,12 +1,11 @@
+import { initEventListener } from "../assets/js/modules/domHelpers.js";
 import profileTemplate from "../assets/js/pages/profile.js";
 let view = {};
 document.addEventListener("DOMContentLoaded", initInterface);
 function initInterface() {
     renderInterface();
     view = initView();
-    if (view.logoutButton) {
-        view.logoutButton.addEventListener("click", logOut);
-    }
+    initEventListener(view.logoutButton, "click", logOut);
 }
 function renderInterface() {
     const template = Handlebars.compile(profileTemplate);

@@ -1,5 +1,5 @@
 import { useState } from "../assets/js/modules/state.js";
-import { removeClass, setInnerText } from "../assets/js/modules/domHelpers.js";
+import { initEventListener, removeClass, setInnerText } from "../assets/js/modules/domHelpers.js";
 import chatsTemplate from "../assets/js/pages/chats.js";
 let state = {
     searchKey: useState("")
@@ -9,12 +9,8 @@ document.addEventListener("DOMContentLoaded", initInterface);
 function initInterface() {
     renderInterface();
     view = initView();
-    if (view.searchInput) {
-        view.searchInput.addEventListener("input", (event) => setStatePropValue(event, "searchKey"));
-    }
-    if (view.searchForm) {
-        view.searchForm.addEventListener("submit", submitSearchFilter);
-    }
+    initEventListener(view.searchInput, "input", (event) => setStatePropValue(event, "searchKey"));
+    initEventListener(view.searchForm, "submit", submitSearchFilter);
 }
 function renderInterface() {
     const template = Handlebars.compile(chatsTemplate);

@@ -1,6 +1,6 @@
 import { useState } from "../assets/js/modules/state.js";
 import { isEmpty } from "../assets/js/modules/helpers.js";
-import { addClass, removeClass, setInnerText, toggleClass } from "../assets/js/modules/domHelpers.js";
+import { initEventListener, addClass, removeClass, setInnerText, toggleClass } from "../assets/js/modules/domHelpers.js";
 import conversationTemplate from "../assets/js/pages/conversation.js";
 let state = {
     searchKey: useState(""),
@@ -17,58 +17,22 @@ document.addEventListener("DOMContentLoaded", initInterface);
 function initInterface() {
     renderInterface();
     view = initView();
-    if (view.searchInput) {
-        view.searchInput.addEventListener("input", (event) => setStatePropValue(event, "searchKey"));
-    }
-    if (view.searchForm) {
-        view.searchForm.addEventListener("submit", submitSearchFilter);
-    }
-    if (view.messageInput) {
-        view.messageInput.addEventListener("input", setNewMessage);
-    }
-    if (view.messageForm) {
-        view.messageForm.addEventListener("submit", handleSubmitMessageForm);
-    }
-    if (view.conversationActionsButton) {
-        view.conversationActionsButton.addEventListener("click", handleConversationsButtonClick);
-    }
-    if (view.attachmentButton) {
-        view.attachmentButton.addEventListener("click", handleAttachmentsButtonClick);
-    }
-    if (view.attachmentPhotoInput) {
-        view.attachmentPhotoInput.addEventListener("input", handleAttachment);
-    }
-    if (view.attachmentFileInput) {
-        view.attachmentFileInput.addEventListener("input", handleAttachment);
-    }
-    if (view.attachmentLocationInput) {
-        view.attachmentLocationInput.addEventListener("input", handleAttachment);
-    }
-    if (view.addUserButton) {
-        view.addUserButton.addEventListener("click", handleAddUserButtonClick);
-    }
-    if (view.usernameInput) {
-        view.usernameInput.addEventListener("input", (event) => {
-            setStatePropValue(event, "newUserToAddName");
-            setInnerText(view.usernameInputError, "");
-            removeClass(view.usernameInput, "form__input_error");
-        });
-    }
-    if (view.addUserForm) {
-        view.addUserForm.addEventListener("submit", handleAddUserSubmit);
-    }
-    if (view.cancelAddUserFormButton) {
-        view.cancelAddUserFormButton.addEventListener("click", handleCancelAddUserClick);
-    }
-    if (view.deleteConversationButton) {
-        view.deleteConversationButton.addEventListener("click", handleDeleteConversationContextButtonClick);
-    }
-    if (view.approveDeleteButton) {
-        view.approveDeleteButton.addEventListener("click", handleDeleteConversationButtonClick);
-    }
-    if (view.cancelDeleteButton) {
-        view.cancelDeleteButton.addEventListener("click", handleCancelDeleteConversationButtonClick);
-    }
+    initEventListener(view.searchInput, "input", (event) => setStatePropValue(event, "searchKey"));
+    initEventListener(view.searchForm, "submit", submitSearchFilter);
+    initEventListener(view.messageInput, "input", setNewMessage);
+    initEventListener(view.messageForm, "submit", handleSubmitMessageForm);
+    initEventListener(view.conversationActionsButton, "click", handleConversationsButtonClick);
+    initEventListener(view.attachmentButton, "click", handleAttachmentsButtonClick);
+    initEventListener(view.attachmentPhotoInput, "input", handleAttachment);
+    initEventListener(view.attachmentFileInput, "input", handleAttachment);
+    initEventListener(view.attachmentLocationInput, "input", handleAttachment);
+    initEventListener(view.addUserButton, "click", handleAddUserButtonClick);
+    initEventListener(view.usernameInput, "input", handleAddUserInput);
+    initEventListener(view.addUserForm, "submit", handleAddUserSubmit);
+    initEventListener(view.cancelAddUserFormButton, "click", handleCancelAddUserClick);
+    initEventListener(view.deleteConversationButton, "click", handleDeleteConversationContextButtonClick);
+    initEventListener(view.approveDeleteButton, "click", handleDeleteConversationButtonClick);
+    initEventListener(view.cancelDeleteButton, "click", handleCancelDeleteConversationButtonClick);
 }
 function renderInterface() {
     const template = Handlebars.compile(conversationTemplate);
@@ -458,6 +422,11 @@ function handleDeleteConversationContextButtonClick() {
         toggleClass(isDeleteConversationModalOpen, view.deleteConversationOverlay, "overlay_active");
         setIsDeleteConversationModalOpen(true);
     }
+}
+function handleAddUserInput(event) {
+    setStatePropValue(event, "newUserToAddName");
+    setInnerText(view.usernameInputError, "");
+    removeClass(view.usernameInput, "form__input_error");
 }
 function handleAddUserSubmit(event) {
     event.preventDefault();
