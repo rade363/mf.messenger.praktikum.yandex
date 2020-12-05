@@ -1,6 +1,7 @@
+import serverErrorTemplate from "../assets/js/pages/serverError.js";
 document.addEventListener("DOMContentLoaded", renderInterface);
 function renderInterface() {
-    const template = Handlebars.compile(getTemplate());
+    const template = Handlebars.compile(serverErrorTemplate);
     const data = {
         code: 500,
         description: "Something went wrong",
@@ -10,15 +11,10 @@ function renderInterface() {
             text: "Go back"
         }
     };
-    document.getElementById("root").innerHTML = template(data);
+    const root = document.getElementById("root");
+    if (root) {
+        root.innerHTML = template(data);
+    }
 }
-function getTemplate() {
-    return `<main class="container">
-    <div class="error">
-        <h1 class="error__code">{{code}}</h1>
-        <div class="error__description">{{description}}</div>
-        <a class="{{button.class}}" href="{{button.url}}">{{button.text}}</a>
-    </div>
-</main>`;
-}
+export default {};
 //# sourceMappingURL=index.js.map

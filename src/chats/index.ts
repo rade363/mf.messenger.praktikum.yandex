@@ -1,10 +1,11 @@
 import {useState} from "../assets/js/modules/state.js";
 import {removeClass, setInnerText} from "../assets/js/modules/domHelpers.js";
+import chatsTemplate from "../assets/js/pages/chats.js";
 
-let state: State = {
+let state: IState = {
     searchKey: useState("")
 };
-let view: ViewType = {};
+let view: IViewType = {};
 
 document.addEventListener("DOMContentLoaded", initInterface);
 
@@ -20,14 +21,14 @@ function initInterface() {
 }
 
 function renderInterface(): void {
-    const template = Handlebars.compile(getTemplate());
+    const template = Handlebars.compile(chatsTemplate);
     Handlebars.registerHelper('gt', function(a, b, opts) {
         return a > b ? opts.fn(this) : opts.inverse(this);
     });
     Handlebars.registerHelper('notEmpty', function(a, opts) {
         return a !== "" ? opts.fn(this) : opts.inverse(this);
     });
-    const data: TemplateData = {
+    const data: ITemplateData = {
         profileLink: {
             url: "/profile/",
             text: "Profile"
@@ -168,7 +169,7 @@ function renderInterface(): void {
     }
 }
 
-function initView(): ViewType {
+function initView(): IViewType {
     return {
         searchInput: document.querySelector(".searchbar__input"),
         searchForm: document.querySelector(".chat__search")
@@ -192,48 +193,4 @@ function submitSearchFilter(event: Event) {
     const [getSearchKey] = state.searchKey;
     const searchKey = getSearchKey();
     console.log("[INFO] Search form submitted, this will be handled later in this course", searchKey);
-}
-
-function getTemplate(): string {
-    return `<div class="chat">
-    <aside class="chat__sidebar">
-        <nav class="chat__nav">
-            <div class="chat__topbar">
-                <a class="chat__profile-link" href="{{profileLink.url}}">{{profileLink.text}}</a>
-            </div>
-            <form class="chat__search searchbar" method="POST">
-                <input class="searchbar__input" type="text" placeholder="Search" name="search" pattern="\\S+"/>
-            </form>
-        </nav>
-        <ul class="chat__list chat-list">
-            {{#each chatListItems}}
-            <li class="chat-list__item {{#if isSelected}}chat-list__item_active{{/if}}">
-                <div class="chat-list__userpic userpic">
-                    <img class="userpic__image" src="../assets/img/{{avatar}}" alt="{{username}}" />
-                </div>
-                <div class="chat-list__content">
-                    <h2 class="chat-list__username">{{username}}</h2>
-                    <div class="chat-list__preview preview">
-                        {{#notEmpty lastMessageBy}}
-                        <span class="preview__highlight">{{lastMessageBy}}:</span>
-                        {{/notEmpty}}
-                        {{lastMessage}}
-                    </div>
-                </div>
-                <div class="chat-list__meta">
-                    <time class="chat-list__datetime">{{time}}</time>
-                    <div class="chat-list__indicator">
-                        {{#gt unread 0}}
-                        <mark class="chat-list__unread">{{unread}}</mark>
-                        {{/gt}}
-                    </div>
-                </div>
-            </li>
-            {{/each}}
-        </ul>
-    </aside>
-    <main class="chat__conversation chat__conversation_empty">
-        <h1 class="chat__empty">Please select a chat to start messaging</h1>
-    </main>
-</div>`;
 }

@@ -1,5 +1,6 @@
 import { useState } from "../assets/js/modules/state.js";
-import { removeClass } from "../assets/js/modules/domHelpers.js";
+import { removeClass, setInnerText } from "../assets/js/modules/domHelpers.js";
+import chatsTemplate from "../assets/js/pages/chats.js";
 let state = {
     searchKey: useState("")
 };
@@ -8,11 +9,15 @@ document.addEventListener("DOMContentLoaded", initInterface);
 function initInterface() {
     renderInterface();
     view = initView();
-    view.searchInput.addEventListener("input", (event) => setStatePropValue(event, "searchKey"));
-    view.searchForm.addEventListener("submit", submitSearchFilter);
+    if (view.searchInput) {
+        view.searchInput.addEventListener("input", (event) => setStatePropValue(event, "searchKey"));
+    }
+    if (view.searchForm) {
+        view.searchForm.addEventListener("submit", submitSearchFilter);
+    }
 }
 function renderInterface() {
-    const template = Handlebars.compile(getTemplate());
+    const template = Handlebars.compile(chatsTemplate);
     Handlebars.registerHelper('gt', function (a, b, opts) {
         return a > b ? opts.fn(this) : opts.inverse(this);
     });
@@ -154,7 +159,10 @@ function renderInterface() {
         ],
         conversationSelected: false
     };
-    document.getElementById("root").innerHTML = template(data);
+    const root = document.getElementById("root");
+    if (root) {
+        root.innerHTML = template(data);
+    }
 }
 function initView() {
     return {
@@ -163,62 +171,18 @@ function initView() {
     };
 }
 function setStatePropValue(event, propName) {
-    const { value } = event.target;
+    const element = event.target;
+    const { value } = element;
     console.log(`[INFO] ${propName}`, value);
     const [, setStateCallback] = state[propName];
     setStateCallback(value);
-    if (view[`${propName}Error`]) {
-        view[`${propName}Error`].innerText = "";
-        removeClass(view[`${propName}Input`], "form__input_error");
-    }
+    setInnerText(view[`${propName}Error`], "");
+    removeClass(view[`${propName}Input`], "form__input_error");
 }
 function submitSearchFilter(event) {
     event.preventDefault();
     const [getSearchKey] = state.searchKey;
     const searchKey = getSearchKey();
     console.log("[INFO] Search form submitted, this will be handled later in this course", searchKey);
-}
-function getTemplate() {
-    return `<div class="chat">
-    <aside class="chat__sidebar">
-        <nav class="chat__nav">
-            <div class="chat__topbar">
-                <a class="chat__profile-link" href="{{profileLink.url}}">{{profileLink.text}}</a>
-            </div>
-            <form class="chat__search searchbar" method="POST">
-                <input class="searchbar__input" type="text" placeholder="Search" name="search" pattern="\\S+"/>
-            </form>
-        </nav>
-        <ul class="chat__list chat-list">
-            {{#each chatListItems}}
-            <li class="chat-list__item {{#if isSelected}}chat-list__item_active{{/if}}">
-                <div class="chat-list__userpic userpic">
-                    <img class="userpic__image" src="../assets/img/{{avatar}}" alt="{{username}}" />
-                </div>
-                <div class="chat-list__content">
-                    <h2 class="chat-list__username">{{username}}</h2>
-                    <div class="chat-list__preview preview">
-                        {{#notEmpty lastMessageBy}}
-                        <span class="preview__highlight">{{lastMessageBy}}:</span>
-                        {{/notEmpty}}
-                        {{lastMessage}}
-                    </div>
-                </div>
-                <div class="chat-list__meta">
-                    <time class="chat-list__datetime">{{time}}</time>
-                    <div class="chat-list__indicator">
-                        {{#gt unread 0}}
-                        <mark class="chat-list__unread">{{unread}}</mark>
-                        {{/gt}}
-                    </div>
-                </div>
-            </li>
-            {{/each}}
-        </ul>
-    </aside>
-    <main class="chat__conversation chat__conversation_empty">
-        <h1 class="chat__empty">Please select a chat to start messaging</h1>
-    </main>
-</div>`;
 }
 //# sourceMappingURL=index.js.map

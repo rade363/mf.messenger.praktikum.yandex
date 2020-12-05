@@ -1,12 +1,13 @@
 import {useState} from "../assets/js/modules/state.js";
 import {isEmpty} from "../assets/js/modules/helpers.js";
 import {addClass, removeClass, setInnerText} from "../assets/js/modules/domHelpers.js";
+import loginTemplate from "../assets/js/pages/login.js";
 
-let state: State = {
+let state: IState = {
     login: useState(""),
     password: useState("")
 };
-let view: ViewType = {};
+let view: IViewType = {};
 
 document.addEventListener("DOMContentLoaded", initInterface);
 
@@ -27,8 +28,8 @@ function initInterface(): void {
 }
 
 function renderInterface(): void {
-    const template = Handlebars.compile(getTemplate());
-    const data: TemplateData = {
+    const template = Handlebars.compile(loginTemplate);
+    const data: ITemplateData = {
         title: "messenger",
         form: {
             name: "login-form",
@@ -62,7 +63,7 @@ function renderInterface(): void {
     }
 }
 
-function initView(): ViewType {
+function initView(): IViewType {
     return {
         loginForm: document.querySelector(".login-form"),
 
@@ -91,7 +92,7 @@ function setStatePropValue(event: Event, propName: string): void {
 function submitAuthForm(event: Event): void {
     event.preventDefault();
     let areFieldsValid = true;
-    let formObj: FormObject = {};
+    let formObj: IFormObject = {};
 
     Object.entries(state).forEach(keyValuePair => {
         const [propName, propStateMethods] = keyValuePair;
@@ -112,32 +113,6 @@ function submitAuthForm(event: Event): void {
     } else {
         console.error("[ERROR] [FORM] Invalid credentials");
     }
-}
-
-function getTemplate(): string {
-    return `<main class="container login">
-        <header class="top-header login__header">
-            <div class="top-header__left"></div>
-            <div class="top-header__center">
-                <h1 class="top-header__title login__title">{{title}}</h1>
-            </div>
-            <div class="top-header__right"></div>
-        </header>
-        <form class="form {{form.name}}" method="POST">
-            {{#each form.inputFields}}
-            <div class="form__item">
-                <label class="form__label" for="{{id}}">{{label}}</label>
-                <input class="form__input {{../form.name}}__{{id}}-input" type="{{type}}" id="{{id}}" />
-                <span class="form__error {{../form.name}}__{{id}}-error"></span>
-            </div>
-            {{/each}}
-            <div class="form__item {{form.name}}__actions">
-                <button class="{{form.name}}__{{form.submitButton.className}}" type="{{form.submitButton.type}}">{{form.submitButton.text}}</button>
-                <span class="{{form.name}}__alternative">or</span>
-                <a class="{{form.name}}__{{form.signUpLink.className}}" href="{{form.signUpLink.url}}">{{form.signUpLink.text}}</a>
-            </div>
-        </form>
-    </main>`;
 }
 
 export default {};

@@ -1,8 +1,9 @@
 import {useState} from "../assets/js/modules/state.js";
 import {isEmpty} from "../assets/js/modules/helpers.js";
 import {addClass, removeClass, setInnerText} from "../assets/js/modules/domHelpers.js";
+import registerTemplate from "../assets/js/pages/register.js";
 
-const state: State = {
+const state: IState = {
     email: useState(""),
     login: useState(""),
     firstName: useState(""),
@@ -12,7 +13,7 @@ const state: State = {
     phone: useState("")
 };
 
-let view: ViewType = {};
+let view: IViewType = {};
 
 document.addEventListener("DOMContentLoaded", initInterface);
 
@@ -61,11 +62,11 @@ function initInterface(): void {
 }
 
 function renderInterface(): void {
-    const template = Handlebars.compile(getTemplate());
+    const template = Handlebars.compile(registerTemplate);
     Handlebars.registerHelper('if_eq', function(a, b, opts) {
         return a === b ? opts.fn(this) : opts.inverse(this);
     });
-    const data: TemplateData = {
+    const data: ITemplateData = {
         title: "messenger",
         backButton: {
             url: "/login/"
@@ -129,7 +130,7 @@ function renderInterface(): void {
     }
 }
 
-function initView(): ViewType {
+function initView(): IViewType {
     return {
         registerForm: document.querySelector(".register-form"),
 
@@ -193,7 +194,7 @@ function validateNewPasswords(): Boolean {
 function submitProfileEditForm(event: Event): void {
     event.preventDefault();
     let areFieldsValid = true;
-    const formObj: FormObject = {};
+    const formObj: IFormObject = {};
 
     Object.entries(state).forEach(keyValuePair => {
         const [propName, propStateMethods] = keyValuePair;
@@ -218,47 +219,6 @@ function submitProfileEditForm(event: Event): void {
     } else {
         console.error("[ERROR] [FORM] Invalid/missing registration data");
     }
-}
-
-function getTemplate(): string {
-    return `<main class="container register">
-    <header class="top-header register__header">
-        <div class="top-header__left">
-            <a class="top-header__back back-button" href="{{backButton.url}}">
-                <span class="back-button__arrow">‹</span>
-                <span class="back-button__text">Back</span>
-            </a>
-        </div>
-        <div class="top-header__center">
-            <h1 class="top-header__title register__title">{{title}}</h1>
-        </div>
-        <div class="top-header__right"></div>
-    </header>
-    <form class="form {{form.name}}" method="POST">
-        {{#each form.inputFields}}
-            {{#if_eq type 'double'}}
-            <div class="form__item double">
-                {{#each items }}
-                <div class="double__child form__item">
-                    <label class="form__label" for="{{name}}">{{label}}</label>
-                    <input class="form__input {{../../form.name}}__{{name}}-input" type="{{type}}" id="{{name}}" />
-                    <span class="form__error {{../../form.name}}__{{name}}-error"></span>
-                </div>
-                {{/each}}
-            </div>
-            {{else}}
-            <div class="form__item">
-                <label class="form__label" for="{{name}}">{{label}}</label>
-                <input class="form__input {{../form.name}}__{{name}}-input" type="{{type}}" id="{{name}}" />
-                <span class="form__error {{../form.name}}__{{name}}-error"></span>
-            </div>
-            {{/if_eq}}
-        {{/each}}
-        <div class="form__item {{form.name}}__actions">
-            <button class="{{form.name}}__{{form.submitButton.className}}" type="{{form.submitButton.type}}">{{form.submitButton.text}}</button>
-        </div>
-    </form>
-</main>`;
 }
 
 export default {};

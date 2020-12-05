@@ -1,8 +1,10 @@
+import serverErrorTemplate from "../assets/js/pages/serverError.js";
+
 document.addEventListener("DOMContentLoaded", renderInterface);
 
 function renderInterface(): void {
-    const template = Handlebars.compile(getTemplate());
-    const data: TemplateData = {
+    const template = Handlebars.compile(serverErrorTemplate);
+    const data: ITemplateData = {
         code: 500,
         description: "Something went wrong",
         button: {
@@ -15,16 +17,6 @@ function renderInterface(): void {
     if (root) {
         root.innerHTML = template(data);
     }
-}
-
-function getTemplate(): string {
-    return `<main class="container">
-    <div class="error">
-        <h1 class="error__code">{{code}}</h1>
-        <div class="error__description">{{description}}</div>
-        <a class="{{button.class}}" href="{{button.url}}">{{button.text}}</a>
-    </div>
-</main>`;
 }
 
 export default {};

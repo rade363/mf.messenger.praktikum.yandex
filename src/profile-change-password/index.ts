@@ -1,13 +1,14 @@
 import {useState} from "../assets/js/modules/state.js";
 import {isEmpty} from "../assets/js/modules/helpers.js";
 import {addClass, removeClass, setInnerText} from "../assets/js/modules/domHelpers.js";
+import profileChangePasswordTemplate from "../assets/js/pages/profileChangePassword.js";
 
-let state: State = {
+let state: IState = {
     oldPassword: useState(""),
     newPassword: useState(""),
     repeatNewPassword: useState("")
 };
-let view: ViewType = {};
+let view: IViewType = {};
 
 document.addEventListener("DOMContentLoaded", initInterface);
 
@@ -37,11 +38,11 @@ function initInterface(): void {
 }
 
 function renderInterface(): void {
-    const template = Handlebars.compile(getTemplate());
+    const template = Handlebars.compile(profileChangePasswordTemplate);
     Handlebars.registerHelper('if_eq', function (a, b, opts) {
         return a === b ? opts.fn(this) : opts.inverse(this);
     });
-    const data: TemplateData = {
+    const data: ITemplateData = {
         title: "Profile",
         backButton: {
             url: "/chats/"
@@ -83,7 +84,7 @@ function renderInterface(): void {
     }
 }
 
-function initView(): ViewType {
+function initView(): IViewType {
     return {
         passwordForm: document.querySelector(".password-form"),
 
@@ -139,7 +140,7 @@ function validateNewPasswords(): Boolean {
 function submitPasswordChange(event: Event): void {
     event.preventDefault();
     let areFieldsValid = true;
-    const formObj: FormObject = {};
+    const formObj: IFormObject = {};
 
     Object.entries(state).forEach(keyValuePair => {
         const [propName, propStateMethods] = keyValuePair;
@@ -164,38 +165,6 @@ function submitPasswordChange(event: Event): void {
     } else {
         console.error("[ERROR] [FORM] Invalid passwords");
     }
-}
-
-function getTemplate(): string {
-    return `<div class="profile">
-    <header class="top-header profile__header">
-        <div class="top-header__left">
-            <a class="top-header__back back-button" href="{{backButton.url}}">
-                <span class="back-button__arrow">‹</span>
-                <span class="back-button__text">Back</span>
-            </a>
-        </div>
-        <div class="top-header__center">
-            <h1 class="top-header__title profile__title">{{title}}</h1>
-        </div>
-        <div class="top-header__right"></div>
-    </header>
-    <main class="container profile__password-edit">
-        <form class="form password-form" method="POST">
-            {{#each form.inputFields}}
-            <div class="form__item">
-                <label class="form__label" for="{{name}}">{{label}}</label>
-                <input class="form__input {{../form.name}}__{{name}}-input" type="{{type}}" id="{{name}}" />
-                <span class="form__error {{../form.name}}__{{name}}-error"></span>
-            </div>
-            {{/each}}
-            <div class="form__item {{form.name}}__actions double">
-                <button class="{{form.name}}__{{form.submitButton.className}}" type="{{form.submitButton.type}}">{{form.submitButton.text}}</button>
-                <a class="{{form.name}}__{{form.cancelLink.className}}" href="{{form.cancelLink.url}}">{{form.cancelLink.text}}</a>
-            </div>
-        </form>
-    </main>
-</div>`;
 }
 
 export default {};

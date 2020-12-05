@@ -1,6 +1,7 @@
 import { useState } from "../assets/js/modules/state.js";
 import { isEmpty } from "../assets/js/modules/helpers.js";
-import { addClass, removeClass, toggleClass } from "../assets/js/modules/domHelpers.js";
+import { addClass, removeClass, setInnerText, toggleClass } from "../assets/js/modules/domHelpers.js";
+import conversationTemplate from "../assets/js/pages/conversation.js";
 let state = {
     searchKey: useState(""),
     newMessage: useState(""),
@@ -16,29 +17,61 @@ document.addEventListener("DOMContentLoaded", initInterface);
 function initInterface() {
     renderInterface();
     view = initView();
-    view.searchInput.addEventListener("input", (event) => setStatePropValue(event, "searchKey"));
-    view.searchForm.addEventListener("submit", submitSearchFilter);
-    view.messageInput.addEventListener("input", setNewMessage);
-    view.messageForm.addEventListener("submit", handleSubmitMessageForm);
-    view.conversationActionsButton.addEventListener("click", handleConversationsButtonClick);
-    view.attachmentButton.addEventListener("click", handleAttachmentsButtonClick);
-    view.attachmentPhotoInput.addEventListener("input", handleAttachment);
-    view.attachmentFileInput.addEventListener("input", handleAttachment);
-    view.attachmentLocationInput.addEventListener("input", handleAttachment);
-    view.addUserButton.addEventListener("click", handleAddUserButtonClick);
-    view.usernameInput.addEventListener("input", (event) => {
-        setStatePropValue(event, "newUserToAddName");
-        view.usernameInputError.innerText = "";
-        removeClass(view.usernameInput, "form__input_error");
-    });
-    view.addUserForm.addEventListener("submit", handleAddUserSubmit);
-    view.cancelAddUserFormButton.addEventListener("click", handleCancelAddUserClick);
-    view.deleteConversationButton.addEventListener("click", handleDeleteConversationContextButtonClick);
-    view.approveDeleteButton.addEventListener("click", handleDeleteConversationButtonClick);
-    view.cancelDeleteButton.addEventListener("click", handleCancelDeleteConversationButtonClick);
+    if (view.searchInput) {
+        view.searchInput.addEventListener("input", (event) => setStatePropValue(event, "searchKey"));
+    }
+    if (view.searchForm) {
+        view.searchForm.addEventListener("submit", submitSearchFilter);
+    }
+    if (view.messageInput) {
+        view.messageInput.addEventListener("input", setNewMessage);
+    }
+    if (view.messageForm) {
+        view.messageForm.addEventListener("submit", handleSubmitMessageForm);
+    }
+    if (view.conversationActionsButton) {
+        view.conversationActionsButton.addEventListener("click", handleConversationsButtonClick);
+    }
+    if (view.attachmentButton) {
+        view.attachmentButton.addEventListener("click", handleAttachmentsButtonClick);
+    }
+    if (view.attachmentPhotoInput) {
+        view.attachmentPhotoInput.addEventListener("input", handleAttachment);
+    }
+    if (view.attachmentFileInput) {
+        view.attachmentFileInput.addEventListener("input", handleAttachment);
+    }
+    if (view.attachmentLocationInput) {
+        view.attachmentLocationInput.addEventListener("input", handleAttachment);
+    }
+    if (view.addUserButton) {
+        view.addUserButton.addEventListener("click", handleAddUserButtonClick);
+    }
+    if (view.usernameInput) {
+        view.usernameInput.addEventListener("input", (event) => {
+            setStatePropValue(event, "newUserToAddName");
+            setInnerText(view.usernameInputError, "");
+            removeClass(view.usernameInput, "form__input_error");
+        });
+    }
+    if (view.addUserForm) {
+        view.addUserForm.addEventListener("submit", handleAddUserSubmit);
+    }
+    if (view.cancelAddUserFormButton) {
+        view.cancelAddUserFormButton.addEventListener("click", handleCancelAddUserClick);
+    }
+    if (view.deleteConversationButton) {
+        view.deleteConversationButton.addEventListener("click", handleDeleteConversationContextButtonClick);
+    }
+    if (view.approveDeleteButton) {
+        view.approveDeleteButton.addEventListener("click", handleDeleteConversationButtonClick);
+    }
+    if (view.cancelDeleteButton) {
+        view.cancelDeleteButton.addEventListener("click", handleCancelDeleteConversationButtonClick);
+    }
 }
 function renderInterface() {
-    const template = Handlebars.compile(getTemplate());
+    const template = Handlebars.compile(conversationTemplate);
     Handlebars.registerHelper('gt', function (a, b, opts) {
         return a > b ? opts.fn(this) : opts.inverse(this);
     });
@@ -314,7 +347,10 @@ function renderInterface() {
             title: "Add user"
         }
     };
-    document.getElementById("root").innerHTML = template(data);
+    const root = document.getElementById("root");
+    if (root) {
+        root.innerHTML = template(data);
+    }
 }
 function initView() {
     return {
@@ -344,14 +380,13 @@ function initView() {
     };
 }
 function setStatePropValue(event, propName) {
-    const { value } = event.target;
+    const element = event.target;
+    const { value } = element;
     console.log(`[INFO] ${propName}`, value);
     const [, setStateCallback] = state[propName];
     setStateCallback(value);
-    if (view[`${propName}Error`]) {
-        view[`${propName}Error`].innerText = "";
-        removeClass(view[`${propName}Input`], "form__input_error");
-    }
+    setInnerText(view[`${propName}Error`], "");
+    removeClass(view[`${propName}Input`], "form__input_error");
 }
 function submitSearchFilter(event) {
     event.preventDefault();
@@ -384,16 +419,22 @@ function handleSubmitMessageForm(event) {
 function handleConversationsButtonClick(event) {
     const [getIsConversationActionsMenuOpen, setIsConversationActionsMenuOpen] = state.isConversationActionsMenuOpen;
     const isOpen = getIsConversationActionsMenuOpen();
-    setIsConversationActionsMenuOpen((isOpen) => !isOpen);
-    toggleClass(isOpen, view.conversationActionsMenu, "conversation__context_active");
-    toggleClass(isOpen, event.target, "actions-button_active");
+    const element = event.target;
+    if (typeof isOpen === "boolean") {
+        setIsConversationActionsMenuOpen((isOpen) => !isOpen);
+        toggleClass(isOpen, view.conversationActionsMenu, "conversation__context_active");
+        toggleClass(isOpen, element, "actions-button_active");
+    }
 }
 function handleAttachmentsButtonClick(event) {
     const [getIsAttachmentContextMenuOpen, setIsAttachmentContextMenuOpen] = state.isAttachmentContextMenuOpen;
     const isOpen = getIsAttachmentContextMenuOpen();
-    setIsAttachmentContextMenuOpen((isOpen) => !isOpen);
-    toggleClass(isOpen, view.attachmentContextMenu, "attachment-menu_active");
-    toggleClass(isOpen, event.target, "message-form__attachment-button_active");
+    const element = event.target;
+    if (typeof isOpen === "boolean") {
+        setIsAttachmentContextMenuOpen((isOpen) => !isOpen);
+        toggleClass(isOpen, view.attachmentContextMenu, "attachment-menu_active");
+        toggleClass(isOpen, element, "message-form__attachment-button_active");
+    }
 }
 function handleAttachment(event) {
     setStatePropValue(event, "attachments");
@@ -405,14 +446,18 @@ function handleAttachment(event) {
 function handleAddUserButtonClick() {
     const [getIsAddUserModalOpen, setIsAddUserModalOpen] = state.isAddUserModalOpen;
     const isAddUserModalOpen = getIsAddUserModalOpen();
-    toggleClass(isAddUserModalOpen, view.addUserOverlay, "overlay_active");
-    setIsAddUserModalOpen(true);
+    if (typeof isAddUserModalOpen === "boolean") {
+        toggleClass(isAddUserModalOpen, view.addUserOverlay, "overlay_active");
+        setIsAddUserModalOpen(true);
+    }
 }
 function handleDeleteConversationContextButtonClick() {
     const [getIsDeleteConversationModalOpen, setIsDeleteConversationModalOpen] = state.isDeleteConversationModalOpen;
     const isDeleteConversationModalOpen = getIsDeleteConversationModalOpen();
-    toggleClass(isDeleteConversationModalOpen, view.deleteConversationOverlay, "overlay_active");
-    setIsDeleteConversationModalOpen(true);
+    if (typeof isDeleteConversationModalOpen === "boolean") {
+        toggleClass(isDeleteConversationModalOpen, view.deleteConversationOverlay, "overlay_active");
+        setIsDeleteConversationModalOpen(true);
+    }
 }
 function handleAddUserSubmit(event) {
     event.preventDefault();
@@ -421,7 +466,7 @@ function handleAddUserSubmit(event) {
     const newUserToAddName = getNewUserToAddName();
     if (isEmpty(newUserToAddName)) {
         console.log("[INFO] No user to add");
-        view.usernameInputError.innerText = "Username cannot be empty";
+        setInnerText(view.usernameInputError, "Username cannot be empty");
         addClass(view.usernameInput, "form__input_error");
         return null;
     }
@@ -431,8 +476,10 @@ function handleCancelAddUserClick(event) {
     event.preventDefault();
     const [getIsAddUserModalOpen, setIsAddUserModalOpen] = state.isAddUserModalOpen;
     const isAddUserModalOpen = getIsAddUserModalOpen();
-    toggleClass(isAddUserModalOpen, view.addUserOverlay, "overlay_active");
-    setIsAddUserModalOpen(false);
+    if (typeof isAddUserModalOpen === "boolean") {
+        toggleClass(isAddUserModalOpen, view.addUserOverlay, "overlay_active");
+        setIsAddUserModalOpen(false);
+    }
 }
 function handleDeleteConversationButtonClick(event) {
     event.preventDefault();
@@ -442,123 +489,9 @@ function handleCancelDeleteConversationButtonClick(event) {
     event.preventDefault();
     const [getIsDeleteConversationModalOpen, setIsDeleteConversationModalOpen] = state.isDeleteConversationModalOpen;
     const isDeleteConversationModalOpen = getIsDeleteConversationModalOpen();
-    toggleClass(isDeleteConversationModalOpen, view.deleteConversationOverlay, "overlay_active");
-    setIsDeleteConversationModalOpen(false);
-}
-function getTemplate() {
-    return `<div class="chat">
-    <aside class="chat__sidebar">
-        <nav class="chat__nav">
-            <div class="chat__topbar">
-                <a class="chat__profile-link" href="{{profileLink.url}}">{{profileLink.text}}</a>
-            </div>
-            <form class="chat__search searchbar" method="POST">
-                <input class="searchbar__input" type="text" placeholder="Search" name="search" pattern="\\S+"/>
-            </form>
-        </nav>
-        <ul class="chat__list chat-list">
-            {{#each chatListItems}}
-                <li class="chat-list__item {{#if isSelected}}chat-list__item_active{{/if}}">
-                    <div class="chat-list__userpic userpic">
-                        <img class="userpic__image" src="../assets/img/{{avatar}}" alt="{{username}}" />
-                    </div>
-                    <div class="chat-list__content">
-                        <h2 class="chat-list__username">{{username}}</h2>
-                        <div class="chat-list__preview preview">
-                            {{#notEmpty lastMessageBy}}
-                            <span class="preview__highlight">{{lastMessageBy}}:</span>
-                            {{/notEmpty}}
-                            {{lastMessage}}
-                        </div>
-                    </div>
-                    <div class="chat-list__meta">
-                        <time class="chat-list__datetime">{{time}}</time>
-                        <div class="chat-list__indicator">
-                            {{#gt unread 0}}
-                            <mark class="chat-list__unread">{{unread}}</mark>
-                            {{/gt}}
-                        </div>
-                    </div>
-                </li>
-            {{/each}}
-        </ul>
-    </aside>
-    <div class="chat__conversation conversation">
-        <header class="conversation__header">
-            <div class="conversation__user-info user-info">
-                <h1 class="user-info__name">{{conversation.user.name}}</h1>
-                <span class="user-info__activity">{{conversation.user.status}}</span>
-            </div>
-            <button class="conversation__actions-button actions-button" type="button"></button>
-            <div class="conversation__context context-menu">
-                {{#each conversation.actionsPopupButtons}}
-                <button class="{{class}} context-button" type="button">
-                    <img class="context-button__icon" src="../assets/img/{{icon}}" alt="{{text}}" />
-                    <span class="context-button__text">{{text}}</span>
-                </button>
-                {{/each}}
-            </div>
-        </header>
-        <main class="conversation__list">
-            {{#each conversation.messagesList}}
-            <div class="message message_{{#if outgoing}}outgoing{{else}}incoming{{/if}}">
-                <div class="message__bubble">
-                    {{#notEmpty imageUrl}}
-                    <img class="message_media" src="../assets/img/{{imageUrl}}" alt="image" />
-                    {{else}}
-                    <p class="message__text">{{text}}</p>
-                    {{/notEmpty}}
-                    <div class="message__meta">
-                        {{#if outgoing}}
-                        <div class="message__status message__status_{{status}}"></div>
-                        {{/if}}
-                        <time class="message__time">{{time}}</time>
-                    </div>
-                </div>
-            </div>
-            {{/each}}
-        </main>
-        <form class="conversation__message-form message-form" method="POST">
-            <button class="message-form__attachment-button" type="button"></button>
-            <input class="message-form__message" type="text" placeholder="Write a message&mldr;" name="message"/>
-            <button class="message-form__submit-button" type="submit"></button>
-            <div class="context-menu attachment-menu">
-                {{#each conversation.attachmentOptions}}
-                <div class="context-button attachment-menu__item">
-                    <input class="message-form__{{name}}-input attachment-menu__input" type="file" name="{{name}}" id="{{name}}"/>
-                    <img class="context-button__icon" src="../assets/img/{{icon}}" alt="{{text}}" />
-                    <label class="context-button__text" for="{{name}}">{{text}}</label>
-                </div>
-                {{/each}}
-            </div>
-        </form>
-    </div>
-</div>
-<div class="overlay add-user">
-<div class="container modal">
-    <div class="modal__title">Add user</div>
-    <form class="form add-user-form" method="POST">
-        <div class="form__item">
-            <label class="form__label" for="username">Username</label>
-            <input class="form__input add-user-form__username-input" type="text" id="username" />
-            <span class="form__error add-user-form__username-error"></span>
-        </div>
-        <div class="form__item add-user-form__actions double">
-            <button class="add-user-form__add-button button button_thin button_primary double__child" type="submit">Add</button>
-            <button class="add-user-form__cancel-button button button_thin button_secondary double__child" type="button">Cancel</button>
-        </div>
-    </form>
-</div>
-</div>
-<div class="overlay delete-conversation">
-<div class="container modal delete-conversation__modal">
-    <div class="modal__title">Delete conversation</div>
-    <div class="modal__message">Are you sure? <br/>This action cannot be undone.</div>
-    <div class="modal__buttons delete-conversation__actions double">
-        <button class="delete-conversation__approve button button_thin button_danger double__child" type="button">Delete</button>
-        <button class="delete-conversation__cancel button button_thin button_secondary double__child" type="button">Cancel</button>
-    </div>
-</div>
-</div>`;
+    if (typeof isDeleteConversationModalOpen === "boolean") {
+        toggleClass(isDeleteConversationModalOpen, view.deleteConversationOverlay, "overlay_active");
+        setIsDeleteConversationModalOpen(false);
+    }
 }
 //# sourceMappingURL=index.js.map

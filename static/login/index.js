@@ -1,6 +1,7 @@
 import { useState } from "../assets/js/modules/state.js";
 import { isEmpty } from "../assets/js/modules/helpers.js";
-import { addClass, removeClass } from "../assets/js/modules/domHelpers.js";
+import { addClass, removeClass, setInnerText } from "../assets/js/modules/domHelpers.js";
+import loginTemplate from "../assets/js/pages/login.js";
 let state = {
     login: useState(""),
     password: useState("")
@@ -10,12 +11,18 @@ document.addEventListener("DOMContentLoaded", initInterface);
 function initInterface() {
     renderInterface();
     view = initView();
-    view.loginInput.addEventListener("input", (event) => setStatePropValue(event, "login"));
-    view.passwordInput.addEventListener("input", (event) => setStatePropValue(event, "password"));
-    view.loginForm.addEventListener("submit", submitAuthForm);
+    if (view.loginInput) {
+        view.loginInput.addEventListener("input", (event) => setStatePropValue(event, "login"));
+    }
+    if (view.passwordInput) {
+        view.passwordInput.addEventListener("input", (event) => setStatePropValue(event, "password"));
+    }
+    if (view.loginForm) {
+        view.loginForm.addEventListener("submit", submitAuthForm);
+    }
 }
 function renderInterface() {
-    const template = Handlebars.compile(getTemplate());
+    const template = Handlebars.compile(loginTemplate);
     const data = {
         title: "messenger",
         form: {
@@ -44,7 +51,10 @@ function renderInterface() {
             }
         }
     };
-    document.getElementById("root").innerHTML = template(data);
+    const root = document.getElementById("root");
+    if (root) {
+        root.innerHTML = template(data);
+    }
 }
 function initView() {
     return {
@@ -57,14 +67,13 @@ function initView() {
     };
 }
 function setStatePropValue(event, propName) {
-    const { value } = event.target;
+    const element = event.target;
+    const { value } = element;
     console.log(`[INFO] ${propName}`, value);
     const [, setStateCallback] = state[propName];
     setStateCallback(value);
-    if (view[`${propName}Error`]) {
-        view[`${propName}Error`].innerText = "";
-        removeClass(view[`${propName}Input`], "form__input_error");
-    }
+    setInnerText(view[`${propName}Error`], "");
+    removeClass(view[`${propName}Input`], "form__input_error");
 }
 function submitAuthForm(event) {
     event.preventDefault();
@@ -78,7 +87,7 @@ function submitAuthForm(event) {
         if (isEmpty(propValue)) {
             areFieldsValid = false;
             addClass(view[`${propName}Input`], "form__input_error");
-            view[`${propName}Error`].innerText = "Cannot be empty";
+            setInnerText(view[`${propName}Error`], "Cannot be empty");
         }
     });
     if (areFieldsValid) {
@@ -88,29 +97,5 @@ function submitAuthForm(event) {
         console.error("[ERROR] [FORM] Invalid credentials");
     }
 }
-function getTemplate() {
-    return `<main class="container login">
-        <header class="top-header login__header">
-            <div class="top-header__left"></div>
-            <div class="top-header__center">
-                <h1 class="top-header__title login__title">{{title}}</h1>
-            </div>
-            <div class="top-header__right"></div>
-        </header>
-        <form class="form {{form.name}}" method="POST">
-            {{#each form.inputFields}}
-            <div class="form__item">
-                <label class="form__label" for="{{id}}">{{label}}</label>
-                <input class="form__input {{../form.name}}__{{id}}-input" type="{{type}}" id="{{id}}" />
-                <span class="form__error {{../form.name}}__{{id}}-error"></span>
-            </div>
-            {{/each}}
-            <div class="form__item {{form.name}}__actions">
-                <button class="{{form.name}}__{{form.submitButton.className}}" type="{{form.submitButton.type}}">{{form.submitButton.text}}</button>
-                <span class="{{form.name}}__alternative">or</span>
-                <a class="{{form.name}}__{{form.signUpLink.className}}" href="{{form.signUpLink.url}}">{{form.signUpLink.text}}</a>
-            </div>
-        </form>
-    </main>`;
-}
+export default {};
 //# sourceMappingURL=index.js.map
