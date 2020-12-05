@@ -1,10 +1,11 @@
+import {renderInterface} from "../assets/js/modules/domHelpers.js";
 import notFoundTemplate from "../assets/js/pages/notFound.js";
 
-document.addEventListener("DOMContentLoaded", renderInterface);
-
-function renderInterface(): void {
-    const template = Handlebars.compile(notFoundTemplate);
-    const data: ITemplateData = {
+document.addEventListener("DOMContentLoaded", () => {
+    renderInterface(document.getElementById("root"), notFoundTemplate, getTemplateData());
+});
+function getTemplateData(): ITemplateData {
+    return {
         code: 404,
         description: "Not found",
         button: {
@@ -13,10 +14,6 @@ function renderInterface(): void {
             text: "Go back"
         }
     };
-    const root = document.getElementById("root");
-    if (root) {
-        root.innerHTML = template(data);
-    }
 }
 
 export default {};

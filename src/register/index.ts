@@ -1,6 +1,6 @@
 import {useState} from "../assets/js/modules/state.js";
 import {isEmpty} from "../assets/js/modules/helpers.js";
-import {addClass, addEventListener, removeClass, setInnerText} from "../assets/js/modules/domHelpers.js";
+import {renderInterface, addClass, addEventListener, removeClass, setInnerText} from "../assets/js/modules/domHelpers.js";
 import registerTemplate from "../assets/js/pages/register.js";
 
 const state: IState = {
@@ -18,7 +18,7 @@ let view: IViewType = {};
 document.addEventListener("DOMContentLoaded", initInterface);
 
 function initInterface(): void {
-    renderInterface();
+    renderInterface(document.getElementById("root"), registerTemplate, getTemplateData());
 
     view = initView();
 
@@ -36,75 +36,6 @@ function initInterface(): void {
     });
     addEventListener(view.phoneInput, "input", (event) => setStatePropValue(event, "phone"))
     addEventListener(view.registerForm, "submit", submitProfileEditForm);
-}
-
-function renderInterface(): void {
-    const template = Handlebars.compile(registerTemplate);
-    Handlebars.registerHelper('if_eq', function(a, b, opts) {
-        return a === b ? opts.fn(this) : opts.inverse(this);
-    });
-    const data: ITemplateData = {
-        title: "messenger",
-        backButton: {
-            url: "/login/"
-        },
-        form: {
-            name: "register-form",
-            inputFields: [
-                {
-                    label: "Email",
-                    name: "email",
-                    type: "email"
-                },
-                {
-                    label: "Name",
-                    name: "name",
-                    type: "double",
-                    items: [
-                        {
-                            label: "First name",
-                            name: "first-name",
-                            type: "text"
-                        },
-                        {
-                            label: "Last name",
-                            name: "last-name",
-                            type: "text"
-                        },
-                    ]
-                },
-                {
-                    label: "Login",
-                    name: "login",
-                    type: "text"
-                },
-                {
-                    label: "Phone",
-                    name: "phone",
-                    type: "tel"
-                },
-                {
-                    label: "Password",
-                    name: "password",
-                    type: "password"
-                },
-                {
-                    label: "Repeat password",
-                    name: "password-repeat",
-                    type: "password"
-                }
-            ],
-            submitButton: {
-                className: "submit-button button button_wide button_primary",
-                text: "Sign up",
-                type: "submit"
-            }
-        }
-    };
-    const root = document.getElementById("root");
-    if (root) {
-        root.innerHTML = template(data);
-    }
 }
 
 function initView(): IViewType {
@@ -196,6 +127,67 @@ function submitProfileEditForm(event: Event): void {
     } else {
         console.error("[ERROR] [FORM] Invalid/missing registration data");
     }
+}
+
+function getTemplateData(): ITemplateData {
+    return {
+        title: "messenger",
+        backButton: {
+            url: "/login/"
+        },
+        form: {
+            name: "register-form",
+            inputFields: [
+                {
+                    label: "Email",
+                    name: "email",
+                    type: "email"
+                },
+                {
+                    label: "Name",
+                    name: "name",
+                    type: "double",
+                    items: [
+                        {
+                            label: "First name",
+                            name: "first-name",
+                            type: "text"
+                        },
+                        {
+                            label: "Last name",
+                            name: "last-name",
+                            type: "text"
+                        },
+                    ]
+                },
+                {
+                    label: "Login",
+                    name: "login",
+                    type: "text"
+                },
+                {
+                    label: "Phone",
+                    name: "phone",
+                    type: "tel"
+                },
+                {
+                    label: "Password",
+                    name: "password",
+                    type: "password"
+                },
+                {
+                    label: "Repeat password",
+                    name: "password-repeat",
+                    type: "password"
+                }
+            ],
+            submitButton: {
+                className: "submit-button button button_wide button_primary",
+                text: "Sign up",
+                type: "submit"
+            }
+        }
+    };
 }
 
 export default {};

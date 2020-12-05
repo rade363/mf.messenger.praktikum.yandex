@@ -1,6 +1,6 @@
 import {useState} from "../assets/js/modules/state.js";
 import {isEmpty} from "../assets/js/modules/helpers.js";
-import {addEventListener, addClass, removeClass, setInnerText} from "../assets/js/modules/domHelpers.js";
+import {renderInterface, addEventListener, addClass, removeClass, setInnerText} from "../assets/js/modules/domHelpers.js";
 import loginTemplate from "../assets/js/pages/login.js";
 
 let state: IState = {
@@ -12,49 +12,13 @@ let view: IViewType = {};
 document.addEventListener("DOMContentLoaded", initInterface);
 
 function initInterface(): void {
-    renderInterface();
+    renderInterface(document.getElementById("root"), loginTemplate, getTemplateData());
 
     view = initView();
 
     addEventListener(view.loginInput, "input", (event) => setStatePropValue(event, "login"));
     addEventListener(view.passwordInput, "input", (event) => setStatePropValue(event, "password"));
     addEventListener(view.loginForm, "submit", submitAuthForm);
-}
-
-function renderInterface(): void {
-    const template = Handlebars.compile(loginTemplate);
-    const data: ITemplateData = {
-        title: "messenger",
-        form: {
-            name: "login-form",
-            inputFields: [
-                {
-                    label: "Login",
-                    id: "username",
-                    type: "text"
-                },
-                {
-                    label: "Password",
-                    id: "password",
-                    type: "password"
-                }
-            ],
-            submitButton: {
-                className: "login-button button button_wide button_primary",
-                text: "Sign in",
-                type: "submit"
-            },
-            signUpLink: {
-                className: "register-button button button_wide button_secondary",
-                text: "Sign up",
-                url: "/register/"
-            }
-        }
-    };
-    const root = document.getElementById("root");
-    if (root) {
-        root.innerHTML = template(data);
-    }
 }
 
 function initView(): IViewType {
@@ -107,6 +71,37 @@ function submitAuthForm(event: Event): void {
     } else {
         console.error("[ERROR] [FORM] Invalid credentials");
     }
+}
+
+function getTemplateData(): ITemplateData {
+    return {
+        title: "messenger",
+        form: {
+            name: "login-form",
+            inputFields: [
+                {
+                    label: "Login",
+                    id: "username",
+                    type: "text"
+                },
+                {
+                    label: "Password",
+                    id: "password",
+                    type: "password"
+                }
+            ],
+            submitButton: {
+                className: "login-button button button_wide button_primary",
+                text: "Sign in",
+                type: "submit"
+            },
+            signUpLink: {
+                className: "register-button button button_wide button_secondary",
+                text: "Sign up",
+                url: "/register/"
+            }
+        }
+    };
 }
 
 export default {};

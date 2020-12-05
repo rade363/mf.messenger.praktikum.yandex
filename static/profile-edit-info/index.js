@@ -1,6 +1,6 @@
 import { useState } from "../assets/js/modules/state.js";
 import { isEmpty } from "../assets/js/modules/helpers.js";
-import { initEventListener, addClass, removeClass, setInnerText } from "../assets/js/modules/domHelpers.js";
+import { renderInterface, addEventListener, addClass, removeClass, setInnerText } from "../assets/js/modules/domHelpers.js";
 import profileEditInfoTemplate from "../assets/js/pages/profileEditInfo.js";
 let state = {
     avatar: useState(null),
@@ -14,89 +14,16 @@ let state = {
 let view = {};
 document.addEventListener("DOMContentLoaded", initInterface);
 function initInterface() {
-    renderInterface();
+    renderInterface(document.getElementById("root"), profileEditInfoTemplate, getTemplateData());
     view = initView();
-    initEventListener(view.avatarInput, "input", setAvatarUpload);
-    initEventListener(view.emailInput, "input", (event) => setStatePropValue(event, "email"));
-    initEventListener(view.loginInput, "input", (event) => setStatePropValue(event, "login"));
-    initEventListener(view.firstNameInput, "input", (event) => setStatePropValue(event, "firstName"));
-    initEventListener(view.lastNameInput, "input", (event) => setStatePropValue(event, "lastName"));
-    initEventListener(view.displayNameInput, "input", (event) => setStatePropValue(event, "displayName"));
-    initEventListener(view.phoneInput, "input", (event) => setStatePropValue(event, "phone"));
-    initEventListener(view.profileForm, "submit", submitProfileEditForm);
-}
-function renderInterface() {
-    const template = Handlebars.compile(profileEditInfoTemplate);
-    Handlebars.registerHelper('if_eq', function (a, b, opts) {
-        return a === b ? opts.fn(this) : opts.inverse(this);
-    });
-    const data = {
-        title: "Profile",
-        backButton: {
-            url: "/chats/"
-        },
-        form: {
-            name: "profile-form",
-            avatarInput: {
-                isEmpty: true,
-                url: "userpic-empty.svg",
-                name: "avatar",
-            },
-            inputFields: [
-                {
-                    label: "Email",
-                    name: "email",
-                    type: "email"
-                },
-                {
-                    label: "Login",
-                    name: "login",
-                    type: "text"
-                },
-                {
-                    label: "Name",
-                    name: "name",
-                    type: "double",
-                    items: [
-                        {
-                            label: "First name",
-                            name: "first-name",
-                            type: "text"
-                        },
-                        {
-                            label: "Last name",
-                            name: "last-name",
-                            type: "text"
-                        },
-                    ]
-                },
-                {
-                    label: "Display name",
-                    name: "display-name",
-                    type: "text"
-                },
-                {
-                    label: "Phone",
-                    name: "phone",
-                    type: "tel"
-                }
-            ],
-            submitButton: {
-                className: "save-button button button_thin button_primary double__child",
-                text: "Save",
-                type: "submit"
-            },
-            cancelLink: {
-                className: "cancel-button button button_thin button_secondary double__child",
-                text: "Cancel",
-                url: "/profile/"
-            }
-        }
-    };
-    const root = document.getElementById("root");
-    if (root) {
-        root.innerHTML = template(data);
-    }
+    addEventListener(view.avatarInput, "input", setAvatarUpload);
+    addEventListener(view.emailInput, "input", (event) => setStatePropValue(event, "email"));
+    addEventListener(view.loginInput, "input", (event) => setStatePropValue(event, "login"));
+    addEventListener(view.firstNameInput, "input", (event) => setStatePropValue(event, "firstName"));
+    addEventListener(view.lastNameInput, "input", (event) => setStatePropValue(event, "lastName"));
+    addEventListener(view.displayNameInput, "input", (event) => setStatePropValue(event, "displayName"));
+    addEventListener(view.phoneInput, "input", (event) => setStatePropValue(event, "phone"));
+    addEventListener(view.profileForm, "submit", submitProfileEditForm);
 }
 function initView() {
     return {
@@ -161,4 +88,70 @@ function submitProfileEditForm(event) {
         console.error("[ERROR] [FORM] Invalid form data");
     }
 }
+function getTemplateData() {
+    return {
+        title: "Profile",
+        backButton: {
+            url: "/chats/"
+        },
+        form: {
+            name: "profile-form",
+            avatarInput: {
+                isEmpty: true,
+                url: "userpic-empty.svg",
+                name: "avatar",
+            },
+            inputFields: [
+                {
+                    label: "Email",
+                    name: "email",
+                    type: "email"
+                },
+                {
+                    label: "Login",
+                    name: "login",
+                    type: "text"
+                },
+                {
+                    label: "Name",
+                    name: "name",
+                    type: "double",
+                    items: [
+                        {
+                            label: "First name",
+                            name: "first-name",
+                            type: "text"
+                        },
+                        {
+                            label: "Last name",
+                            name: "last-name",
+                            type: "text"
+                        },
+                    ]
+                },
+                {
+                    label: "Display name",
+                    name: "display-name",
+                    type: "text"
+                },
+                {
+                    label: "Phone",
+                    name: "phone",
+                    type: "tel"
+                }
+            ],
+            submitButton: {
+                className: "save-button button button_thin button_primary double__child",
+                text: "Save",
+                type: "submit"
+            },
+            cancelLink: {
+                className: "cancel-button button button_thin button_secondary double__child",
+                text: "Cancel",
+                url: "/profile/"
+            }
+        }
+    };
+}
+export default {};
 //# sourceMappingURL=index.js.map

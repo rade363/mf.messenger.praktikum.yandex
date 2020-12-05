@@ -1,15 +1,23 @@
-import { initEventListener } from "../assets/js/modules/domHelpers.js";
+import { renderInterface, addEventListener } from "../assets/js/modules/domHelpers.js";
 import profileTemplate from "../assets/js/pages/profile.js";
 let view = {};
 document.addEventListener("DOMContentLoaded", initInterface);
 function initInterface() {
-    renderInterface();
+    renderInterface(document.getElementById("root"), profileTemplate, getTemplateData());
     view = initView();
-    initEventListener(view.logoutButton, "click", logOut);
+    addEventListener(view.logoutButton, "click", logOut);
 }
-function renderInterface() {
-    const template = Handlebars.compile(profileTemplate);
-    const data = {
+function initView() {
+    return {
+        logoutButton: document.querySelector(".profile__log-out-button")
+    };
+}
+function logOut(event) {
+    event.preventDefault();
+    console.log("[INFO] Logging out will be implemented later in the course");
+}
+function getTemplateData() {
+    return {
         title: "Profile",
         backButton: {
             url: "/chats/"
@@ -69,18 +77,6 @@ function renderInterface() {
             text: "Log out"
         }
     };
-    const root = document.getElementById("root");
-    if (root) {
-        root.innerHTML = template(data);
-    }
 }
-function initView() {
-    return {
-        logoutButton: document.querySelector(".profile__log-out-button")
-    };
-}
-function logOut(event) {
-    event.preventDefault();
-    console.log("[INFO] Logging out will be implemented later in the course");
-}
+export default {};
 //# sourceMappingURL=index.js.map

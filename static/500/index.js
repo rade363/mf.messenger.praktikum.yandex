@@ -1,8 +1,10 @@
+import { renderInterface } from "../assets/js/modules/domHelpers.js";
 import serverErrorTemplate from "../assets/js/pages/serverError.js";
-document.addEventListener("DOMContentLoaded", renderInterface);
-function renderInterface() {
-    const template = Handlebars.compile(serverErrorTemplate);
-    const data = {
+document.addEventListener("DOMContentLoaded", () => {
+    renderInterface(document.getElementById("root"), serverErrorTemplate, getTemplateData());
+});
+function getTemplateData() {
+    return {
         code: 500,
         description: "Something went wrong",
         button: {
@@ -11,10 +13,6 @@ function renderInterface() {
             text: "Go back"
         }
     };
-    const root = document.getElementById("root");
-    if (root) {
-        root.innerHTML = template(data);
-    }
 }
 export default {};
 //# sourceMappingURL=index.js.map

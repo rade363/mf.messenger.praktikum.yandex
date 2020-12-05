@@ -1,3 +1,4 @@
+import { compile } from "./templator.js";
 export function addClass(element, className) {
     if (element && !element.classList.contains(className)) {
         element.classList.add(className);
@@ -18,9 +19,14 @@ export function setInnerText(element, text) {
         element.innerText = text;
     }
 }
-export function initEventListener(element, eventName, callback) {
+export function addEventListener(element, eventName, callback) {
     if (element) {
         element.addEventListener(eventName, callback);
+    }
+}
+export function renderInterface(rootElement, pageTemplate, templateData) {
+    if (rootElement) {
+        rootElement.innerHTML = compile(pageTemplate, templateData);
     }
 }
 //# sourceMappingURL=domHelpers.js.map

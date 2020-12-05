@@ -1,5 +1,5 @@
 import { useState } from "../assets/js/modules/state.js";
-import { initEventListener, removeClass, setInnerText } from "../assets/js/modules/domHelpers.js";
+import { renderInterface, addEventListener, removeClass, setInnerText } from "../assets/js/modules/domHelpers.js";
 import chatsTemplate from "../assets/js/pages/chats.js";
 let state = {
     searchKey: useState("")
@@ -7,20 +7,34 @@ let state = {
 let view = {};
 document.addEventListener("DOMContentLoaded", initInterface);
 function initInterface() {
-    renderInterface();
+    renderInterface(document.getElementById("root"), chatsTemplate, getTemplateData());
     view = initView();
-    initEventListener(view.searchInput, "input", (event) => setStatePropValue(event, "searchKey"));
-    initEventListener(view.searchForm, "submit", submitSearchFilter);
+    addEventListener(view.searchInput, "input", (event) => setStatePropValue(event, "searchKey"));
+    addEventListener(view.searchForm, "submit", submitSearchFilter);
 }
-function renderInterface() {
-    const template = Handlebars.compile(chatsTemplate);
-    Handlebars.registerHelper('gt', function (a, b, opts) {
-        return a > b ? opts.fn(this) : opts.inverse(this);
-    });
-    Handlebars.registerHelper('notEmpty', function (a, opts) {
-        return a !== "" ? opts.fn(this) : opts.inverse(this);
-    });
-    const data = {
+function initView() {
+    return {
+        searchInput: document.querySelector(".searchbar__input"),
+        searchForm: document.querySelector(".chat__search")
+    };
+}
+function setStatePropValue(event, propName) {
+    const element = event.target;
+    const { value } = element;
+    console.log(`[INFO] ${propName}`, value);
+    const [, setStateCallback] = state[propName];
+    setStateCallback(value);
+    setInnerText(view[`${propName}Error`], "");
+    removeClass(view[`${propName}Input`], "form__input_error");
+}
+function submitSearchFilter(event) {
+    event.preventDefault();
+    const [getSearchKey] = state.searchKey;
+    const searchKey = getSearchKey();
+    console.log("[INFO] Search form submitted, this will be handled later in this course", searchKey);
+}
+function getTemplateData() {
+    return {
         profileLink: {
             url: "/profile/",
             text: "Profile"
@@ -155,30 +169,6 @@ function renderInterface() {
         ],
         conversationSelected: false
     };
-    const root = document.getElementById("root");
-    if (root) {
-        root.innerHTML = template(data);
-    }
 }
-function initView() {
-    return {
-        searchInput: document.querySelector(".searchbar__input"),
-        searchForm: document.querySelector(".chat__search")
-    };
-}
-function setStatePropValue(event, propName) {
-    const element = event.target;
-    const { value } = element;
-    console.log(`[INFO] ${propName}`, value);
-    const [, setStateCallback] = state[propName];
-    setStateCallback(value);
-    setInnerText(view[`${propName}Error`], "");
-    removeClass(view[`${propName}Input`], "form__input_error");
-}
-function submitSearchFilter(event) {
-    event.preventDefault();
-    const [getSearchKey] = state.searchKey;
-    const searchKey = getSearchKey();
-    console.log("[INFO] Search form submitted, this will be handled later in this course", searchKey);
-}
+export default {};
 //# sourceMappingURL=index.js.map

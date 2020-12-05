@@ -1,20 +1,30 @@
-import {addEventListener} from "../assets/js/modules/domHelpers.js";
+import {renderInterface, addEventListener} from "../assets/js/modules/domHelpers.js";
 import profileTemplate from "../assets/js/pages/profile.js";
 
 let view: IViewType = {};
 document.addEventListener("DOMContentLoaded", initInterface);
 
 function initInterface(): void {
-    renderInterface();
+    renderInterface(document.getElementById("root"), profileTemplate, getTemplateData());
 
     view = initView();
 
     addEventListener(view.logoutButton, "click", logOut);
 }
 
-function renderInterface(): void {
-    const template = Handlebars.compile(profileTemplate);
-    const data: ITemplateData = {
+function initView(): IViewType {
+    return {
+        logoutButton: document.querySelector(".profile__log-out-button")
+    };
+}
+
+function logOut(event: Event) {
+    event.preventDefault();
+    console.log("[INFO] Logging out will be implemented later in the course");
+}
+
+function getTemplateData(): ITemplateData {
+    return {
         title: "Profile",
         backButton: {
             url: "/chats/"
@@ -74,19 +84,6 @@ function renderInterface(): void {
             text: "Log out"
         }
     };
-    const root = document.getElementById("root");
-    if (root) {
-        root.innerHTML = template(data);
-    }
 }
 
-function initView(): IViewType {
-    return {
-        logoutButton: document.querySelector(".profile__log-out-button")
-    };
-}
-
-function logOut(event: Event) {
-    event.preventDefault();
-    console.log("[INFO] Logging out will be implemented later in the course");
-}
+export default {};
