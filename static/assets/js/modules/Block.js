@@ -55,7 +55,6 @@ export default class Block {
     }
     _componentDidMount() {
         this.componentDidMount();
-        console.log("Mount");
         this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
     componentDidMount() { }

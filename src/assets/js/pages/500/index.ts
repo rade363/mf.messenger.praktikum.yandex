@@ -16,6 +16,26 @@ export default class ServerError extends Block {
         });
     }
 
+    componentDidMount() {
+        console.log('[INFO] Small demo of component lifecycle methods');
+        setTimeout(() => {
+            this.setProps({
+                code: "XXX"
+            });
+        }, 1000);
+        setTimeout(() => {
+            this.setProps({
+                description: "Hey"
+            });
+        }, 2000);
+        setTimeout(() => {
+            this.setProps({
+                code: 500,
+                description: "Something went wrong"
+            });
+        }, 3000);
+    }
+
     render() {
         return compile(template, {
             code: this.props.code,

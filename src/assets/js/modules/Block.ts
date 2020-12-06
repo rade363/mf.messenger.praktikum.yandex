@@ -77,7 +77,6 @@ export default class Block {
 
     _componentDidMount(): void {
         this.componentDidMount();
-        console.log("Mount");
         this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
     componentDidMount(): void {}
@@ -89,7 +88,7 @@ export default class Block {
         }
     }
 
-    componentDidUpdate(oldProps: TObjectType, newProps: TObjectType): boolean {
+    componentDidUpdate(oldProps: TObjectType | undefined, newProps: TObjectType | undefined): boolean {
         console.log(oldProps, newProps);
         return true;
     }
