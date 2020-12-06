@@ -1,7 +1,7 @@
 import { useState } from "../assets/js/modules/state.js";
 import { isEmpty } from "../assets/js/modules/helpers.js";
 import { renderInterface, addClass, addEventListener, removeClass, setInnerText } from "../assets/js/modules/domHelpers.js";
-import registerTemplate from "../assets/js/pages/register.js";
+import Register from "../assets/js/pages/Register/index.js";
 const state = {
     email: useState(""),
     login: useState(""),
@@ -14,7 +14,7 @@ const state = {
 let view = {};
 document.addEventListener("DOMContentLoaded", initInterface);
 function initInterface() {
-    renderInterface(document.getElementById("root"), registerTemplate, getTemplateData());
+    renderInterface(document.getElementById("root"), new Register());
     view = initView();
     addEventListener(view.emailInput, "input", (event) => setStatePropValue(event, "email"));
     addEventListener(view.loginInput, "input", (event) => setStatePropValue(event, "login"));
@@ -29,7 +29,7 @@ function initInterface() {
         validateNewPasswords();
     });
     addEventListener(view.phoneInput, "input", (event) => setStatePropValue(event, "phone"));
-    addEventListener(view.registerForm, "submit", submitProfileEditForm);
+    addEventListener(view.registerForm, "submit", submitRegisterForm);
 }
 function initView() {
     return {
@@ -80,7 +80,7 @@ function validateNewPasswords() {
     removeClass(view.passwordRepeatInput, "form__input_error");
     return true;
 }
-function submitProfileEditForm(event) {
+function submitRegisterForm(event) {
     event.preventDefault();
     let areFieldsValid = true;
     const formObj = {};
@@ -104,66 +104,6 @@ function submitProfileEditForm(event) {
     else {
         console.error("[ERROR] [FORM] Invalid/missing registration data");
     }
-}
-function getTemplateData() {
-    return {
-        title: "messenger",
-        backButton: {
-            url: "/login/"
-        },
-        form: {
-            name: "register-form",
-            inputFields: [
-                {
-                    label: "Email",
-                    name: "email",
-                    type: "email"
-                },
-                {
-                    label: "Name",
-                    name: "name",
-                    type: "double",
-                    items: [
-                        {
-                            label: "First name",
-                            name: "first-name",
-                            type: "text"
-                        },
-                        {
-                            label: "Last name",
-                            name: "last-name",
-                            type: "text"
-                        },
-                    ]
-                },
-                {
-                    label: "Login",
-                    name: "login",
-                    type: "text"
-                },
-                {
-                    label: "Phone",
-                    name: "phone",
-                    type: "tel"
-                },
-                {
-                    label: "Password",
-                    name: "password",
-                    type: "password"
-                },
-                {
-                    label: "Repeat password",
-                    name: "password-repeat",
-                    type: "password"
-                }
-            ],
-            submitButton: {
-                className: "submit-button button button_wide button_primary",
-                text: "Sign up",
-                type: "submit"
-            }
-        }
-    };
 }
 export default {};
 //# sourceMappingURL=index.js.map

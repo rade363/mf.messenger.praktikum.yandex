@@ -6,10 +6,6 @@ type IViewType = {
     [key: string]: HTMLElement | null;
 };
 
-interface ITemplateData extends TObjectType{
-    [key: string]: boolean | number | string | null | unknown[] | TObjectType;
-}
-
 interface IState {
     [key: string]: [() => unknown, (newState: unknown) => unknown];
 }

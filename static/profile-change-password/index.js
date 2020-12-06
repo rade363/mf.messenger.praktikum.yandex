@@ -1,7 +1,7 @@
 import { useState } from "../assets/js/modules/state.js";
 import { isEmpty } from "../assets/js/modules/helpers.js";
 import { renderInterface, addEventListener, addClass, removeClass, setInnerText } from "../assets/js/modules/domHelpers.js";
-import profileChangePasswordTemplate from "../assets/js/pages/profileChangePassword.js";
+import ProfileChangePassword from "../assets/js/pages/ProfileChangePassword/index.js";
 let state = {
     oldPassword: useState(""),
     newPassword: useState(""),
@@ -10,7 +10,7 @@ let state = {
 let view = {};
 document.addEventListener("DOMContentLoaded", initInterface);
 function initInterface() {
-    renderInterface(document.getElementById("root"), profileChangePasswordTemplate, getTemplateData());
+    renderInterface(document.getElementById("root"), new ProfileChangePassword());
     view = initView();
     addEventListener(view.oldPasswordInput, "input", (event) => setStatePropValue(event, "oldPassword"));
     addEventListener(view.newPasswordInput, "input", (event) => {
@@ -88,44 +88,6 @@ function submitPasswordChange(event) {
     else {
         console.error("[ERROR] [FORM] Invalid passwords");
     }
-}
-function getTemplateData() {
-    return {
-        title: "Profile",
-        backButton: {
-            url: "/chats/"
-        },
-        form: {
-            name: "password-form",
-            inputFields: [
-                {
-                    label: "Old password",
-                    name: "old-password",
-                    type: "password"
-                },
-                {
-                    label: "New password",
-                    name: "new-password",
-                    type: "password"
-                },
-                {
-                    label: "Repeat new password",
-                    name: "password-repeat",
-                    type: "password"
-                }
-            ],
-            submitButton: {
-                className: "save-button button button_thin button_primary double__child",
-                text: "Save",
-                type: "submit"
-            },
-            cancelLink: {
-                className: "cancel-button button button_thin button_secondary double__child",
-                text: "Cancel",
-                url: "/profile/"
-            }
-        }
-    };
 }
 export default {};
 //# sourceMappingURL=index.js.map

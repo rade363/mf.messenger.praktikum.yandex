@@ -1,7 +1,7 @@
 import {useState} from "../assets/js/modules/state.js";
 import {isEmpty} from "../assets/js/modules/helpers.js";
 import {renderInterface, addClass, addEventListener, removeClass, setInnerText} from "../assets/js/modules/domHelpers.js";
-import registerTemplate from "../assets/js/pages/register.js";
+import Register from "../assets/js/pages/Register/index.js";
 
 const state: IState = {
     email: useState(""),
@@ -18,7 +18,7 @@ let view: IViewType = {};
 document.addEventListener("DOMContentLoaded", initInterface);
 
 function initInterface(): void {
-    renderInterface(document.getElementById("root"), registerTemplate, getTemplateData());
+    renderInterface(document.getElementById("root"), new Register());
 
     view = initView();
 
@@ -35,7 +35,7 @@ function initInterface(): void {
         validateNewPasswords();
     });
     addEventListener(view.phoneInput, "input", (event) => setStatePropValue(event, "phone"))
-    addEventListener(view.registerForm, "submit", submitProfileEditForm);
+    addEventListener(view.registerForm, "submit", submitRegisterForm);
 }
 
 function initView(): IViewType {
@@ -99,7 +99,7 @@ function validateNewPasswords(): Boolean {
     return true;
 }
 
-function submitProfileEditForm(event: Event): void {
+function submitRegisterForm(event: Event): void {
     event.preventDefault();
     let areFieldsValid = true;
     const formObj: IFormObject = {};
@@ -127,67 +127,6 @@ function submitProfileEditForm(event: Event): void {
     } else {
         console.error("[ERROR] [FORM] Invalid/missing registration data");
     }
-}
-
-function getTemplateData(): ITemplateData {
-    return {
-        title: "messenger",
-        backButton: {
-            url: "/login/"
-        },
-        form: {
-            name: "register-form",
-            inputFields: [
-                {
-                    label: "Email",
-                    name: "email",
-                    type: "email"
-                },
-                {
-                    label: "Name",
-                    name: "name",
-                    type: "double",
-                    items: [
-                        {
-                            label: "First name",
-                            name: "first-name",
-                            type: "text"
-                        },
-                        {
-                            label: "Last name",
-                            name: "last-name",
-                            type: "text"
-                        },
-                    ]
-                },
-                {
-                    label: "Login",
-                    name: "login",
-                    type: "text"
-                },
-                {
-                    label: "Phone",
-                    name: "phone",
-                    type: "tel"
-                },
-                {
-                    label: "Password",
-                    name: "password",
-                    type: "password"
-                },
-                {
-                    label: "Repeat password",
-                    name: "password-repeat",
-                    type: "password"
-                }
-            ],
-            submitButton: {
-                className: "submit-button button button_wide button_primary",
-                text: "Sign up",
-                type: "submit"
-            }
-        }
-    };
 }
 
 export default {};

@@ -1,5 +1,3 @@
-import {compile} from "./templator.js";
-
 export function addClass(element: HTMLElement | null, className: string): void {
     if (element && !element.classList.contains(className)) {
         element.classList.add(className);
@@ -13,9 +11,11 @@ export function removeClass(element: HTMLElement | null, className: string): voi
 }
 
 export function toggleClass(isClassActive: boolean, element: HTMLElement | null, className: string): void {
-    return element && isClassActive
-        ? removeClass(element, className)
-        : addClass(element, className);
+    if (element !== null) {
+        return isClassActive
+            ? removeClass(element, className)
+            : addClass(element, className);
+    }
 }
 
 export function setInnerText(element: HTMLElement | null, text: string): void {
@@ -30,8 +30,9 @@ export function addEventListener(element: HTMLElement | null, eventName: string,
     }
 }
 
-export function renderInterface(rootElement: HTMLElement | null, pageTemplate: string, templateData: ITemplateData): void {
-    if (rootElement) {
-        rootElement.innerHTML = compile(pageTemplate, templateData);
+export function renderInterface(rootElement: HTMLElement | null, block: any): void {
+    const pageElement = block.getContent();
+    if (rootElement && pageElement) {
+        rootElement.appendChild(pageElement);
     }
 }

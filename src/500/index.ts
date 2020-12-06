@@ -1,19 +1,8 @@
 import {renderInterface} from "../assets/js/modules/domHelpers.js";
-import serverErrorTemplate from "../assets/js/pages/serverError.js";
+import ServerError from "../assets/js/pages/500/index.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-    renderInterface(document.getElementById("root"), serverErrorTemplate, getTemplateData());
+    renderInterface(document.getElementById("root"), new ServerError());
 });
-function getTemplateData(): ITemplateData {
-    return {
-        code: 500,
-        description: "Something went wrong",
-        button: {
-            class: "error__link-back button button_thin button_primary",
-            url: "/chats/",
-            text: "Go back"
-        }
-    };
-}
 
 export default {};

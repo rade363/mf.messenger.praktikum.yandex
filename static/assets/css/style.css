@@ -200,6 +200,9 @@
     background: var(--red);
     color: var(--white);
 }
+.button_link {
+    display: block;
+}
 
 .back-button {
     display: flex;

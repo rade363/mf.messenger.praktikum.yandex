@@ -1,12 +1,9 @@
-export function compile(template: string, props: TObjectType): string {
-    const templatedProps = Object.entries(props).reduce((acc, [key, prop]) => {
-        const value = prop.hasOwnProperty("_element") ? prop.getContent().outerHTML : prop;
-        return {
-            ...acc,
-            [key]: value
-        };
-    }, {});
+import {isEmpty} from "./helpers.js";
+
+export function compile(template: string, props: TObjectType): Element {
+    const templatedProps = getTemplatedProps(props);
     const compiledTemplate = window.Handlebars.compile(template);
+
     window.Handlebars.registerHelper('if_eq', function(a, b, opts) {
         return a === b ? opts.fn(this) : opts.inverse(this);
     });
@@ -14,10 +11,36 @@ export function compile(template: string, props: TObjectType): string {
         return a > b ? opts.fn(this) : opts.inverse(this);
     });
     window.Handlebars.registerHelper('notEmpty', function(a, opts) {
-        return a !== "" ? opts.fn(this) : opts.inverse(this);
+        return !isEmpty(a) ? opts.fn(this) : opts.inverse(this);
     });
     window.Handlebars.registerHelper('isTrue', function(a, opts) {
         return a === true ? opts.fn(this) : opts.inverse(this);
     });
-    return compiledTemplate(templatedProps);
+
+    const tempParentElement = document.createElement("div");
+    tempParentElement.innerHTML = compiledTemplate(templatedProps);
+    const compiledElement = tempParentElement.children;
+    return compiledElement[0];
+}
+
+function getTemplatedProps(props: any): any {
+    return Object.entries(props).reduce((acc, [key, prop]) => {
+        const value = getPropValue(prop);
+        return {
+            ...acc,
+            [key]: value
+        };
+    }, {});
+}
+function getPropValue(prop: any): any {
+    if (typeof prop !== "object") {
+        return prop;
+    }
+    if (prop.nodeType !== undefined) {
+        return prop.outerHTML;
+    }
+    if (Array.isArray(prop)) {
+        return prop.map(getPropValue);
+    }
+    return getTemplatedProps(prop);
 }

@@ -1,7 +1,7 @@
 import {useState} from "../assets/js/modules/state.js";
 import {isEmpty} from "../assets/js/modules/helpers.js";
 import {renderInterface, addEventListener, addClass, removeClass, setInnerText} from "../assets/js/modules/domHelpers.js";
-import loginTemplate from "../assets/js/pages/login.js";
+import Login from "../assets/js/pages/Login/index.js";
 
 let state: IState = {
     login: useState(""),
@@ -12,7 +12,7 @@ let view: IViewType = {};
 document.addEventListener("DOMContentLoaded", initInterface);
 
 function initInterface(): void {
-    renderInterface(document.getElementById("root"), loginTemplate, getTemplateData());
+    renderInterface(document.getElementById("root"), new Login());
 
     view = initView();
 
@@ -71,37 +71,6 @@ function submitAuthForm(event: Event): void {
     } else {
         console.error("[ERROR] [FORM] Invalid credentials");
     }
-}
-
-function getTemplateData(): ITemplateData {
-    return {
-        title: "messenger",
-        form: {
-            name: "login-form",
-            inputFields: [
-                {
-                    label: "Login",
-                    id: "username",
-                    type: "text"
-                },
-                {
-                    label: "Password",
-                    id: "password",
-                    type: "password"
-                }
-            ],
-            submitButton: {
-                className: "login-button button button_wide button_primary",
-                text: "Sign in",
-                type: "submit"
-            },
-            signUpLink: {
-                className: "register-button button button_wide button_secondary",
-                text: "Sign up",
-                url: "/register/"
-            }
-        }
-    };
 }
 
 export default {};

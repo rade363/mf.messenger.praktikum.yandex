@@ -1,4 +1,3 @@
-import { compile } from "./templator.js";
 export function addClass(element, className) {
     if (element && !element.classList.contains(className)) {
         element.classList.add(className);
@@ -10,9 +9,11 @@ export function removeClass(element, className) {
     }
 }
 export function toggleClass(isClassActive, element, className) {
-    return element && isClassActive
-        ? removeClass(element, className)
-        : addClass(element, className);
+    if (element !== null) {
+        return isClassActive
+            ? removeClass(element, className)
+            : addClass(element, className);
+    }
 }
 export function setInnerText(element, text) {
     if (element) {
@@ -24,9 +25,10 @@ export function addEventListener(element, eventName, callback) {
         element.addEventListener(eventName, callback);
     }
 }
-export function renderInterface(rootElement, pageTemplate, templateData) {
-    if (rootElement) {
-        rootElement.innerHTML = compile(pageTemplate, templateData);
+export function renderInterface(rootElement, block) {
+    const pageElement = block.getContent();
+    if (rootElement && pageElement) {
+        rootElement.appendChild(pageElement);
     }
 }
 //# sourceMappingURL=domHelpers.js.map
