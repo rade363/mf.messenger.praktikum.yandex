@@ -1,0 +1,88 @@
+.button {
+    font-size: 14px;
+    text-align: center;
+    line-height: 45px;
+    border: 1px solid;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.button_wide {
+    width: 100%;
+}
+
+.button_thin {
+    width: 50%;
+}
+
+.button_primary {
+    background: var(--blue);
+    color: var(--white);
+    border-color: var(--blue);
+}
+
+.button_primary:hover {
+    border-color: var(--black);
+}
+
+.button_secondary {
+    background: var(--white);
+    color: var(--blue);
+    border-color: var(--borderLightBlue);
+}
+
+.button_secondary:hover {
+    border-color: var(--blue);
+}
+
+.button_danger {
+    background: var(--red);
+    color: var(--white);
+    border-color: var(--red);
+}
+
+.button_danger:hover {
+    border-color: var(--black);
+}
+
+.button_logout {
+    background: var(--white);
+    color: var(--red);
+    border-color: var(--red);
+}
+
+.button_logout:hover {
+    background: var(--red);
+    color: var(--white);
+}
+
+.button_link {
+    display: block;
+}
+
+.back-button {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    color: var(--blue);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.back-button_hidden {
+    visibility: hidden;
+}
+
+.back-button__arrow {
+    font-size: 46px;
+    line-height: 30px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.back-button__text {
+    font-size: 20px;
+    line-height: 30px;
+}

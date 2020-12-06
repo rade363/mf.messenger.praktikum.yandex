@@ -1,0 +1,147 @@
+.profile__header {
+    height: 55px;
+    margin: 0 20px;
+    border-bottom: 1px solid var(--breaklineGrey);
+}
+
+.profile__title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    text-align: center;
+    margin: 0;
+    font-weight: 500;
+}
+
+.profile__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.profile__picture {
+    display: flex;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.profile__picture_empty {
+    background: var(--searchGrey);
+}
+
+.profile-form .profile__picture {
+    margin: 0 auto 20px auto;
+}
+
+.profile__fullname {
+    font-size: 24px;
+    color: var(--fontDarkGrey);
+    margin-bottom: 20px;
+}
+
+.profile__info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: left;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.profile-pic {
+    width: 130px;
+    height: 130px;
+    border-radius: 100%;
+    border: 1px solid var(--blue);
+    overflow: hidden;
+}
+
+.profile-pic__image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.profile-pic__edit {
+    opacity: 0;
+    border-radius: 100%;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.4);
+    border: 0;
+}
+
+.profile-pic__edit:hover {
+    opacity: 1;
+    visibility: visible;
+    cursor: pointer;
+    border: 2px solid var(--blue);
+}
+
+.profile-pic__input {
+    height: 120%;
+    width: 100%;
+    display: block;
+    margin-top: -20%;
+    cursor: pointer;
+}
+
+.profile-pic__label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-size: 14px;
+    color: var(--white);
+    pointer-events: none
+}
+
+.profile__action {
+    width: 100%;
+}
+
+.profile__buttons {
+    display: flex;
+    margin-bottom: 22px;
+}
+
+.profile__edit {
+    padding-top: 30px;
+}
+
+.profile-form__actions {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.prop {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--breaklineGrey);
+}
+
+.prop__title {
+    display: flex;
+    flex: 1;
+    justify-content: left;
+    color: var(--fontDarkGrey);
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.prop__value {
+    display: flex;
+    flex: 2;
+    justify-content: right;
+    font-size: 20px;
+    color: var(--fontGrey);
+}
