@@ -18,14 +18,15 @@ function initInterface(): void {
     view = initView();
 
     addEventListener(view.oldPasswordInput, "input", (event) => setStatePropValue(event, "oldPassword"));
-    addEventListener(view.newPasswordInput, "input", (event) => {
-        setStatePropValue(event, "newPassword");
-        validateNewPasswords();
-    })
-    addEventListener(view.repeatNewPasswordInput, "input", (event) => {
-        setStatePropValue(event, "repeatNewPassword");
-        validateNewPasswords();
-    });
+
+    addEventListener(view.newPasswordInput, "input", (event) => setStatePropValue(event, "newPassword"));
+    addEventListener(view.newPasswordInput, "focus", validateNewPasswords);
+    addEventListener(view.newPasswordInput, "blur", validateNewPasswords);
+
+    addEventListener(view.repeatNewPasswordInput, "input", (event) => setStatePropValue(event, "repeatNewPassword"));
+    addEventListener(view.repeatNewPasswordInput, "focus", validateNewPasswords);
+    addEventListener(view.repeatNewPasswordInput, "blur", validateNewPasswords);
+
     addEventListener(view.passwordForm, "submit", submitPasswordChange);
 }
 
@@ -66,20 +67,26 @@ function validateNewPasswords(): Boolean {
     }
 
     if (newPassword !== repeatNewPassword) {
-        setInnerText(view.newPasswordError, "Passwords do not match")
-        setInnerText(view.repeatNewPasswordError, "Passwords do not match")
-
-        addClass(view.newPasswordInput, "form__input_error");
-        addClass(view.repeatNewPasswordInput, "form__input_error");
+        renderIncorrectPasswords();
         return false;
     }
 
+    removeIncorrectPasswordsErrors();
+    return true;
+}
+function renderIncorrectPasswords() {
+    setInnerText(view.newPasswordError, "Passwords do not match")
+    setInnerText(view.repeatNewPasswordError, "Passwords do not match")
+
+    addClass(view.newPasswordInput, "form__input_error");
+    addClass(view.repeatNewPasswordInput, "form__input_error");
+}
+function removeIncorrectPasswordsErrors() {
     setInnerText(view.newPasswordError, "")
     setInnerText(view.repeatNewPasswordError, "")
 
     removeClass(view.newPasswordInput, "form__input_error");
     removeClass(view.repeatNewPasswordInput, "form__input_error");
-    return true;
 }
 
 function submitPasswordChange(event: Event): void {
@@ -103,6 +110,9 @@ function submitPasswordChange(event: Event): void {
 
     if (formObj.newPassword !== formObj.repeatNewPassword) {
         areFieldsValid = false;
+        renderIncorrectPasswords();
+    } else {
+        removeIncorrectPasswordsErrors();
     }
 
     if (areFieldsValid) {
