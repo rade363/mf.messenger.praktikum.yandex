@@ -198,6 +198,10 @@ function handleAddUserSubmit(event: Event): void | null {
         setInnerText(view.usernameInputError, "Username cannot be empty");
         addClass(view.usernameInput, "form__input_error");
         return null;
+    } else if (typeof newUserToAddName === "string" && isXssPresent(newUserToAddName)) {
+        setInnerText(view.usernameInputError, "Invalid symbols");
+        addClass(view.usernameInput, "form__input_error");
+        return null;
     }
     console.log(`[INFO] User ${newUserToAddName} will be added later in course`);
 }
