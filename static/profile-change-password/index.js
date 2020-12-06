@@ -1,5 +1,5 @@
 import { useState } from "../assets/js/modules/state.js";
-import { isEmpty } from "../assets/js/modules/helpers.js";
+import { isEmpty, isXssPresent } from "../assets/js/modules/helpers.js";
 import { renderInterface, addEventListener, addClass, removeClass, setInnerText } from "../assets/js/modules/domHelpers.js";
 import ProfileChangePassword from "../assets/js/pages/ProfileChangePassword/index.js";
 let state = {
@@ -82,13 +82,20 @@ function submitPasswordChange(event) {
             addClass(view[`${propName}Input`], "form__input_error");
             setInnerText(view[`${propName}Error`], "Cannot be empty");
         }
+        else if (typeof propValue === "string" && isXssPresent(propValue)) {
+            areFieldsValid = false;
+            addClass(view[`${propName}Input`], "form__input_error");
+            setInnerText(view[`${propName}Error`], "Invalid symbols");
+        }
     });
     if (formObj.newPassword !== formObj.repeatNewPassword) {
         areFieldsValid = false;
         renderIncorrectPasswords();
     }
     else {
-        removeIncorrectPasswordsErrors();
+        if (areFieldsValid) {
+            removeIncorrectPasswordsErrors();
+        }
     }
     if (areFieldsValid) {
         console.log("[INFO] Password change form submitted (to be fixed later in course)", formObj);

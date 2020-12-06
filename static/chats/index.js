@@ -1,4 +1,5 @@
 import { useState } from "../assets/js/modules/state.js";
+import { isXssPresent } from "../assets/js/modules/helpers.js";
 import { renderInterface, addEventListener, removeClass, setInnerText } from "../assets/js/modules/domHelpers.js";
 import Chats from "../assets/js/pages/Chats/index.js";
 let state = {
@@ -31,6 +32,10 @@ function submitSearchFilter(event) {
     event.preventDefault();
     const [getSearchKey] = state.searchKey;
     const searchKey = getSearchKey();
+    if (typeof searchKey === "string" && isXssPresent(searchKey)) {
+        alert("Invalid symbols");
+        return null;
+    }
     console.log("[INFO] Search form submitted, this will be handled later in this course", searchKey);
 }
 export default {};

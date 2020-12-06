@@ -1,5 +1,5 @@
 import {useState} from "../assets/js/modules/state.js";
-import {isEmpty} from "../assets/js/modules/helpers.js";
+import {isEmpty, isXssPresent} from "../assets/js/modules/helpers.js";
 import {renderInterface, addEventListener, addClass, removeClass, setInnerText} from "../assets/js/modules/domHelpers.js";
 import ProfileEditInfo from "../assets/js/pages/ProfileEditInfo/index.js";
 
@@ -97,6 +97,10 @@ function submitProfileEditForm(event: Event): void {
             areFieldsValid = false;
             addClass(view[`${propName}Input`], "form__input_error");
             setInnerText(view[`${propName}Error`], "Cannot be empty");
+        } else if (typeof propValue === "string" && isXssPresent(propValue)) {
+            areFieldsValid = false;
+            addClass(view[`${propName}Input`], "form__input_error");
+            setInnerText(view[`${propName}Error`], "Invalid symbols");
         }
     });
 
