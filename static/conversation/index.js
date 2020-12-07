@@ -2,6 +2,7 @@ import { useState } from "../assets/js/modules/state.js";
 import { isEmpty, isXssPresent } from "../assets/js/modules/helpers.js";
 import { renderInterface, addEventListener, addClass, removeClass, setInnerText, toggleClass } from "../assets/js/modules/domHelpers.js";
 import Conversation from "../assets/js/pages/Conversation/index.js";
+import { validateForm } from "../assets/js/modules/formValidator.js";
 let state = {
     searchKey: useState(""),
     newMessage: useState(""),
@@ -90,21 +91,24 @@ function handleSubmitMessageForm(event) {
     event.preventDefault();
     const [getNewMessage] = state.newMessage;
     const message = getNewMessage();
-    if (isEmpty(message)) {
-        console.log("[INFO] No message to submit");
-        return null;
-    }
-    if (typeof message === "string" && isXssPresent(message)) {
-        window.alert("Invalid symbols");
+    const messageForm = { message };
+    let isFormValid = true;
+    validateForm(messageForm, (key, value, errorMessage) => {
+        isFormValid = false;
+        window.alert(errorMessage);
+        console.error(`[ERROR] Invalid form property ${key} value`, {
+            key,
+            value,
+            message: errorMessage
+        });
+    });
+    if (!isFormValid) {
         return null;
     }
     const [getAttachments] = state.attachments;
     const attachments = getAttachments();
-    const messageObject = {
-        message,
-        attachments
-    };
-    console.log(`[INFO] Message will be submitted later in course`, messageObject);
+    const formObject = Object.assign(Object.assign({}, messageForm), { attachments });
+    console.log(`[INFO] Message will be submitted later in course`, formObject);
 }
 function handleConversationsButtonClick(event) {
     const [getIsConversationActionsMenuOpen, setIsConversationActionsMenuOpen] = state.isConversationActionsMenuOpen;
@@ -159,18 +163,24 @@ function handleAddUserSubmit(event) {
     console.log("[INFO] Form add user submit event");
     const [getNewUserToAddName] = state.newUserToAddName;
     const newUserToAddName = getNewUserToAddName();
-    if (isEmpty(newUserToAddName)) {
-        console.log("[INFO] No user to add");
-        setInnerText(view.usernameInputError, "Username cannot be empty");
+    const formObj = { newUserToAddName };
+    let isFormValid = true;
+    validateForm(formObj, (key, value, errorMessage) => {
+        isFormValid = false;
         addClass(view.usernameInput, "form__input_error");
-        return null;
+        setInnerText(view.usernameInputError, errorMessage);
+        console.error(`[ERROR] Invalid form property ${key} value`, {
+            key,
+            value,
+            message: errorMessage
+        });
+    });
+    if (isFormValid) {
+        console.log(`[INFO] User ${newUserToAddName} will be added later in course`);
     }
-    else if (typeof newUserToAddName === "string" && isXssPresent(newUserToAddName)) {
-        setInnerText(view.usernameInputError, "Invalid symbols");
-        addClass(view.usernameInput, "form__input_error");
-        return null;
+    else {
+        console.error("[ERROR] Form was not submitted");
     }
-    console.log(`[INFO] User ${newUserToAddName} will be added later in course`);
 }
 function handleCancelAddUserClick(event) {
     event.preventDefault();

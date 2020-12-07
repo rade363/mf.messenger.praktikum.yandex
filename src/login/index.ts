@@ -1,7 +1,7 @@
 import {useState} from "../assets/js/modules/state.js";
-import {isEmpty, isXssPresent} from "../assets/js/modules/helpers.js";
 import {renderInterface, addEventListener, addClass, removeClass, setInnerText} from "../assets/js/modules/domHelpers.js";
 import Login from "../assets/js/pages/Login/index.js";
+import {validateForm, createFormObjectFromState} from "../assets/js/modules/formValidator.js";
 
 let state: IState = {
     login: useState(""),
@@ -50,24 +50,17 @@ function setStatePropValue(event: Event, propName: string): void {
 function submitAuthForm(event: Event): void {
     event.preventDefault();
     let areFieldsValid = true;
-    let formObj: IFormObject = {};
+    const formObj = createFormObjectFromState(state, []);
 
-    Object.entries(state).forEach(keyValuePair => {
-        const [propName, propStateMethods] = keyValuePair;
-        const [getPropValue] = propStateMethods;
-        const propValue = getPropValue();
-
-        formObj[propName] = propValue;
-
-        if (isEmpty(propValue)) {
-            areFieldsValid = false;
-            addClass(view[`${propName}Input`], "form__input_error");
-            setInnerText(view[`${propName}Error`], "Cannot be empty");
-        } else if (typeof propValue === "string" && isXssPresent(propValue)) {
-            areFieldsValid = false;
-            addClass(view[`${propName}Input`], "form__input_error");
-            setInnerText(view[`${propName}Error`], "Invalid symbols");
-        }
+    validateForm(formObj, (key: string, value: unknown, errorMessage: string) => {
+        areFieldsValid = false;
+        addClass(view[`${key}Input`], "form__input_error");
+        setInnerText(view[`${key}Error`], errorMessage);
+        console.error(`[ERROR] Invalid form property ${key} value`, {
+            key,
+            value,
+            message: errorMessage
+        })
     });
 
     if (areFieldsValid) {
