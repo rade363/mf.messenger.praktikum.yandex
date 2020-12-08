@@ -4,7 +4,9 @@
   "description": "Messenger - a Yandex Praktikum project",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "tsc -w",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",

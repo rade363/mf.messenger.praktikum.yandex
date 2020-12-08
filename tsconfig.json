@@ -4,7 +4,6 @@
     "target": "es6",
     "lib": ["dom", "es2020"],
     "sourceMap": true,
-    "watch": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
