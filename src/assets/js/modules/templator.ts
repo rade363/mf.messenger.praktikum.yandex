@@ -25,10 +25,7 @@ export function compile(template: string, props: TObjectType): Element {
 
 function getTemplatedProps(props: IBlockProps): IBlockProps {
     return Object.entries(props).reduce((acc: IBlockProps, [key, prop]) => {
-        const value = getPropValue(prop);
-        if (acc[key] !== undefined) {
-            acc[key] = value;
-        }
+        acc[key] = getPropValue(prop);
         return acc;
     }, {});
 }
