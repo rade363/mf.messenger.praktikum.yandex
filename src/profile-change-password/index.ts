@@ -109,10 +109,8 @@ function submitPasswordChange(event: Event): void {
     if (formObj.newPassword !== formObj.repeatNewPassword) {
         areFieldsValid = false;
         renderIncorrectPasswords();
-    } else {
-        if (areFieldsValid) {
-            removeIncorrectPasswordsErrors();
-        }
+    } else if (areFieldsValid) {
+        removeIncorrectPasswordsErrors();
     }
 
     if (areFieldsValid) {

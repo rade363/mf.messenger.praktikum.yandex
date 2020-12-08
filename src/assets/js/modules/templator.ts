@@ -23,13 +23,13 @@ export function compile(template: string, props: TObjectType): Element {
     return compiledElement[0];
 }
 
-function getTemplatedProps(props: any): any {
-    return Object.entries(props).reduce((acc, [key, prop]) => {
+function getTemplatedProps(props: IBlockProps): IBlockProps {
+    return Object.entries(props).reduce((acc: IBlockProps, [key, prop]) => {
         const value = getPropValue(prop);
-        return {
-            ...acc,
-            [key]: value
-        };
+        if (acc[key] !== undefined) {
+            acc[key] = value;
+        }
+        return acc;
     }, {});
 }
 function getPropValue(prop: any): any {

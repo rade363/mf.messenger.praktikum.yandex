@@ -127,10 +127,8 @@ function submitRegisterForm(event: Event): void {
     if (formObj.password !== formObj.passwordRepeat) {
         areFieldsValid = false;
         renderIncorrectPasswords();
-    } else {
-        if (areFieldsValid) {
-            removeIncorrectPasswordsErrors();
-        }
+    } else if (areFieldsValid) {
+        removeIncorrectPasswordsErrors();
     }
 
     if (areFieldsValid) {

@@ -15,7 +15,7 @@ interface IFormObject {
 }
 
 interface IListeners {
-    [key: string]: unknown[]
+    [key: string]: ((...args: unknown[]) => unknown)[]
 }
 
 interface IEventBus {
@@ -32,4 +32,8 @@ interface IBlockEvents {
 interface IBlockMeta {
     tagName: string;
     props: unknown
+}
+
+interface IBlockProps {
+    [key: string]: unknown;
 }
