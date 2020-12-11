@@ -1,73 +1,29 @@
-import {useState} from "../assets/js/modules/state.js";
-import {renderInterface, addEventListener, addClass, removeClass, setInnerText} from "../assets/js/modules/domHelpers.js";
+import {renderInterface} from "../assets/js/modules/domHelpers.js";
 import Login from "../assets/js/pages/Login/index.js";
-import {validateForm, createFormObjectFromState} from "../assets/js/modules/formValidator.js";
-
-let state: IState = {
-    login: useState(""),
-    password: useState("")
-};
-let view: IViewType = {};
 
 document.addEventListener("DOMContentLoaded", initInterface);
 
 function initInterface(): void {
     renderInterface(document.getElementById("root"), new Login());
-
-    view = initView();
-
-    addEventListener(view.loginInput, "input", (event) => setStatePropValue(event, "login"));
-    addEventListener(view.passwordInput, "input", (event) => setStatePropValue(event, "password"));
-    addEventListener(view.loginForm, "submit", submitAuthForm);
 }
 
-function initView(): IViewType {
-    return {
-        loginForm: document.querySelector(".login-form"),
-
-        loginInput: document.querySelector(".login-form__username-input"),
-        passwordInput: document.querySelector(".login-form__password-input"),
-
-        loginError: document.querySelector(".login-form__username-error"),
-        passwordError: document.querySelector(".login-form__password-error"),
-
-        loginButton: document.querySelector(".login-form__login-button")
-    }
-}
-
-function setStatePropValue(event: Event, propName: string): void {
-    const element = event.target as HTMLInputElement;
-    const {value} = element;
-    console.log(`[INFO] ${propName}`, value);
-
-    const [, setStateCallback] = state[propName];
-    setStateCallback(value);
-
-    setInnerText(view[`${propName}Error`], "");
-    removeClass(view[`${propName}Input`], "form__input_error");
-}
-
-function submitAuthForm(event: Event): void {
-    event.preventDefault();
-    let areFieldsValid = true;
-    const formObj = createFormObjectFromState(state, []);
-
-    validateForm(formObj, (key: string, value: unknown, errorMessage: string) => {
-        areFieldsValid = false;
-        addClass(view[`${key}Input`], "form__input_error");
-        setInnerText(view[`${key}Error`], errorMessage);
-        console.error(`[ERROR] Invalid form property ${key} value`, {
-            key,
-            value,
-            message: errorMessage
-        })
-    });
-
-    if (areFieldsValid) {
-        console.log("[INFO] Auth fields valid, form will be submitted later in this course", formObj);
-    } else {
-        console.error("[ERROR] [FORM] Invalid credentials");
-    }
-}
+// function validateElements(block: TObjectType): void {
+//     if (typeof block === "string" || typeof block === "number") {
+//         console.log('[STRING]', block);
+//     } else if (Array.isArray(block)) {
+//         block.forEach(element => {
+//             if (typeof element === "string" || typeof element === "number") {
+//                 console.log('[STRING]', block);
+//             } else if (typeof element === "object") {
+//                 Object.values(element).forEach(validateElements);
+//             }
+//         })
+//     } else {
+//         if (block.uniqueId !== undefined) {
+//             console.log("[BLOCK]", block._element);
+//             Object.values(block.props).forEach(validateElements);
+//         }
+//     }
+// }
 
 export default {};

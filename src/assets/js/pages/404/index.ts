@@ -5,13 +5,19 @@ import {compile} from "../../modules/templator.js";
 
 export default class NotFound extends Block {
     constructor() {
-        super("div", {
+        super("main", {
+            attributes: {
+                class: "container"
+            },
+
             code: 404,
             description: "Not found",
-            button: new Button({
-                className: "error__link-back button button_thin button_primary",
-                text: "Go back",
-                url: "/chats/"
+            button: new Button("link", {
+                attributes: {
+                    class: "error__link-back button button_thin button_primary",
+                    href: "/chats/"
+                },
+                text: "Go back"
             })
         });
     }
@@ -20,7 +26,7 @@ export default class NotFound extends Block {
         return compile(template, {
             code: this.props.code,
             description: this.props.description,
-            button: this.props.button.render()
+            button: this.props.button
         });
     }
 }

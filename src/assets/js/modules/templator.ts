@@ -2,7 +2,7 @@ import {isEmpty} from "./helpers.js";
 
 export function compile(template: string, props: TObjectType): Element {
     const templatedProps = getTemplatedProps(props);
-    const compiledTemplate = window.Handlebars.compile(template);
+    const compileTemplate = window.Handlebars.compile(template);
 
     window.Handlebars.registerHelper('if_eq', function(a, b, opts) {
         return a === b ? opts.fn(this) : opts.inverse(this);
@@ -18,14 +18,19 @@ export function compile(template: string, props: TObjectType): Element {
     });
 
     const tempParentElement = document.createElement("div");
-    tempParentElement.innerHTML = compiledTemplate(templatedProps);
-    const compiledElement = tempParentElement.children;
-    return compiledElement[0];
+    tempParentElement.innerHTML = compileTemplate(templatedProps);
+    const compiledElement = tempParentElement.children[0];
+
+    return compiledElement;
 }
 
 function getTemplatedProps(props: IBlockProps): IBlockProps {
     return Object.entries(props).reduce((acc: IBlockProps, [key, prop]) => {
+        if (key === "attributes" || key === "eventListeners") {
+            return acc;
+        }
         acc[key] = getPropValue(prop);
+        // console.log(`[TEMPLATOR] Got prop value for ${key}`, acc[key]);
         return acc;
     }, {});
 }
@@ -33,11 +38,9 @@ function getPropValue(prop: any): any {
     if (typeof prop !== "object") {
         return prop;
     }
-    if (prop.nodeType !== undefined) {
-        return prop.outerHTML;
-    }
-    if (Array.isArray(prop)) {
-        return prop.map(getPropValue);
+    if (prop.uniqueId !== undefined) {
+        prop.rerenderComponent();
+        return prop.getContent().outerHTML;
     }
     return getTemplatedProps(prop);
 }

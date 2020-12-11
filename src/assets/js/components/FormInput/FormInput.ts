@@ -1,0 +1,5 @@
+export default `<div>
+    <label class="form__label" for="{{name}}">{{label}}</label>
+    {{{input}}}
+    {{{errorMessage}}}
+</div>`;

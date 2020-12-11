@@ -1,4 +1,4 @@
-export default `<main class="container login">
+export default `<div>
     <header class="top-header login__header">
         <div class="top-header__left"></div>
         <div class="top-header__center">
@@ -6,13 +6,5 @@ export default `<main class="container login">
         </div>
         <div class="top-header__right"></div>
     </header>
-    <form class="form {{form.name}}" method="POST">
-        {{{form.loginInput}}}
-        {{{form.passwordInput}}}
-        <div class="form__item {{form.name}}__actions">
-            {{{form.submitButton}}}
-            <span class="{{form.name}}__alternative">or</span>
-            {{{form.signUpLink}}}
-        </div>
-    </form>
-</main>`;
+    {{{child}}}
+</div>`;
