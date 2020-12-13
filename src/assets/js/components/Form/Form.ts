@@ -9,5 +9,4 @@ export default `
         {{{action}}}
     {{/each}}
     </div>
-</div>
-`;
+</div>`;

@@ -1,4 +1,4 @@
-export default `<div class="profile">
+export default `<div>
     <header class="top-header profile__header">
         <div class="top-header__left">
             {{{backButton}}}
@@ -9,14 +9,6 @@ export default `<div class="profile">
         <div class="top-header__right"></div>
     </header>
     <main class="container profile__password-edit">
-        <form class="form {{form.name}}" method="POST">
-            {{{form.oldPasswordInput}}}
-            {{{form.newPasswordInput}}}
-            {{{form.repeatNewPasswordInput}}}
-            <div class="form__item {{form.name}}__actions double">
-                {{{form.submitButton}}}
-                {{{form.cancelLink}}}
-            </div>
-        </form>
+        {{{child}}}
     </main>
 </div>`;

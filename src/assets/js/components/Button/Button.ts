@@ -1,3 +1,1 @@
-export default `
-<span>{{text}}</span>
-`;
+export default `<span>{{text}}</span>`;

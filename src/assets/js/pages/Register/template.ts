@@ -1,4 +1,4 @@
-export default `<main class="container register">
+export default `<div>
     <header class="top-header register__header">
         <div class="top-header__left">
             {{{backButton}}}
@@ -8,22 +8,5 @@ export default `<main class="container register">
         </div>
         <div class="top-header__right"></div>
     </header>
-    <form class="form {{form.name}}" method="POST">
-        {{{form.emailInput}}}
-        <div class="form__item double">
-            <div class="double__child">
-                {{{form.firstNameInput}}}
-            </div>
-            <div class="double__child">
-                {{{form.lastNameInput}}}
-            </div>
-        </div>
-        {{{form.loginInput}}}
-        {{{form.phoneInput}}}
-        {{{form.passwordInput}}}
-        {{{form.repeatPasswordInput}}}
-        <div class="form__item {{form.name}}__actions">
-            {{{form.submitButton}}}
-        </div>
-    </form>
-</main>`;
+    {{{child}}}
+</div>`;

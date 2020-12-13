@@ -29,10 +29,6 @@
     margin-bottom: 10px;
 }
 
-.profile__picture_empty {
-    background: var(--searchGrey);
-}
-
 .profile-form .profile__picture {
     margin: 0 auto 20px auto;
 }
@@ -58,6 +54,11 @@
     border-radius: 100%;
     border: 1px solid var(--blue);
     overflow: hidden;
+    cursor: pointer;
+}
+
+.profile-pic_empty {
+    background: var(--searchGrey);
 }
 
 .profile-pic__image {
@@ -70,26 +71,28 @@
 .profile-pic__edit {
     opacity: 0;
     border-radius: 100%;
-    width: 100%;
-    height: 100%;
+    height: 150%;
+    width: 120%;
+    margin-top: -30%;
+    margin-left: -10%;
     z-index: 1;
     background-color: rgba(0, 0, 0, 0.4);
     border: 0;
 }
 
-.profile-pic__edit:hover {
+.profile-pic:hover .profile-pic__edit {
     opacity: 1;
     visibility: visible;
-    cursor: pointer;
     border: 2px solid var(--blue);
 }
 
 .profile-pic__input {
-    height: 120%;
+    height: 100%;
     width: 100%;
     display: block;
-    margin-top: -20%;
     cursor: pointer;
+    position: relative;
+    z-index: 999;
 }
 
 .profile-pic__label {

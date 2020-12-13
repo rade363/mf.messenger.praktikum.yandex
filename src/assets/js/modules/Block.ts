@@ -73,12 +73,14 @@ export default class Block {
         this._createResources();
         this.eventBus().emit(Block.EVENTS.FLOW_CDM);
     }
+
     _createResources(): void {
         if (this._meta) {
             const tagName = this._meta.tagName;
             this._element = this._createDocumentElement(tagName);
         }
     }
+
     _createDocumentElement(tagName: string): HTMLElement {
         return document.createElement(tagName);
     }
@@ -87,7 +89,9 @@ export default class Block {
         this.componentDidMount();
         this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
-    componentDidMount(): void {}
+
+    componentDidMount(): void {
+    }
 
     _componentDidUpdate(): void {
         // console.log('[BLOCK] _CDU');
@@ -148,9 +152,6 @@ export default class Block {
                 Object
                     .entries(attributes)
                     .forEach(([attributeName, attributeValue]) => {
-                        if (element.hasAttribute(attributeName)) {
-                            element.removeAttribute(attributeName);
-                        }
                         if (typeof attributeValue === "string") {
                             element.setAttribute(attributeName, attributeValue);
                         }
@@ -176,24 +177,26 @@ export default class Block {
         return this.element;
     }
 
-    connectElement(domElement: HTMLElement | null):void {
+    connectElement(domElement: HTMLElement | null): void {
         this._element = domElement;
         this.isConnected = true;
 
         const element = this._element;
-        const eventListeners = this.props.eventListeners;
         if (element) {
             element.classList.remove(`uid${this.uniqueId}`);
+
+            const eventListeners = this.props.eventListeners;
             if (eventListeners !== undefined) {
                 eventListeners.forEach((eventListener: [string, () => unknown]) => {
                     const [eventName, callback] = eventListener;
-                    console.log('[BLOCK] Event listener registered', eventName);
                     element.addEventListener(eventName, callback);
                 });
             }
+            const onSubmit = this.props.onSubmit;
+            if (onSubmit !== undefined) {
+                element.addEventListener("submit", onSubmit);
+            }
         }
-
-        console.log(`[BLOCK] Element ${this._meta?.tagName} connected`, this._element);
     }
 
     rerenderComponent(): void {

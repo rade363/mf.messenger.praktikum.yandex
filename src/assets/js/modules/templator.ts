@@ -4,16 +4,16 @@ export function compile(template: string, props: TObjectType): Element {
     const templatedProps = getTemplatedProps(props);
     const compileTemplate = window.Handlebars.compile(template);
 
-    window.Handlebars.registerHelper('if_eq', function(a, b, opts) {
+    window.Handlebars.registerHelper("if_eq", function (a, b, opts) {
         return a === b ? opts.fn(this) : opts.inverse(this);
     });
-    window.Handlebars.registerHelper('gt', function(a, b, opts) {
+    window.Handlebars.registerHelper("gt", function (a, b, opts) {
         return a > b ? opts.fn(this) : opts.inverse(this);
     });
-    window.Handlebars.registerHelper('notEmpty', function(a, opts) {
+    window.Handlebars.registerHelper("notEmpty", function (a, opts) {
         return !isEmpty(a) ? opts.fn(this) : opts.inverse(this);
     });
-    window.Handlebars.registerHelper('isTrue', function(a, opts) {
+    window.Handlebars.registerHelper("isTrue", function (a, opts) {
         return a === true ? opts.fn(this) : opts.inverse(this);
     });
 
@@ -30,11 +30,11 @@ function getTemplatedProps(props: IBlockProps): IBlockProps {
             return acc;
         }
         acc[key] = getPropValue(prop);
-        // console.log(`[TEMPLATOR] Got prop value for ${key}`, acc[key]);
         return acc;
     }, {});
 }
-function getPropValue(prop: any): any {
+
+function getPropValue(prop: any): string | IBlockProps {
     if (typeof prop !== "object") {
         return prop;
     }

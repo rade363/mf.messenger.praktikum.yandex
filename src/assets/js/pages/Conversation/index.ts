@@ -2,144 +2,247 @@ import Block from "../../modules/Block.js";
 import SearchInput from "../../components/SearchInput/index.js";
 import template from "./template.js";
 import {compile} from "../../modules/templator.js";
+import ChatList from "../../components/ChatList/index.js";
+import ConversationMain from "../../components/ConversationMain/index.js";
+import Modal from "../../components/Modal/index.js";
+import Form from "../../components/Form/index.js";
+import ConfirmMessage from "../../components/ConfirmMessage/index.js";
+import Double from "../../components/Double/index.js";
+import Button from "../../components/Button/index.js";
 
 export default class Conversation extends Block {
     constructor() {
+        const addUserModal = new Modal({
+            name: "add-user",
+            title: "Add user",
+            child: new Form({
+                name: "add-user-form",
+                inputFields: [
+                    {
+                        label: "Username",
+                        type: "text",
+                        name: "username"
+                    }
+                ],
+                actions: [
+                    {
+                        type: "double",
+                        attributes: {
+                            class: ""
+                        },
+                        children: [
+                            {
+                                text: "Add",
+                                attributes: {
+                                    type: "submit",
+                                    class: "add-user-form__add-button button button_wide button_primary"
+                                }
+                            },
+                            {
+                                text: "Cancel",
+                                attributes: {
+                                    type: "button",
+                                    class: "add-user-form__cancel-button button button_wide button_secondary"
+                                },
+                                eventListeners: [
+                                    ["click", () => addUserModal.hide()]
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                onSubmit: (formObject: IFormObject): void => {
+                    console.log("[INFO] Username valid, add user event executed, form will be submitted later in this course", formObject)
+                }
+            })
+        });
+        const deleteConversationModal: TObjectType = new Modal({
+            name: "delete-conversation",
+            title: "Delete conversation",
+            child: new ConfirmMessage({
+                message: `<div class="modal__message">Are you sure? <br/>This action cannot be undone.</div>`,
+                actions: [
+                    {
+                        action: new Double({
+                            type: "double",
+                            attributes: {
+                                class: ""
+                            },
+                            children: [
+                                {
+                                    child: new Button("button", {
+                                        text: "Delete",
+                                        attributes: {
+                                            type: "button",
+                                            class: "delete-conversation__approve button button_wide button_danger"
+                                        },
+                                        eventListeners: [
+                                            ["click", () => {
+                                                console.log('Conversation deleted (will be implemented later in the course');
+                                                deleteConversationModal.hide()
+                                            }]
+                                        ]
+                                    })
+                                },
+                                {
+                                    child: new Button("button", {
+                                        text: "Delete",
+                                        attributes: {
+                                            type: "button",
+                                            class: "delete-conversation__approve button button_wide button_secondary"
+                                        },
+                                        eventListeners: [
+                                            ["click", () => deleteConversationModal.hide()]
+                                        ]
+                                    })
+                                }
+                            ]
+                        })
+                    }
+                ]
+            })
+        });
         super("div", {
             profileLink: {
                 url: "/profile/",
                 text: "Profile"
             },
             searchInput: new SearchInput(),
-            chatListItems: [
-                {
-                    avatar: "userpic-no-avatar.svg",
-                    username: "John",
-                    lastMessage: "Image",
-                    lastMessageBy: "",
-                    time: "20:37",
-                    unread: 2,
-                    isSelected: false
+            chatList: new ChatList({
+                attributes: {
+                    class: "chat__list"
                 },
-                {
-                    avatar: "userpic-no-avatar.svg",
-                    username: "Alex",
-                    lastMessage: ":)",
-                    lastMessageBy: "",
-                    time: "17:51",
-                    unread: 0,
-                    isSelected: false
-                },
-                {
-                    avatar: "userpic-no-avatar.svg",
-                    username: "Viktor",
-                    lastMessage: "Давно не виделись! Как п...",
-                    lastMessageBy: "You",
-                    time: "17:40",
-                    unread: 0,
-                    isSelected: false
-                },
-                {
-                    avatar: "userpic-no-avatar.svg",
-                    username: "Developers",
-                    lastMessage: "What is this?",
-                    lastMessageBy: "Vlad",
-                    time: "16:05",
-                    unread: 9,
-                    isSelected: false
-                },
-                {
-                    avatar: "userpic-no-avatar.svg",
-                    username: "Pavel",
-                    lastMessage: "I will create my own Telegr...",
-                    lastMessageBy: "You",
-                    time: "12:25",
-                    unread: 0,
-                    isSelected: false
-                },
-                {
-                    avatar: "userpic-no-avatar.svg",
-                    username: "Daniel",
-                    lastMessage: "Damn, Daniel!",
-                    lastMessageBy: "You",
-                    time: "MON",
-                    unread: 0,
-                    isSelected: true
-                },
-                {
-                    avatar: "userpic-no-avatar.svg",
-                    username: "Narayan",
-                    lastMessage: "Thank you my friend!",
-                    lastMessageBy: "",
-                    time: "SAT",
-                    unread: 0,
-                    isSelected: false
-                },
-                {
-                    avatar: "userpic-no-avatar.svg",
-                    username: "Konstantin",
-                    lastMessage: "We need to discuss something i...",
-                    lastMessageBy: "",
-                    time: "15/11/20",
-                    unread: 0,
-                    isSelected: false
-                },
-                {
-                    avatar: "userpic-no-avatar.svg",
-                    username: "Artemy",
-                    lastMessage: "Image",
-                    lastMessageBy: "",
-                    time: "13/11/20",
-                    unread: 0,
-                    isSelected: false
-                },
-                {
-                    avatar: "userpic-no-avatar.svg",
-                    username: "Artemy",
-                    lastMessage: "Image",
-                    lastMessageBy: "",
-                    time: "13/11/20",
-                    unread: 0,
-                    isSelected: false
-                },
-                {
-                    avatar: "userpic-no-avatar.svg",
-                    username: "Artemy",
-                    lastMessage: "Image",
-                    lastMessageBy: "",
-                    time: "13/11/20",
-                    unread: 0,
-                    isSelected: false
-                },
-                {
-                    avatar: "userpic-no-avatar.svg",
-                    username: "Artemy",
-                    lastMessage: "Image",
-                    lastMessageBy: "",
-                    time: "13/11/20",
-                    unread: 0,
-                    isSelected: false
-                },
-                {
-                    avatar: "userpic-no-avatar.svg",
-                    username: "Artemy",
-                    lastMessage: "Image",
-                    lastMessageBy: "",
-                    time: "13/11/20",
-                    unread: 0,
-                    isSelected: false
-                },
-                {
-                    avatar: "userpic-no-avatar.svg",
-                    username: "Artemy",
-                    lastMessage: "Image",
-                    lastMessageBy: "",
-                    time: "13/11/20",
-                    unread: 0,
-                    isSelected: false
-                }
-            ],
-            conversation: {
+                items: [
+                    {
+                        avatar: "../assets/img/userpic-no-avatar.svg",
+                        username: "John",
+                        lastMessage: "Image",
+                        lastMessageBy: "",
+                        time: "20:37",
+                        unread: 2,
+                        isSelected: false
+                    },
+                    {
+                        avatar: "../assets/img/userpic-no-avatar.svg",
+                        username: "Alex",
+                        lastMessage: ":)",
+                        lastMessageBy: "",
+                        time: "17:51",
+                        unread: 0,
+                        isSelected: false
+                    },
+                    {
+                        avatar: "../assets/img/userpic-no-avatar.svg",
+                        username: "Viktor",
+                        lastMessage: "Давно не виделись! Как п...",
+                        lastMessageBy: "You",
+                        time: "17:40",
+                        unread: 0,
+                        isSelected: false
+                    },
+                    {
+                        avatar: "../assets/img/userpic-no-avatar.svg",
+                        username: "Developers",
+                        lastMessage: "What is this?",
+                        lastMessageBy: "Vlad",
+                        time: "16:05",
+                        unread: 9,
+                        isSelected: false
+                    },
+                    {
+                        avatar: "../assets/img/userpic-no-avatar.svg",
+                        username: "Pavel",
+                        lastMessage: "I will create my own Telegr...",
+                        lastMessageBy: "You",
+                        time: "12:25",
+                        unread: 0,
+                        isSelected: false
+                    },
+                    {
+                        avatar: "../assets/img/userpic-no-avatar.svg",
+                        username: "Daniel",
+                        lastMessage: "Damn, Daniel!",
+                        lastMessageBy: "You",
+                        time: "MON",
+                        unread: 0,
+                        isSelected: true,
+                        url: "/conversation/"
+                    },
+                    {
+                        avatar: "../assets/img/userpic-no-avatar.svg",
+                        username: "Narayan",
+                        lastMessage: "Thank you my friend!",
+                        lastMessageBy: "",
+                        time: "SAT",
+                        unread: 0,
+                        isSelected: false
+                    },
+                    {
+                        avatar: "../assets/img/userpic-no-avatar.svg",
+                        username: "Konstantin",
+                        lastMessage: "We need to discuss something i...",
+                        lastMessageBy: "",
+                        time: "15/11/20",
+                        unread: 0,
+                        isSelected: false
+                    },
+                    {
+                        avatar: "../assets/img/userpic-no-avatar.svg",
+                        username: "Artemy",
+                        lastMessage: "Image",
+                        lastMessageBy: "",
+                        time: "13/11/20",
+                        unread: 0,
+                        isSelected: false
+                    },
+                    {
+                        avatar: "../assets/img/userpic-no-avatar.svg",
+                        username: "Artemy",
+                        lastMessage: "Image",
+                        lastMessageBy: "",
+                        time: "13/11/20",
+                        unread: 0,
+                        isSelected: false
+                    },
+                    {
+                        avatar: "../assets/img/userpic-no-avatar.svg",
+                        username: "Artemy",
+                        lastMessage: "Image",
+                        lastMessageBy: "",
+                        time: "13/11/20",
+                        unread: 0,
+                        isSelected: false
+                    },
+                    {
+                        avatar: "../assets/img/userpic-no-avatar.svg",
+                        username: "Artemy",
+                        lastMessage: "Image",
+                        lastMessageBy: "",
+                        time: "13/11/20",
+                        unread: 0,
+                        isSelected: false
+                    },
+                    {
+                        avatar: "../assets/img/userpic-no-avatar.svg",
+                        username: "Artemy",
+                        lastMessage: "Image",
+                        lastMessageBy: "",
+                        time: "13/11/20",
+                        unread: 0,
+                        isSelected: false
+                    },
+                    {
+                        avatar: "../assets/img/userpic-no-avatar.svg",
+                        username: "Artemy",
+                        lastMessage: "Image",
+                        lastMessageBy: "",
+                        time: "13/11/20",
+                        unread: 0,
+                        isSelected: false
+                    }
+                ]
+            }),
+            conversationMain: new ConversationMain({
                 user: {
                     name: "Daniel",
                     status: "last seen 1 hour ago"
@@ -237,49 +340,21 @@ export default class Conversation extends Block {
                         status: "sent"
                     }
                 ],
-                actionsPopupButtons: [
-                    {
-                        text: "Add user",
-                        icon: "add.svg",
-                        class: "context__add"
-                    },
-                    {
-                        text: "Delete conversation",
-                        icon: "delete.svg",
-                        class: "context__delete"
-                    }
-                ],
-                attachmentOptions: [
-                    {
-                        name: "photo",
-                        icon: "attachment-photo.svg",
-                        text: "Photo or Video"
-                    },
-                    {
-                        name: "file",
-                        icon: "attachment-file.svg",
-                        text: "File"
-                    },
-                    {
-                        name: "location",
-                        icon: "attachment-location.svg",
-                        text: "Location"
-                    }
-                ]
-            },
-            addUserOverlay: {
-                title: "Add user"
-            }
+                addUserModal,
+                deleteConversationModal
+            }),
+            modals: [
+                {
+                    modal: addUserModal
+                },
+                {
+                    modal: deleteConversationModal
+                }
+            ]
         })
     }
 
     render(): Element | null {
-        return compile(template, {
-            profileLink: this.props.profileLink,
-            searchInput: this.props.searchInput.render(),
-            chatListItems: this.props.chatListItems,
-            conversation: this.props.conversation,
-            addUserOverlay: this.props.addUserOverlay
-        });
+        return compile(template, this.props);
     }
 }

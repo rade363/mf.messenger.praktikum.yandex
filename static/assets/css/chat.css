@@ -285,13 +285,17 @@
 }
 
 .context-button {
-    display: flex;
-    flex-direction: row;
-    padding: 10px 20px;
     background-color: transparent;
     color: var(--fontDarkGrey);
     border: 0;
     cursor: pointer;
+    width: 100%;
+}
+
+.context-button__content {
+    display: flex;
+    flex-direction: row;
+    padding: 10px 20px;
     align-items: center;
     justify-content: center;
 }

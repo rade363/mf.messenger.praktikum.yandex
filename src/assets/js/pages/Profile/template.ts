@@ -1,4 +1,4 @@
-export default `<div class="profile">
+export default `<div>
     <header class="top-header profile__header">
         <div class="top-header__left">
             {{{backButton}}}

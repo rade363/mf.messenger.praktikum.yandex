@@ -54,8 +54,15 @@
 }
 
 .double {
+    display: flex;
     flex: 2;
     flex-direction: row;
+}
+
+.double__child {
+    display: flex;
+    flex: 1;
+    justify-content: center;
 }
 
 .double__child:not(:last-child) {

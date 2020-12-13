@@ -7,6 +7,9 @@ import {compile} from "../../modules/templator.js";
 export default class Profile extends Block {
     constructor() {
         super("div", {
+            attributes: {
+                class: "profile"
+            },
             title: "Profile",
             backButton: new BackButton({
                 url: "/chats/"
@@ -50,32 +53,37 @@ export default class Profile extends Block {
                     },
                 ]
             },
-            editProfileLink: new Button({
-                className: "profile__edit-info-button button button_thin button_secondary double__child",
-                text: "Edit profile",
-                url: "/profile-edit-info/"
+            editProfileLink: new Button("a", {
+                attributes: {
+                    class: "profile__edit-info-button button button_thin button_secondary double__child",
+                    href: "/profile-edit-info/"
+                },
+                text: "Edit profile"
             }),
-            changePasswordLink: new Button({
-                className: "profile__change-password-button button button_thin button_secondary double__child",
+            changePasswordLink: new Button("a", {
+                attributes: {
+                    class: "profile__change-password-button button button_thin button_secondary double__child",
+                    href: "/profile-change-password/"
+                },
                 text: "Change password",
-                url: "/profile-change-password/"
             }),
-            logOutButton: new Button({
-                className: "profile__log-out-button button button_wide button_logout",
-                type: "button",
-                text: "Log out"
+            logOutButton: new Button("button", {
+                attributes: {
+                    class: "profile__log-out-button button button_wide button_logout",
+                    type: "button"
+                },
+                text: "Log out",
+                eventListeners: [
+                    ["click", (event: Event): void => {
+                        event.preventDefault();
+                        console.log("[INFO] Logging out will be implemented later in the course");
+                    }]
+                ]
             })
         })
     }
 
-    render() {
-        return compile(template, {
-            title: this.props.title,
-            backButton: this.props.backButton.render(),
-            profile: this.props.profile,
-            editProfileLink: this.props.editProfileLink.render(),
-            changePasswordLink: this.props.changePasswordLink.render(),
-            logOutButton: this.props.logOutButton.render()
-        });
+    render(): Element | null {
+        return compile(template, this.props);
     }
 }

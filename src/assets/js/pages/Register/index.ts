@@ -1,85 +1,89 @@
 import Block from "../../modules/Block.js";
-import BackButton from "../../components/BackButton/index.js";
-import Button from "../../components/Button/index.js";
-import Input from "../../components/Input/index.js";
 import template from "./template.js";
 import {compile} from "../../modules/templator.js";
+import BackButton from "../../components/BackButton/index.js";
+import Form from "../../components/Form/index.js";
 
 export default class Register extends Block {
     constructor() {
-        super("div", {
+        super("main", {
+            attributes: {
+                class: "container register"
+            },
             title: "messenger",
             backButton: new BackButton({
                 url: "/login/"
             }),
-            form: {
+            child: new Form({
                 name: "register-form",
-                emailInput: new Input({
-                    className: "register-form__email",
-                    label: "Email",
-                    name: "email",
-                    type: "email"
-                }),
-                firstNameInput: new Input({
-                    className: "register-form__first-name",
-                    label: "First name",
-                    name: "first-name",
-                    type: "text"
-                }),
-                lastNameInput: new Input({
-                    className: "register-form__last-name",
-                    label: "Last name",
-                    name: "last-name",
-                    type: "text"
-                }),
-                loginInput: new Input({
-                    className: "register-form__login",
-                    label: "Login",
-                    name: "login",
-                    type: "text"
-                }),
-                phoneInput: new Input({
-                    className: "register-form__phone",
-                    label: "Phone",
-                    name: "phone",
-                    type: "tel"
-                }),
-                passwordInput: new Input({
-                    className: "register-form__password",
-                    label: "Password",
-                    name: "password",
-                    type: "password"
-                }),
-                repeatPasswordInput: new Input({
-                    className: "register-form__password-repeat",
-                    label: "Repeat password",
-                    name: "password-repeat",
-                    type: "password"
-                }),
-                submitButton: new Button({
-                    className: "register-form__submit-button button button_wide button_primary",
-                    text: "Sign up",
-                    type: "submit"
-                })
-            }
+                inputFields: [
+                    {
+                        label: "Email",
+                        type: "email",
+                        name: "email"
+                    },
+                    {
+                        type: "double",
+                        attributes: {
+                            class: "form__item"
+                        },
+                        children: [
+                            {
+                                label: "First name",
+                                type: "text",
+                                name: "first-name"
+                            },
+                            {
+                                label: "Last name",
+                                type: "text",
+                                name: "last-name"
+                            }
+                        ]
+                    },
+                    {
+                        label: "Login",
+                        type: "text",
+                        name: "login"
+                    },
+                    {
+                        label: "Phone",
+                        type: "tel",
+                        name: "phone"
+                    },
+                    {
+                        label: "Password",
+                        type: "password",
+                        name: "password",
+                        mustEqual: "password-repeat"
+                    },
+                    {
+                        label: "Repeat password",
+                        type: "password",
+                        name: "password-repeat",
+                        mustEqual: "password"
+                    }
+                ],
+                actions: [
+                    {
+                        text: "Sign up",
+                        attributes: {
+                            type: "submit",
+                            class: "register-form__submit-button button button_wide button_primary"
+                        }
+                    }
+                ],
+                onSubmit: (formObject: IFormObject) => {
+                    console.log("[INFO] Auth fields valid, sign up event executed, form will be submitted later in this course", formObject)
+                }
+            })
         })
     }
 
     render(): Element | null {
         return compile(template, {
             title: this.props.title,
-            backButton: this.props.backButton.render(),
-            form: {
-                name: this.props.form.name,
-                emailInput: this.props.form.emailInput.render(),
-                firstNameInput: this.props.form.firstNameInput.render(),
-                lastNameInput: this.props.form.lastNameInput.render(),
-                loginInput: this.props.form.loginInput.render(),
-                phoneInput: this.props.form.phoneInput.render(),
-                passwordInput: this.props.form.passwordInput.render(),
-                repeatPasswordInput: this.props.form.repeatPasswordInput.render(),
-                submitButton: this.props.form.submitButton.render()
-            }
+            backButton: this.props.backButton,
+            child: this.props.child
         });
     }
 }

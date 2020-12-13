@@ -1,63 +1,76 @@
 import Block from "../../modules/Block.js";
 import BackButton from "../../components/BackButton/index.js";
-import Button from "../../components/Button/index.js";
-import Input from "../../components/Input/index.js";
 import template from "./template.js";
 import {compile} from "../../modules/templator.js";
+import Form from "../../components/Form/index.js";
 
 export default class ProfileChangePassword extends Block {
     constructor() {
         super("div", {
+            attributes: {
+                class: "profile"
+            },
             title: "Profile",
             backButton: new BackButton({
                 url: "/chats/"
             }),
-            form: {
+            child: new Form({
                 name: "password-form",
-                oldPasswordInput: new Input({
-                    className: "password-form__old-password",
-                    label: "Old password",
-                    name: "old-password",
-                    type: "password"
-                }),
-                newPasswordInput: new Input({
-                    className: "password-form__new-password",
-                    label: "New password",
-                    name: "new-password",
-                    type: "password"
-                }),
-                repeatNewPasswordInput: new Input({
-                    className: "password-form__password-repeat",
-                    label: "Repeat new password",
-                    name: "password-repeat",
-                    type: "password"
-                }),
-                submitButton: new Button({
-                    className: "password-form__save-button button button_thin button_primary double__child",
-                    text: "Save",
-                    type: "submit"
-                }),
-                cancelLink: new Button({
-                    className: "password-form__cancel-button button button_thin button_secondary double__child",
-                    text: "Cancel",
-                    url: "/profile/"
-                })
-            }
+                inputFields: [
+                    {
+                        label: "Old password",
+                        name: "old-password",
+                        type: "password"
+                    },
+                    {
+                        label: "New password",
+                        name: "new-password",
+                        type: "password",
+                        mustEqual: "password-repeat"
+                    },
+                    {
+                        label: "Repeat new password",
+                        name: "password-repeat",
+                        type: "password",
+                        mustEqual: "new-password"
+                    }
+                ],
+                actions: [
+                    {
+                        type: "double",
+                        attributes: {
+                            class: ""
+                        },
+                        children: [
+                            {
+                                text: "Save",
+                                attributes: {
+                                    type: "submit",
+                                    class: "password-form__save-button button button_wide button_primary"
+                                }
+                            },
+                            {
+                                text: "Cancel",
+                                attributes: {
+                                    href: "/profile/",
+                                    class: "profile-form__cancel-button button button_wide button_secondary"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                onSubmit: (formObject: IFormObject) => {
+                    console.log("[INFO] Profile change password event executed, form will be submitted later in this course", formObject)
+                }
+            })
         });
     }
 
-    render() {
+    render(): Element | null {
         return compile(template, {
             title: this.props.title,
-            backButton: this.props.backButton.render(),
-            form: {
-                name: this.props.form.name,
-                oldPasswordInput: this.props.form.oldPasswordInput.render(),
-                newPasswordInput: this.props.form.newPasswordInput.render(),
-                repeatNewPasswordInput: this.props.form.repeatNewPasswordInput.render(),
-                submitButton: this.props.form.submitButton.render(),
-                cancelLink: this.props.form.cancelLink.render()
-            }
+            backButton: this.props.backButton,
+            child: this.props.child
         });
     }
 }
