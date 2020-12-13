@@ -7,9 +7,6 @@ import ChatList from "../../components/ChatList/index.js";
 export default class Chats extends Block {
     constructor() {
         super("div", {
-            attributes: {
-                class: "chat"
-            },
             profileLink: {
                 url: "/profile/",
                 text: "Profile"

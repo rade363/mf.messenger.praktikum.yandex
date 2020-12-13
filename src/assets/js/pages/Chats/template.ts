@@ -1,4 +1,4 @@
-export default `<div>
+export default `<div class="chat">
     <aside class="chat__sidebar">
         <nav class="chat__nav">
             <div class="chat__topbar">
