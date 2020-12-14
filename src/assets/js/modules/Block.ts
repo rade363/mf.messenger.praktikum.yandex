@@ -94,7 +94,6 @@ export default class Block {
     }
 
     _componentDidUpdate(): void {
-        // console.log('[BLOCK] _CDU');
         const oldProps = Object.entries(this.oldProps).reduce((acc: TObjectType, [key, value]) => {
             acc[key] = value;
             return acc;
@@ -103,8 +102,6 @@ export default class Block {
             acc[key] = value;
             return acc;
         }, {});
-        // console.log('[BLOCK] oldProps', oldProps);
-        // console.log('[BLOCK] newProps', newProps);
         const response = this.componentDidUpdate(oldProps, newProps);
         if (response) {
             this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
@@ -112,7 +109,6 @@ export default class Block {
     }
 
     componentDidUpdate(oldProps: TObjectType, newProps: TObjectType): boolean {
-        // console.log('[BLOCK] CDU');
         if (oldProps !== undefined && newProps !== undefined) {
             return true;
         }
@@ -138,34 +134,33 @@ export default class Block {
         return this._element;
     }
 
-    _render(): void {
+    _render(): void | null {
         const block = this.render();
         const element = this.getContent();
-        // console.log('[BLOCK] [RENDER]', this._meta?.tagName, element, this.isConnected);
         const attributes = this.props.attributes;
-        if (element) {
-            if (block) {
-                element.innerHTML = "";
-                element.appendChild(block);
-            }
-            if (attributes !== undefined) {
-                Object
-                    .entries(attributes)
-                    .forEach(([attributeName, attributeValue]) => {
-                        if (typeof attributeValue === "string") {
-                            element.setAttribute(attributeName, attributeValue);
-                        }
-                    });
-            }
-
-            if (this.isConnected) {
-                // console.log('Reconnecting...', this._meta?.tagName, this.props);
-                Object.values(this.props).forEach((prop: TObjectType) => {
-                    connectBlockWithDom(element, prop)
+        if (!element) {
+            return null;
+        }
+        if (block) {
+            element.innerHTML = "";
+            element.appendChild(block);
+        }
+        if (attributes) {
+            Object
+                .entries(attributes)
+                .forEach(([attributeName, attributeValue]) => {
+                    if (typeof attributeValue === "string") {
+                        element.setAttribute(attributeName, attributeValue);
+                    }
                 });
-            } else if (!element.classList.contains(`uid${this.uniqueId}`)) {
-                element.classList.add(`uid${this.uniqueId}`);
-            }
+        }
+
+        if (this.isConnected) {
+            Object.values(this.props).forEach((prop: TObjectType) => {
+                connectBlockWithDom(element, prop)
+            });
+        } else if (!element.classList.contains(`uid${this.uniqueId}`)) {
+            element.classList.add(`uid${this.uniqueId}`);
         }
     }
 
@@ -177,25 +172,26 @@ export default class Block {
         return this.element;
     }
 
-    connectElement(domElement: HTMLElement | null): void {
+    connectElement(domElement: HTMLElement | null): void | null {
         this._element = domElement;
         this.isConnected = true;
 
         const element = this._element;
-        if (element) {
-            element.classList.remove(`uid${this.uniqueId}`);
+        if (!element) {
+            return null;
+        }
 
-            const eventListeners = this.props.eventListeners;
-            if (eventListeners !== undefined) {
-                eventListeners.forEach((eventListener: [string, () => unknown]) => {
-                    const [eventName, callback] = eventListener;
-                    element.addEventListener(eventName, callback);
-                });
-            }
-            const onSubmit = this.props.onSubmit;
-            if (onSubmit !== undefined) {
-                element.addEventListener("submit", onSubmit);
-            }
+        element.classList.remove(`uid${this.uniqueId}`);
+
+        const {eventListeners, onSubmit} = this.props;
+        if (eventListeners !== undefined) {
+            eventListeners.forEach((eventListener: [string, () => unknown]) => {
+                const [eventName, callback] = eventListener;
+                element.addEventListener(eventName, callback);
+            });
+        }
+        if (onSubmit !== undefined) {
+            element.addEventListener("submit", onSubmit);
         }
     }
 
