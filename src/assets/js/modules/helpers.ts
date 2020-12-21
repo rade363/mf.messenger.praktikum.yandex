@@ -10,3 +10,18 @@ export function isXssPresent(textString: string): boolean {
 export function generateUniqueId(): string {
     return '_' + Math.random().toString(36).substr(2, 20);
 }
+
+export function isPlainObject(value: unknown): value is TObjectType {
+    return typeof value === 'object'
+        && value !== null
+        && value.constructor === Object
+        && Object.prototype.toString.call(value) === '[object Object]';
+}
+
+export function isArray(value: unknown): value is [] {
+    return Array.isArray(value);
+}
+
+export function isEqual(lhs: string, rhs: string): boolean {
+    return lhs === rhs;
+}

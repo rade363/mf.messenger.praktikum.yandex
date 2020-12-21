@@ -1,4 +1,4 @@
-export function renderInterface(rootElement: HTMLElement | null, block: any): void {
+export function renderInterface(rootElement: HTMLElement | null, block: IBlock): void {
     const pageElement = block.getContent();
     if (rootElement && pageElement) {
         rootElement.appendChild(pageElement);

@@ -1,6 +1,44 @@
 type TObjectType = {
     [key: string]: any;
 };
+type TRequestMethod = "GET" | "PUT" | "POST" | "DELETE";
+
+interface IBlock {
+    _element: HTMLElement | null;
+    _meta: IBlockMeta | null;
+
+    uniqueId: string;
+    isConnected: boolean;
+
+    props: TObjectType;
+    oldProps: TObjectType;
+
+    eventBus: () => IEventBus;
+
+    _makePropsProxy: (props: TObjectType) => TObjectType;
+    _registerEvents: (eventBus: IEventBus) => void;
+    _createResources: () => void;
+    _createDocumentElement: (tagName: string) => HTMLElement;
+    _componentDidMount: () => void;
+    _componentDidUpdate: () => void;
+    _render: () => void | null;
+
+    init: () => void;
+    componentDidMount: () => void;
+    componentDidUpdate: (oldProps: TObjectType, newProps: TObjectType) => boolean;
+    setProps: (nextProps: TObjectType) => void | boolean;
+    element: HTMLElement | null;
+    render: () => Element | null;
+    getContent: () => HTMLElement | null;
+    connectElement: (domElement: HTMLElement | null) => void | null;
+    rerenderComponent: () => void;
+    show: () => void;
+    hide: () => void;
+}
+
+interface IBlockConstructable {
+    new(tagName: string, props: TObjectType): IBlock;
+}
 
 interface IFieldState {
     value: [() => unknown, (newState: unknown) => unknown];
@@ -39,7 +77,7 @@ interface IBlockEvents {
 
 interface IBlockMeta {
     tagName: string;
-    props: unknown
+    props: TObjectType;
 }
 
 interface IBlockProps {
@@ -200,4 +238,66 @@ interface IModal {
     name: string;
     title: string;
     child: any;
+}
+
+interface IMethodsList {
+    [key: string]: TRequestMethod;
+}
+
+interface IRequestHeaders {
+    [key: string]: string;
+}
+
+interface IRequestOptions {
+    method?: TRequestMethod;
+    headers?: IRequestHeaders;
+    data?: TObjectType;
+    timeout?: number;
+}
+
+interface IFetchRequestOptions extends IRequestOptions {
+    method: TRequestMethod;
+}
+
+interface IFetchWithRetryOptions extends IFetchRequestOptions {
+    retries: number;
+}
+
+interface IRoute {
+    _pathname: string;
+    _blockClass: IBlockConstructable;
+    _block: IBlock;
+    _props: TObjectType;
+
+    navigate: (pathName: string) => void;
+    leave: () => void;
+    match: (pathname: string) => boolean;
+}
+
+interface IRouteConstructable {
+    new(pathname: string, view: IBlockConstructable, props: TObjectType): IRoute;
+}
+
+interface IRootQuery {
+    rootQuery: string;
+}
+
+interface IRouter {
+    __instance: this;
+    _currentRoute: unknown;
+    _rootQuery: string;
+    _onRoute: (pathname: string) => void;
+
+    routes: IRoute[];
+    history: History;
+
+    use: (pathname: string, block: IBlockConstructable, props: IRootQuery) => IRouter;
+    start: () => void;
+    go: (pathname: string) => void;
+    back: () => void;
+    forward: () => void;
+}
+
+interface IRouterConstructable {
+    new(rootQuery: string): IRouter;
 }
