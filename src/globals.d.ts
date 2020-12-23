@@ -30,6 +30,7 @@ interface IBlock {
     rerenderComponent: () => void;
     show: () => void;
     hide: () => void;
+    detach: () => void;
 }
 
 interface IBlockConstructable {

@@ -214,4 +214,11 @@ export default class Block implements IBlock{
             element.style.display = "none";
         }
     }
+
+    detach(): void {
+        const element = this.getContent();
+        if (element) {
+            element.remove();
+        }
+    }
 }

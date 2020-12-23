@@ -23,7 +23,7 @@ export default class Route {
 
     leave(): void {
         if (this._block) {
-            this._block.hide();
+            this._block.detach();
         }
     }
 
@@ -32,13 +32,11 @@ export default class Route {
     }
 
     render(): void {
+        console.log('[ROUTE] Render!', this._props.rootQuery);
         if (!this._block) {
             this._block = new this._blockClass("div", {});
-            renderInterface(this._props.rootQuery, this._block);
-            // render(this._props.rootQuery, this._block);
-            return;
         }
 
-        this._block.show();
+        renderInterface(this._props.rootQuery, this._block);
     }
 }
