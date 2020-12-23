@@ -2,7 +2,7 @@ import EventBus from "./EventBus.js";
 import {generateUniqueId} from "./helpers.js";
 import {connectBlockWithDom} from "./domHelpers.js";
 
-export default class Block {
+export default class Block implements IBlock{
     static EVENTS: IBlockEvents = {
         INIT: "init",
         FLOW_CDM: "flow:component-did-mount",
@@ -12,8 +12,9 @@ export default class Block {
 
     private _element: HTMLElement | null = null;
     private readonly _meta: IBlockMeta | null = null;
-    readonly uniqueId: string | null = null;
-    isConnected: boolean = false;
+    private _isConnected: boolean = false;
+
+    uniqueId: string | null = null;
 
     props: TObjectType;
     oldProps: TObjectType;
@@ -155,7 +156,7 @@ export default class Block {
                 });
         }
 
-        if (this.isConnected) {
+        if (this._isConnected) {
             Object.values(this.props).forEach((prop: TObjectType) => {
                 connectBlockWithDom(element, prop)
             });
@@ -174,7 +175,7 @@ export default class Block {
 
     connectElement(domElement: HTMLElement | null): void | null {
         this._element = domElement;
-        this.isConnected = true;
+        this._isConnected = true;
 
         const element = this._element;
         if (!element) {
@@ -196,7 +197,7 @@ export default class Block {
     }
 
     rerenderComponent(): void {
-        this.isConnected = false;
+        this._isConnected = false;
         this._render();
     }
 

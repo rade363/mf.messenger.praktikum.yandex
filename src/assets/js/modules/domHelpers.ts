@@ -1,4 +1,32 @@
-export function renderInterface(rootElement: HTMLElement | null, block: IBlock): void {
+import Router from "./Router.js";
+import Login from "../pages/Login/index.js";
+import Register from "../pages/Register/index.js";
+import Chats from "../pages/Chats/index.js";
+import Conversation from "../pages/Conversation/index.js";
+import Profile from "../pages/Profile/index.js";
+import ProfileEditInfo from "../pages/ProfileEditInfo/index.js";
+import ProfileChangePassword from "../pages/ProfileChangePassword/index.js";
+import NotFound from "../pages/404/index.js";
+import ServerError from "../pages/500/index.js";
+
+export function initInterface(): void {
+    const router = new Router("#root");
+    router
+        .use("/login/", Login)
+        .use("/register/", Register)
+        .use("/chats/", Chats)
+        .use("/conversation/", Conversation)
+        .use("/profile/", Profile)
+        .use("/profile-edit-info/", ProfileEditInfo)
+        .use("/profile-change-password/", ProfileChangePassword)
+        .use("/404/", NotFound)
+        .use("/500/", ServerError)
+        .start();
+}
+
+export function renderInterface(query: string, block: IBlock): void {
+    console.log('[RENDER INTERFACE]');
+    const rootElement = document.querySelector(query) as HTMLElement;
     const pageElement = block.getContent();
     if (rootElement && pageElement) {
         rootElement.appendChild(pageElement);

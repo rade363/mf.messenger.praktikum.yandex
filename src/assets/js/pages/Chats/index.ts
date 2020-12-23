@@ -3,14 +3,26 @@ import SearchInput from "../../components/SearchInput/index.js";
 import template from "./template.js";
 import {compile} from "../../modules/templator.js";
 import ChatList from "../../components/ChatList/index.js";
+import Router from "../../modules/Router.js";
+import Button from "../../components/Button/index.js";
 
 export default class Chats extends Block {
     constructor() {
+        const router = new Router("#root");
         super("div", {
-            profileLink: {
-                url: "/profile/",
-                text: "Profile"
-            },
+            profileLink: new Button("a", {
+                text: "Profile",
+                attributes: {
+                    class: "chat__profile-link",
+                    href: "/profile/"
+                },
+                eventListeners: [
+                    ["click", (event: Event) => {
+                        event.preventDefault();
+                        router.go("/profile/");
+                    }]
+                ]
+            }),
             searchInput: new SearchInput(),
             chatList: new ChatList({
                 attributes: {

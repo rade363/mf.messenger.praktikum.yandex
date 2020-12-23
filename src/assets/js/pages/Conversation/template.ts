@@ -4,7 +4,7 @@ export default `
         <aside class="chat__sidebar">
             <nav class="chat__nav">
                 <div class="chat__topbar">
-                    <a class="chat__profile-link" href="{{profileLink.url}}">{{profileLink.text}}</a>
+                    {{{profileLink}}}
                 </div>
                 {{{searchInput}}}
             </nav>

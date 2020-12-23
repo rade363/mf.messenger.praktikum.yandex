@@ -34,7 +34,6 @@ export default class Router {
             if (popEvent) {
                 this._onRoute(popEvent.location.pathname);
             }
-
         };
         this._onRoute(window.location.pathname);
     }

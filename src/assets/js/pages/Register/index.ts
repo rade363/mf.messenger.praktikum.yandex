@@ -3,16 +3,24 @@ import template from "./template.js";
 import {compile} from "../../modules/templator.js";
 import BackButton from "../../components/BackButton/index.js";
 import Form from "../../components/Form/index.js";
+import Router from "../../modules/Router.js";
 
 export default class Register extends Block {
     constructor() {
+        const router = new Router("#root");
         super("main", {
             attributes: {
                 class: "container register"
             },
             title: "messenger",
             backButton: new BackButton({
-                url: "/login/"
+                url: "/login/",
+                eventListeners: [
+                    ["click", (event: Event) => {
+                        event.preventDefault();
+                        router.back();
+                    }]
+                ]
             }),
             child: new Form({
                 name: "register-form",

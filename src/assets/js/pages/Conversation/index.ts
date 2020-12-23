@@ -9,9 +9,11 @@ import Form from "../../components/Form/index.js";
 import ConfirmMessage from "../../components/ConfirmMessage/index.js";
 import Double from "../../components/Double/index.js";
 import Button from "../../components/Button/index.js";
+import Router from "../../modules/Router.js";
 
 export default class Conversation extends Block {
     constructor() {
+        const router = new Router("#root");
         const addUserModal = new Modal({
             name: "add-user",
             title: "Add user",
@@ -103,10 +105,19 @@ export default class Conversation extends Block {
             })
         });
         super("div", {
-            profileLink: {
-                url: "/profile/",
-                text: "Profile"
-            },
+            profileLink: new Button("a", {
+                text: "Profile",
+                attributes: {
+                    class: "chat__profile-link",
+                    href: "/profile/"
+                },
+                eventListeners: [
+                    ["click", (event: Event) => {
+                        event.preventDefault();
+                        router.go("/profile/");
+                    }]
+                ]
+            }),
             searchInput: new SearchInput(),
             chatList: new ChatList({
                 attributes: {

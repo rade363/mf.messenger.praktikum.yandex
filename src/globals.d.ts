@@ -4,11 +4,7 @@ type TObjectType = {
 type TRequestMethod = "GET" | "PUT" | "POST" | "DELETE";
 
 interface IBlock {
-    _element: HTMLElement | null;
-    _meta: IBlockMeta | null;
-
-    uniqueId: string;
-    isConnected: boolean;
+    uniqueId: string | null;
 
     props: TObjectType;
     oldProps: TObjectType;
@@ -145,10 +141,6 @@ interface IContextMenuItem {
     icon: string;
     name: string;
     eventListeners: unknown[]
-}
-
-interface IBackButtonProps {
-    url: string;
 }
 
 type TEventListener = (event: Event) => unknown;

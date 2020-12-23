@@ -3,16 +3,24 @@ import BackButton from "../../components/BackButton/index.js";
 import Button from "../../components/Button/index.js";
 import template from "./template.js";
 import {compile} from "../../modules/templator.js";
+import Router from "../../modules/Router.js";
 
 export default class Profile extends Block {
     constructor() {
+        const router = new Router("#root");
         super("div", {
             attributes: {
                 class: "profile"
             },
             title: "Profile",
             backButton: new BackButton({
-                url: "/chats/"
+                url: "/chats/",
+                eventListeners: [
+                    ["click", (event: Event) => {
+                        event.preventDefault();
+                        router.go("/chats/");
+                    }]
+                ]
             }),
             profile: {
                 avatar: {
@@ -58,7 +66,13 @@ export default class Profile extends Block {
                     class: "profile__edit-info-button button button_thin button_secondary double__child",
                     href: "/profile-edit-info/"
                 },
-                text: "Edit profile"
+                text: "Edit profile",
+                eventListeners: [
+                    ["click", (event: Event) => {
+                        event.preventDefault();
+                        router.go("/profile-edit-info/");
+                    }]
+                ]
             }),
             changePasswordLink: new Button("a", {
                 attributes: {
@@ -66,6 +80,12 @@ export default class Profile extends Block {
                     href: "/profile-change-password/"
                 },
                 text: "Change password",
+                eventListeners: [
+                    ["click", (event: Event) => {
+                        event.preventDefault();
+                        router.go("/profile-change-password/");
+                    }]
+                ]
             }),
             logOutButton: new Button("button", {
                 attributes: {

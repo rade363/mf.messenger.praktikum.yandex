@@ -3,16 +3,24 @@ import BackButton from "../../components/BackButton/index.js";
 import template from "./template.js";
 import {compile} from "../../modules/templator.js";
 import Form from "../../components/Form/index.js";
+import Router from "../../modules/Router.js";
 
 export default class ProfileEditInfo extends Block {
     constructor() {
+        const router = new Router("#root");
         super("div", {
             attributes: {
                 class: "profile"
             },
             title: "Profile",
             backButton: new BackButton({
-                url: "/chats/"
+                url: "/chats/",
+                eventListeners: [
+                    ["click", (event: Event) => {
+                        event.preventDefault();
+                        router.back();
+                    }]
+                ]
             }),
             child: new Form({
                 name: "profile-form",
@@ -84,7 +92,13 @@ export default class ProfileEditInfo extends Block {
                                 attributes: {
                                     href: "/profile/",
                                     class: "profile-form__cancel-button button button_wide button_secondary"
-                                }
+                                },
+                                eventListeners: [
+                                    ["click", (event: Event) => {
+                                        event.preventDefault();
+                                        router.back();
+                                    }]
+                                ]
                             }
                         ]
                     }
