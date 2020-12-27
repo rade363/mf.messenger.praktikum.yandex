@@ -48,6 +48,8 @@ export default class Router {
         if (route) {
             this._currentRoute = route;
             route.render();
+        } else {
+            this.go("/404/");
         }
     }
 

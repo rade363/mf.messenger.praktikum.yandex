@@ -3,11 +3,22 @@ import BackButton from "../../components/BackButton/index.js";
 import Button from "../../components/Button/index.js";
 import template from "./template.js";
 import {compile} from "../../modules/templator.js";
+import {getResponseErrorText} from "../../modules/helpers.js";
+
 import Router from "../../modules/Router.js";
+const router = new Router("#root");
+
+import AuthAPI from "../../api/auth-api.js";
+const authAPI = new AuthAPI();
+
+import GlobalState from "../../modules/GlobalState.js";
+const globalStateInstance = new GlobalState();
 
 export default class Profile extends Block {
     constructor() {
-        const router = new Router("#root");
+        const currentUser: ICurrentUser = globalStateInstance.getProp("currentUser");
+        const profile = createExistingUser(currentUser);
+
         super("div", {
             attributes: {
                 class: "profile"
@@ -22,45 +33,7 @@ export default class Profile extends Block {
                     }]
                 ]
             }),
-            profile: {
-                avatar: {
-                    isEmpty: true,
-                    url: "userpic-empty.svg"
-                },
-                fullname: "Ivan Ivanov",
-                infoBlock: [
-                    {
-                        type: "email",
-                        title: "Email",
-                        value: "ivan.ivanov@yandex.ru"
-                    },
-                    {
-                        type: "username",
-                        title: "Username",
-                        value: "ivan.ivanov"
-                    },
-                    {
-                        type: "first-name",
-                        title: "First name",
-                        value: "Ivan"
-                    },
-                    {
-                        type: "last-name",
-                        title: "Last name",
-                        value: "Ivanov"
-                    },
-                    {
-                        type: "display-name",
-                        title: "Display name",
-                        value: "Ivan Ivanov"
-                    },
-                    {
-                        type: "phone",
-                        title: "Phone",
-                        value: "+7(911)123-45-67"
-                    },
-                ]
-            },
+            profile: profile,
             editProfileLink: new Button("a", {
                 attributes: {
                     class: "profile__edit-info-button button button_thin button_secondary double__child",
@@ -96,14 +69,78 @@ export default class Profile extends Block {
                 eventListeners: [
                     ["click", (event: Event): void => {
                         event.preventDefault();
-                        console.log("[INFO] Logging out will be implemented later in the course");
+                        console.log("[INFO] Log out");
+                        authAPI.logOut()
+                            .then((xhr: XMLHttpRequest) => {
+                                console.log('Response', xhr);
+                                if (xhr.response === "OK") {
+                                    router.go("/login/");
+                                }
+                            })
+                            .catch((error) => console.log('Error', error));
                     }]
                 ]
             })
         })
     }
 
+    componentDidMount() {
+        console.log('[PROFILE] [Mounted] check state', globalStateInstance.check());
+        const existingUser = globalStateInstance.getProp("currentUser");
+        if (existingUser) {
+            console.log('[PROFILE] [MOUNT] No need to collect user! Already collected', existingUser);
+            return;
+        }
+
+        authAPI.getCurrentUser()
+            .then((xhr: XMLHttpRequest) => {
+                console.log('[PROFILE] [MOUNT] User', xhr.response);
+                const currentUser = JSON.parse(xhr.response);
+                const profile = createExistingUser(currentUser);
+                globalStateInstance.setProp("currentUser", currentUser);
+                this.setProps({ profile });
+            })
+            .catch((error: XMLHttpRequest) => {
+                const errorObj = getResponseErrorText(error);
+                console.error('[PROFILE] [MOUNT] [ERROR]', errorObj);
+                router.go("/login/");
+            });
+    }
+
     render(): Element | null {
         return compile(template, this.props);
     }
+}
+
+function createExistingUser(currentUser: ICurrentUser | null): ICurrentUserDetails {
+    const avatar = currentUser && currentUser.avatar
+        ? { isEmpty: false, url: currentUser.avatar }
+        : { isEmpty: true, url: "userpic-empty.svg"};
+    const fullname = currentUser && currentUser.first_name && currentUser.second_name
+        ? `${currentUser.first_name} ${currentUser.second_name}`
+        : "";
+    const infoBlock = [];
+
+    infoBlock.push(createUserProperty("email", "Email", currentUser));
+    infoBlock.push(createUserProperty("login", "Login", currentUser));
+    infoBlock.push(createUserProperty("first_name", "First name", currentUser));
+    infoBlock.push(createUserProperty("second_name", "Last name", currentUser));
+    infoBlock.push(createUserProperty("display_name", "Display name", currentUser));
+    infoBlock.push(createUserProperty("phone", "Phone", currentUser));
+
+    return {
+        avatar,
+        fullname,
+        infoBlock
+    };
+}
+
+function createUserProperty(type: string, title: string, currentUser: ICurrentUser | null): IUserProperty {
+    if (currentUser && type in currentUser && typeof currentUser[type] === "string") {
+        const value = currentUser[type];
+        if (typeof value === "string") {
+            return { type, title, value };
+        }
+    }
+    return { type, title, value: "" };
 }

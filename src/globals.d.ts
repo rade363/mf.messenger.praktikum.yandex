@@ -294,3 +294,51 @@ interface IRouter {
 interface IRouterConstructable {
     new(rootQuery: string): IRouter;
 }
+
+interface ISignUpProps {
+    "first_name": "string";
+    "second_name": "string";
+    "login": "string";
+    "email": "string";
+    "password": "string";
+    "phone": "string";
+}
+
+interface ISignIpProps {
+    "login": "string";
+    "password": "string";
+}
+
+interface IDefaultOptions {
+    url?: string;
+    headers?: IRequestHeaders;
+}
+
+interface IUserProperty {
+    type: string;
+    title: string;
+    value: string;
+}
+
+interface IUserAvatar {
+    isEmpty: boolean;
+    url: string;
+}
+
+interface ICurrentUserDetails {
+    avatar: IUserAvatar;
+    fullname: string;
+    infoBlock: IUserProperty[];
+}
+
+interface ICurrentUser {
+    [key: string]: unknown;
+    id: number;
+    login: string;
+    email: null | string;
+    avatar: null | string;
+    first_name: null | string;
+    second_name: null | string;
+    display_name: null | string;
+    phone: null | string;
+}

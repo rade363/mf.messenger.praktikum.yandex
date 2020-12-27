@@ -25,3 +25,13 @@ export function isArray(value: unknown): value is [] {
 export function isEqual(lhs: string, rhs: string): boolean {
     return lhs === rhs;
 }
+
+export function getResponseErrorText(payload: XMLHttpRequest): string | TObjectType {
+    const parsedPayload = JSON.parse(payload.response);
+    return parsedPayload.reason ? parsedPayload.reason : parsedPayload;
+}
+
+export function isEmailValid(string: string): boolean {
+    const emailRegexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return emailRegexp.test(string);
+}

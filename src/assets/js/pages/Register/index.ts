@@ -3,11 +3,19 @@ import template from "./template.js";
 import {compile} from "../../modules/templator.js";
 import BackButton from "../../components/BackButton/index.js";
 import Form from "../../components/Form/index.js";
+import {getResponseErrorText} from "../../modules/helpers.js";
+
 import Router from "../../modules/Router.js";
+const router = new Router("#root");
+
+import AuthAPI from "../../api/auth-api.js";
+const authAPI = new AuthAPI();
+
+import GlobalState from "../../modules/GlobalState.js";
+const globalStateInstance = new GlobalState();
 
 export default class Register extends Block {
     constructor() {
-        const router = new Router("#root");
         super("main", {
             attributes: {
                 class: "container register"
@@ -39,12 +47,12 @@ export default class Register extends Block {
                             {
                                 label: "First name",
                                 type: "text",
-                                name: "first-name"
+                                name: "first_name"
                             },
                             {
                                 label: "Last name",
                                 type: "text",
-                                name: "last-name"
+                                name: "second_name"
                             }
                         ]
                     },
@@ -80,11 +88,59 @@ export default class Register extends Block {
                         }
                     }
                 ],
-                onSubmit: (formObject: IFormObject) => {
-                    console.log("[INFO] Auth fields valid, sign up event executed, form will be submitted later in this course", formObject)
+                onSubmit: (formObject: ISignUpProps) => {
+                    console.log("[INFO] Sign up", formObject);
+                    authAPI.signUp(formObject)
+                        .then((xhr: XMLHttpRequest) => {
+                            console.log('Response', xhr);
+                            const response = JSON.parse(xhr.response);
+                            if (response.id && typeof response.id === "number") {
+                                return authAPI.getCurrentUser();
+                            }
+                            return JSON.parse(xhr.response);
+                        })
+                        .then((xhr: XMLHttpRequest) => {
+                            console.log('[INFO] User', xhr.response);
+                            const userDetails = JSON.parse(xhr.response);
+                            globalStateInstance.setProp("currentUser", userDetails);
+
+                            console.log('[OnSubmit] check state', globalStateInstance.check());
+                            router.go("/chats/");
+                        })
+                        .catch((error) => {
+                            console.log('Error', error);
+                            const errorMessage = getResponseErrorText(error);
+                            if (errorMessage === "Login already exists") {
+                                setErrorText("login", errorMessage, this);
+                            } else if (errorMessage === "phone is not valid") {
+                                setErrorText("phone", errorMessage, this);
+                            } else if (errorMessage === "Email already exists") {
+                                setErrorText("email", errorMessage, this);
+                            }
+                        });
                 }
             })
         })
+    }
+
+    componentDidMount() {
+        console.log('[REGISTER] [Mounted] check state', globalStateInstance.check());
+        const existingUser = globalStateInstance.getProp("currentUser");
+        if (existingUser) {
+            console.log('[REGISTER] [MOUNT] No need to collect user! Already collected', existingUser);
+            return;
+        }
+
+        authAPI.getCurrentUser()
+            .then((xhr: XMLHttpRequest) => {
+                const currentUser = JSON.parse(xhr.response);
+                globalStateInstance.setProp("currentUser", currentUser);
+                router.go("/chats/");
+            })
+            .catch((error: XMLHttpRequest) => {
+                const errorObj = getResponseErrorText(error);
+                console.error('[MOUNT] [LOGIN] [ERROR]', errorObj);
+            });
     }
 
     render(): Element | null {
@@ -94,4 +150,17 @@ export default class Register extends Block {
             child: this.props.child
         });
     }
+}
+
+function setErrorText(fieldName: string, errorText: string, formBlock: IBlock): void {
+    formBlock.props.child.props.inputFields.forEach((formInput: any) => {
+        const inputField = formInput.inputField;
+        if (inputField.props.name === fieldName) {
+            const prevProps = formInput.inputField.props.errorMessage.props;
+            formInput.inputField.props.errorMessage.setProps({
+                ...prevProps,
+                text: errorText
+            });
+        }
+    });
 }

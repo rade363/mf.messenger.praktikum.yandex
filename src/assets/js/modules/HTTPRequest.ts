@@ -7,7 +7,21 @@ const METHODS: IMethodsList = {
     DELETE: "DELETE"
 };
 
-export default class HTTPTransport {
+export default class HTTPRequest {
+    baseUrl: string;
+    defaultHeaders: IRequestHeaders = {};
+
+    constructor(defaultOptions?: IDefaultOptions) {
+        if (defaultOptions) {
+            if (defaultOptions.url) {
+                this.baseUrl = defaultOptions.url;
+            }
+            if (defaultOptions.headers) {
+                this.defaultHeaders = defaultOptions.headers;
+            }
+        }
+    }
+
     GET(url: string, options: IRequestOptions = {}): Promise<unknown> {
         return this.request(url, {...options, method: METHODS.GET}, options.timeout);
     };
@@ -24,25 +38,35 @@ export default class HTTPTransport {
         return this.request(url, {...options, method: METHODS.DELETE}, options.timeout);
     };
 
+    get = this.GET;
+    post = this.POST;
+    put = this.PUT;
+    delete = this.DELETE;
+
     request(url: string, options: IFetchRequestOptions, timeout: number = 5000): Promise<unknown> {
         const {method, headers, data} = options;
         const realUrl = method === METHODS.GET && data !== undefined ? `${url}${queryString(data)}` : url;
+        const fullUrl = `${this.baseUrl}${realUrl}`;
 
         return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
 
-            xhr.open(method, realUrl);
+            xhr.open(method, fullUrl);
 
             xhr.timeout = timeout;
+            xhr.withCredentials = true;
 
-            if (headers) {
-                Object
-                    .entries(headers)
-                    .forEach(([key, value]) => xhr.setRequestHeader(key, value));
-            }
+            const allHeaders = headers ? { ...this.defaultHeaders, ...headers } : this.defaultHeaders;
+            Object
+                .entries(allHeaders)
+                .forEach(([key, value]) => xhr.setRequestHeader(key, value));
 
             xhr.onload = function() {
-                resolve(xhr)
+                if (`${xhr.status}`[0] === "2") {
+                    resolve(xhr)
+                    return;
+                }
+                reject(xhr);
             };
 
             function handleError(err: ProgressEvent) {
@@ -64,12 +88,12 @@ export default class HTTPTransport {
 
 export function fetchWithRetry(url: string, options: IFetchWithRetryOptions): Promise<unknown> | never {
     const {retries, method} = options;
-    const ownFetch = new HTTPTransport();
-    const func = ownFetch[method];
+    const request = new HTTPRequest();
+    const requestMethod = request[method];
     if (retries === undefined) {
-        return func(url, options);
+        return requestMethod(url, options);
     }
-    return func(url, options)
+    return requestMethod(url, options)
         .catch((err: string) => {
             if (retries - 1 > 0) {
                 const newOptions = {

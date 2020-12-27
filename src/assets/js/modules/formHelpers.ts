@@ -1,4 +1,4 @@
-import {isEmpty, isXssPresent} from "./helpers.js";
+import {isEmpty, isXssPresent, isEmailValid} from "./helpers.js";
 
 export function validateField(fieldName: string, state: IFormInputState): [isValid: boolean, value: unknown] {
     const stateProp = state[fieldName];
@@ -18,6 +18,10 @@ export function validateField(fieldName: string, state: IFormInputState): [isVal
     }
     if (typeof value === "string" && isXssPresent(value)) {
         setError(stateProp.inputField, stateProp.errorMessage, "Invalid symbols", "form__input_error");
+        return [false, value];
+    }
+    if (fieldName.toLowerCase().indexOf("email") > -1 && typeof value === "string" && !isEmailValid(value)) {
+        setError(stateProp.inputField, stateProp.errorMessage, "Invalid email", "form__input_error");
         return [false, value];
     }
     if (stateProp.mustEqual) {
