@@ -120,3 +120,30 @@ export function setFormInput(event: Event, fieldName: string, state: IFormInputS
 
     callback(value);
 }
+
+export function createInputField(name: string, label: string, type: string, currentUser: ICurrentUser, mustEqual?: string): IInputFieldProps {
+    const initialField = { name, label, type };
+    const inputField = mustEqual ? { ...initialField, mustEqual } : initialField;
+
+    if (currentUser && name in currentUser && typeof currentUser[name] === "string") {
+        const value = currentUser[name];
+        if (typeof value === "string") {
+            return {...inputField, value};
+        }
+    }
+
+    return inputField;
+}
+
+export function setErrorTextForInputField(fieldName: string, errorText: string, inputFields: IBlock[]): void {
+    inputFields.forEach((formInput: any) => {
+        const inputField = formInput.inputField;
+        if (inputField.props.name === fieldName) {
+            const prevProps = formInput.inputField.props.errorMessage.props;
+            formInput.inputField.props.errorMessage.setProps({
+                ...prevProps,
+                text: errorText
+            });
+        }
+    });
+}

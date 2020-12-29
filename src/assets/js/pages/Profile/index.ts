@@ -6,12 +6,11 @@ import {compile} from "../../modules/templator.js";
 import {getResponseErrorText} from "../../modules/helpers.js";
 
 import Router from "../../modules/Router.js";
-const router = new Router("#root");
-
 import AuthAPI from "../../api/auth-api.js";
-const authAPI = new AuthAPI();
-
 import GlobalState from "../../modules/GlobalState.js";
+
+const router = new Router("#root");
+const authAPI = new AuthAPI();
 const globalStateInstance = new GlobalState();
 
 export default class Profile extends Block {
@@ -67,34 +66,36 @@ export default class Profile extends Block {
                 },
                 text: "Log out",
                 eventListeners: [
-                    ["click", (event: Event): void => {
-                        event.preventDefault();
-                        console.log("[INFO] Log out");
-                        authAPI.logOut()
-                            .then((xhr: XMLHttpRequest) => {
-                                console.log('Response', xhr);
-                                if (xhr.response === "OK") {
-                                    router.go("/login/");
-                                }
-                            })
-                            .catch((error) => console.log('Error', error));
-                    }]
+                    ["click", handleLogOutClick]
                 ]
             })
-        })
+        });
+
+        function handleLogOutClick(event: Event): void {
+            event.preventDefault();
+            authAPI.logOut()
+                .then((xhr: XMLHttpRequest) => {
+                    if (xhr.response === "OK") {
+                        router.go("/login/");
+                    }
+                })
+                .catch((error: XMLHttpRequest) => {
+                    console.error("[LOG OUT] Could not log out. Details:", error.response)
+                    if (error.status === 500) {
+                        router.go("/500");
+                    }
+                });
+        }
     }
 
     componentDidMount() {
-        console.log('[PROFILE] [Mounted] check state', globalStateInstance.check());
         const existingUser = globalStateInstance.getProp("currentUser");
         if (existingUser) {
-            console.log('[PROFILE] [MOUNT] No need to collect user! Already collected', existingUser);
             return;
         }
 
         authAPI.getCurrentUser()
             .then((xhr: XMLHttpRequest) => {
-                console.log('[PROFILE] [MOUNT] User', xhr.response);
                 const currentUser = JSON.parse(xhr.response);
                 globalStateInstance.setProp("currentUser", currentUser);
 

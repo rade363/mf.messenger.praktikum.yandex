@@ -4,26 +4,23 @@ import template from "./template.js";
 import {compile} from "../../modules/templator.js";
 import Form from "../../components/Form/index.js";
 import {getResponseErrorText} from "../../modules/helpers.js";
+import {createInputField, setErrorTextForInputField} from "../../modules/formHelpers.js";
 
 import Router from "../../modules/Router.js";
-const router = new Router("#root");
-
 import AuthAPI from "../../api/auth-api.js";
-const authAPI = new AuthAPI();
-
 import UserAPI from "../../api/user-api.js";
-const userAPI = new UserAPI();
-
 import AvatarAPI from "../../api/avatar-api.js";
-const avatarAPI = new AvatarAPI();
-
 import GlobalState from "../../modules/GlobalState.js";
+
+const router = new Router("#root");
+const authAPI = new AuthAPI();
+const userAPI = new UserAPI();
+const avatarAPI = new AvatarAPI();
 const globalStateInstance = new GlobalState();
 
 export default class ProfileEditInfo extends Block {
     constructor() {
         const currentUser: ICurrentUser = globalStateInstance.getProp("currentUser");
-        const child = createProfileForm(currentUser);
 
         super("div", {
             attributes: {
@@ -39,21 +36,18 @@ export default class ProfileEditInfo extends Block {
                     }]
                 ]
             }),
-            child
+            child: createProfileForm(currentUser)
         });
     }
 
     componentDidMount() {
-        console.log("[PROFILE] [Mounted] check state", globalStateInstance.check());
         const existingUser = globalStateInstance.getProp("currentUser");
         if (existingUser) {
-            console.log('[PROFILE] [MOUNT] No need to collect user! Already collected', existingUser);
             return;
         }
 
         authAPI.getCurrentUser()
             .then((xhr: XMLHttpRequest) => {
-                console.log('[PROFILE] [MOUNT] User', xhr.response);
                 const currentUser = JSON.parse(xhr.response);
                 globalStateInstance.setProp("currentUser", currentUser);
                 const child = createProfileForm(currentUser);
@@ -109,67 +103,34 @@ function createProfileForm(currentUser: ICurrentUser) {
                 ]
             }
         ],
-        onSubmit: (formObject: IUpdateUserProps) => {
-            userAPI.editProfile(formObject)
-                .then((xhr: XMLHttpRequest) => {
-                    console.log('[INFO] User', xhr.response);
-                    const userDetails = JSON.parse(xhr.response);
-                    globalStateInstance.setProp("currentUser", userDetails);
-
-                    console.log('[OnSubmit] check state', globalStateInstance.check());
-                    router.go("/profile/");
-                })
-                .catch((error: XMLHttpRequest) => {
-                    console.log('Error', error);
-                    const errorMessage = getResponseErrorText(error);
-                    if (errorMessage === "Login already exists") {
-                        setErrorText("login", errorMessage, this);
-                    } else if (errorMessage === "phone is not valid") {
-                        setErrorText("phone", errorMessage, this);
-                    } else if (errorMessage === "Email already exists") {
-                        setErrorText("email", errorMessage, this);
-                    }
-                });
-        }
+        onSubmit: handleEditProfileSubmit
     })
+}
+
+function handleEditProfileSubmit(formObject: IUpdateUserProps): void {
+    userAPI.editProfile(formObject)
+        .then((xhr: XMLHttpRequest) => {
+            const userDetails = JSON.parse(xhr.response);
+            globalStateInstance.setProp("currentUser", userDetails);
+            router.go("/profile/");
+        })
+        .catch((error: XMLHttpRequest) => {
+            console.log('Error', error);
+            const errorMessage = getResponseErrorText(error);
+            if (errorMessage === "Login already exists") {
+                setErrorTextForInputField("login", errorMessage, this.props.child.props.inputFields);
+            } else if (errorMessage === "phone is not valid") {
+                setErrorTextForInputField("phone", errorMessage, this.props.child.props.inputFields);
+            } else if (errorMessage === "Email already exists") {
+                setErrorTextForInputField("email", errorMessage, this.props.child.props.inputFields);
+            }
+        });
 }
 
 function createProfileFields(currentUser: ICurrentUser): TFormElement[] {
     const inputFields = [];
 
-    const avatarSource = currentUser && currentUser.avatar && currentUser.avatar !== "" ? currentUser.avatar : "";
-    const avatarField = {
-        type: "file",
-        attributes: {
-            class: "profile__picture"
-        },
-        name: "profile-pic",
-        src: avatarSource,
-        label: "Edit",
-        callback: (avatar: File, imageInput: IBlock) => {
-            const formData = new FormData();
-            formData.append("avatar", avatar);
-
-            avatarAPI.changeAvatar(formData)
-                .then((xhr: XMLHttpRequest) => {
-                    if (xhr.status === 200) {
-                        const userDetails = JSON.parse(xhr.response);
-                        globalStateInstance.setProp("currentUser", userDetails);
-
-                        const prevProps = imageInput.props;
-                        imageInput.setProps({
-                            ...prevProps,
-                            src: `https://ya-praktikum.tech${userDetails.avatar}`
-                        })
-                    }
-                })
-                .catch((error: XMLHttpRequest) => {
-                    console.log('[AVATAR] ERROR', error);
-                });
-        }
-    };
-    inputFields.push(avatarField);
-
+    inputFields.push(createAvatarField(currentUser));
     inputFields.push(createInputField("email", "Email", "email", currentUser));
     inputFields.push(createInputField("login", "Login", "text", currentUser));
     inputFields.push({
@@ -188,29 +149,38 @@ function createProfileFields(currentUser: ICurrentUser): TFormElement[] {
     return inputFields;
 }
 
-function createInputField(name: string, label: string, type: string, currentUser: ICurrentUser, mustEqual?: string): IInputFieldProps {
-    const initialField = { name, label, type };
-    const inputField = mustEqual ? { ...initialField, mustEqual } : initialField;
-
-    if (currentUser && name in currentUser && typeof currentUser[name] === "string") {
-        const value = currentUser[name];
-        if (typeof value === "string") {
-            return {...inputField, value};
-        }
-    }
-
-    return inputField;
+function createAvatarField(currentUser: ICurrentUser) {
+    const avatarSource = currentUser && currentUser.avatar && currentUser.avatar !== "" ? currentUser.avatar : "";
+    return {
+        type: "file",
+        attributes: {
+            class: "profile__picture"
+        },
+        name: "profile-pic",
+        src: avatarSource,
+        label: "Edit",
+        callback: handleAvatarSubmit
+    };
 }
 
-function setErrorText(fieldName: string, errorText: string, formBlock: IBlock): void {
-    formBlock.props.child.props.inputFields.forEach((formInput: any) => {
-        const inputField = formInput.inputField;
-        if (inputField.props.name === fieldName) {
-            const prevProps = formInput.inputField.props.errorMessage.props;
-            formInput.inputField.props.errorMessage.setProps({
-                ...prevProps,
-                text: errorText
-            });
-        }
-    });
+function handleAvatarSubmit(avatar: File, imageInput: IBlock) {
+    const formData = new FormData();
+    formData.append("avatar", avatar);
+
+    avatarAPI.changeAvatar(formData)
+        .then((xhr: XMLHttpRequest) => {
+            if (xhr.status === 200) {
+                const userDetails = JSON.parse(xhr.response);
+                globalStateInstance.setProp("currentUser", userDetails);
+
+                const prevProps = imageInput.props;
+                imageInput.setProps({
+                    ...prevProps,
+                    src: `https://ya-praktikum.tech${userDetails.avatar}`
+                })
+            }
+        })
+        .catch((error: XMLHttpRequest) => {
+            console.log('[AVATAR] ERROR', error);
+        });
 }

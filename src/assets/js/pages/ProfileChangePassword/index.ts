@@ -3,18 +3,16 @@ import BackButton from "../../components/BackButton/index.js";
 import template from "./template.js";
 import {compile} from "../../modules/templator.js";
 import Form from "../../components/Form/index.js";
-import {getResponseErrorText} from "../../modules/helpers.js";
+import {createInputField, setErrorTextForInputField} from "../../modules/formHelpers.js";
 
 import Router from "../../modules/Router.js";
-const router = new Router("#root");
-
 import AuthAPI from "../../api/auth-api.js";
-const authAPI = new AuthAPI();
-
 import UserAPI from "../../api/user-api.js";
-const userAPI = new UserAPI();
-
 import GlobalState from "../../modules/GlobalState.js";
+
+const router = new Router("#root");
+const authAPI = new AuthAPI();
+const userAPI = new UserAPI();
 const globalStateInstance = new GlobalState();
 
 export default class ProfileChangePassword extends Block {
@@ -37,7 +35,7 @@ export default class ProfileChangePassword extends Block {
             }),
             child: new Form({
                 name: "password-form",
-                inputFields: createProfileFields(currentUser),
+                inputFields: createProfilePasswordChangeFields(currentUser),
                 actions: [
                     {
                         type: "double",
@@ -68,43 +66,50 @@ export default class ProfileChangePassword extends Block {
                         ]
                     }
                 ],
-                onSubmit: (formObject: IUpdatePasswordProps) => {
-                    console.log('[INFO] Password change object', formObject);
-                    userAPI.changePassword(formObject)
-                        .then((xhr: XMLHttpRequest) => {
-                            console.log('[INFO] Password changed', xhr.response);
-                            if (xhr.response === "OK") {
-                                router.go("/profile/");
-                            }
-                        })
-                        .catch((error: XMLHttpRequest) => {
-                            console.log('Error', error);
-                            if (error.response === "Password is incorrect") {
-                                setErrorText("oldPassword", error.response, this);
-                            }
-                        });
-                }
+                onSubmit: handleSubmitPasswordChange
             })
         });
+
+        function createProfilePasswordChangeFields(currentUser: ICurrentUser): TFormElement[] {
+            const inputFields = [];
+
+            inputFields.push(createInputField("oldPassword", "Old password", "password", currentUser));
+            inputFields.push(createInputField("newPassword", "New password", "password", currentUser, "newPassword-repeat"));
+            inputFields.push(createInputField("newPassword-repeat", "Repeat new password", "password", currentUser, "newPassword"));
+
+            return inputFields;
+        }
+
+        function handleSubmitPasswordChange(formObject: IUpdatePasswordProps): void {
+            console.log('[INFO] Password change object', formObject);
+            userAPI.changePassword(formObject)
+                .then((xhr: XMLHttpRequest) => {
+                    if (xhr.response === "OK") {
+                        router.go("/profile/");
+                    }
+                })
+                .catch((error: XMLHttpRequest) => {
+                    console.log('[ERROR]', error);
+                    if (error.response === "Password is incorrect") {
+                        setErrorTextForInputField("oldPassword", error.response, this.props.child.props.inputFields);
+                    }
+                });
+        }
     }
 
     componentDidMount() {
-        console.log("[PROFILE] [Mounted] check state", globalStateInstance.check());
         const existingUser = globalStateInstance.getProp("currentUser");
         if (existingUser) {
-            console.log('[PROFILE] [MOUNT] No need to collect user! Already collected', existingUser);
             return;
         }
 
         authAPI.getCurrentUser()
             .then((xhr: XMLHttpRequest) => {
-                console.log('[PROFILE] [MOUNT] User', xhr.response);
                 const currentUser = JSON.parse(xhr.response);
                 globalStateInstance.setProp("currentUser", currentUser);
             })
             .catch((error: XMLHttpRequest) => {
-                const errorObj = getResponseErrorText(error);
-                console.error('[PROFILE] [MOUNT] [ERROR]', errorObj);
+                console.error('[PROFILE] [MOUNT] [ERROR]', error.response);
                 router.go("/login/");
             });
     }
@@ -116,41 +121,4 @@ export default class ProfileChangePassword extends Block {
             child: this.props.child
         });
     }
-}
-
-function createProfileFields(currentUser: ICurrentUser): TFormElement[] {
-    const inputFields = [];
-
-    inputFields.push(createInputField("oldPassword", "Old password", "password", currentUser));
-    inputFields.push(createInputField("newPassword", "New password", "password", currentUser, "newPassword-repeat"));
-    inputFields.push(createInputField("newPassword-repeat", "Repeat new password", "password", currentUser, "newPassword"));
-
-    return inputFields;
-}
-
-function createInputField(name: string, label: string, type: string, currentUser: ICurrentUser, mustEqual?: string): IInputFieldProps {
-    const initialField = { name, label, type };
-    const inputField = mustEqual ? { ...initialField, mustEqual } : initialField;
-
-    if (currentUser && name in currentUser && typeof currentUser[name] === "string") {
-        const value = currentUser[name];
-        if (typeof value === "string") {
-            return {...inputField, value};
-        }
-    }
-
-    return inputField;
-}
-
-function setErrorText(fieldName: string, errorText: string, formBlock: IBlock): void {
-    formBlock.props.child.props.inputFields.forEach((formInput: any) => {
-        const inputField = formInput.inputField;
-        if (inputField.props.name === fieldName) {
-            const prevProps = formInput.inputField.props.errorMessage.props;
-            formInput.inputField.props.errorMessage.setProps({
-                ...prevProps,
-                text: errorText
-            });
-        }
-    });
 }
