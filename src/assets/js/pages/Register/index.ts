@@ -107,7 +107,7 @@ export default class Register extends Block {
                             console.log('[OnSubmit] check state', globalStateInstance.check());
                             router.go("/chats/");
                         })
-                        .catch((error) => {
+                        .catch((error: XMLHttpRequest) => {
                             console.log('Error', error);
                             const errorMessage = getResponseErrorText(error);
                             if (errorMessage === "Login already exists") {

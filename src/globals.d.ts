@@ -90,6 +90,7 @@ interface IInputFieldProps {
     type: string;
     name: string;
     mustEqual?: string;
+    value?: string;
 }
 
 interface IDouble {
@@ -104,6 +105,7 @@ interface IAvatarInput {
     src: string;
     label: string;
     attributes: IAttributes;
+    callback?: (avatar: File) => unknown;
 }
 
 interface IFormButtonProps {
@@ -296,17 +298,17 @@ interface IRouterConstructable {
 }
 
 interface ISignUpProps {
-    "first_name": "string";
-    "second_name": "string";
-    "login": "string";
-    "email": "string";
-    "password": "string";
-    "phone": "string";
+    first_name: string;
+    second_name: string;
+    login: string;
+    email: string;
+    password: string;
+    phone: string;
 }
 
 interface ISignIpProps {
-    "login": "string";
-    "password": "string";
+    login: string;
+    password: string;
 }
 
 interface IDefaultOptions {
@@ -341,4 +343,18 @@ interface ICurrentUser {
     second_name: null | string;
     display_name: null | string;
     phone: null | string;
+}
+
+interface IUpdateUserProps {
+    first_name: string;
+    second_name: string;
+    display_name: string;
+    login: string;
+    email: string;
+    phone?: string;
+}
+
+interface IUpdatePasswordProps {
+    oldPassword: string;
+    newPassword: string;
 }

@@ -10,7 +10,7 @@ export default `<div>
     </header>
     <main class="container profile__card">
         <div class="profile__picture profile-pic {{#if profile.avatar.isEmpty}}profile__picture_empty{{/if}}">
-            <img class="profile-pic__image" src="../assets/img/{{profile.avatar.url}}" alt="avatar" />
+            <img class="profile-pic__image" src="{{profile.avatar.url}}" alt="avatar" />
         </div>
         <div class="profile__fullname">{{profile.fullname}}</div>
         <div class="profile__info">

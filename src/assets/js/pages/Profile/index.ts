@@ -33,7 +33,7 @@ export default class Profile extends Block {
                     }]
                 ]
             }),
-            profile: profile,
+            profile,
             editProfileLink: new Button("a", {
                 attributes: {
                     class: "profile__edit-info-button button button_thin button_secondary double__child",
@@ -96,8 +96,9 @@ export default class Profile extends Block {
             .then((xhr: XMLHttpRequest) => {
                 console.log('[PROFILE] [MOUNT] User', xhr.response);
                 const currentUser = JSON.parse(xhr.response);
-                const profile = createExistingUser(currentUser);
                 globalStateInstance.setProp("currentUser", currentUser);
+
+                const profile = createExistingUser(currentUser);
                 this.setProps({ profile });
             })
             .catch((error: XMLHttpRequest) => {
@@ -114,8 +115,8 @@ export default class Profile extends Block {
 
 function createExistingUser(currentUser: ICurrentUser | null): ICurrentUserDetails {
     const avatar = currentUser && currentUser.avatar
-        ? { isEmpty: false, url: currentUser.avatar }
-        : { isEmpty: true, url: "userpic-empty.svg"};
+        ? { isEmpty: false, url: `https://ya-praktikum.tech${currentUser.avatar}` }
+        : { isEmpty: true, url: "../assets/img/userpic-empty.svg"};
     const fullname = currentUser && currentUser.first_name && currentUser.second_name
         ? `${currentUser.first_name} ${currentUser.second_name}`
         : "";

@@ -22,19 +22,19 @@ export default class HTTPRequest {
         }
     }
 
-    GET(url: string, options: IRequestOptions = {}): Promise<unknown> {
+    GET(url: string, options: IRequestOptions = {}): Promise<XMLHttpRequest> {
         return this.request(url, {...options, method: METHODS.GET}, options.timeout);
     };
 
-    POST(url: string, options: IRequestOptions = {}): Promise<unknown> {
+    POST(url: string, options: IRequestOptions = {}): Promise<XMLHttpRequest> {
         return this.request(url, {...options, method: METHODS.POST}, options.timeout);
     };
 
-    PUT(url: string, options: IRequestOptions = {}): Promise<unknown> {
+    PUT(url: string, options: IRequestOptions = {}): Promise<XMLHttpRequest> {
         return this.request(url, {...options, method: METHODS.PUT}, options.timeout);
     };
 
-    DELETE(url: string, options: IRequestOptions = {}): Promise<unknown> {
+    DELETE(url: string, options: IRequestOptions = {}): Promise<XMLHttpRequest> {
         return this.request(url, {...options, method: METHODS.DELETE}, options.timeout);
     };
 
@@ -43,7 +43,7 @@ export default class HTTPRequest {
     put = this.PUT;
     delete = this.DELETE;
 
-    request(url: string, options: IFetchRequestOptions, timeout: number = 5000): Promise<unknown> {
+    request(url: string, options: IFetchRequestOptions, timeout: number = 5000): Promise<XMLHttpRequest> {
         const {method, headers, data} = options;
         const realUrl = method === METHODS.GET && data !== undefined ? `${url}${queryString(data)}` : url;
         const fullUrl = `${this.baseUrl}${realUrl}`;
@@ -79,6 +79,8 @@ export default class HTTPRequest {
 
             if (method === METHODS.GET || !data) {
                 xhr.send();
+            } else if (data instanceof FormData) {
+                xhr.send(data);
             } else {
                 xhr.send(JSON.stringify(data));
             }
@@ -86,7 +88,7 @@ export default class HTTPRequest {
     };
 }
 
-export function fetchWithRetry(url: string, options: IFetchWithRetryOptions): Promise<unknown> | never {
+export function fetchWithRetry(url: string, options: IFetchWithRetryOptions): Promise<XMLHttpRequest> | never {
     const {retries, method} = options;
     const request = new HTTPRequest();
     const requestMethod = request[method];

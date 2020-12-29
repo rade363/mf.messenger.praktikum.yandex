@@ -51,12 +51,12 @@ export function connectBlockWithDom(domElement: HTMLElement, block: any): void {
     }
 }
 
-export function setImageUpload(event: Event, callback: (avatar: File) => unknown): void {
+export function setImageUpload(event: Event, callback: (avatar: File, context: IBlock) => unknown, context: IBlock): void {
     const element = event.target as HTMLInputElement;
     const files = element.files;
     if (files !== null && files.length !== undefined) {
         const image = files[0];
-        console.log("[INFO] Image uploaded", image);
-        callback(files[0]);
+        console.log("[INFO] Image uploaded", files);
+        callback(image, context);
     }
 }

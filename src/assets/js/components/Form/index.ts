@@ -62,34 +62,34 @@ export default class Form extends Block {
             };
 
             const [, setValue] = state[name].value;
+            const callback = inputFieldProps.callback ? inputFieldProps.callback: setValue;
 
-            const input = new Input({
-                attributes: {
-                    class: `${inputFieldProps.name}__input`,
-                    type: "file",
-                    name: inputFieldProps.name
-                },
-                eventListeners: [
-                    ["input", (event: Event) => setImageUpload(event, setValue)]
-                ]
-            });
-
-            return new ImageInput({
+            const imageInput: IBlock = new ImageInput({
                 attributes: {
                     class: `${inputFieldProps.attributes.class} ${inputFieldProps.name} ${isEmpty(inputFieldProps.src) ? `${inputFieldProps.name}_empty` : ""}`
                 },
                 name: inputFieldProps.name,
-                src: isEmpty(inputFieldProps.src) ? "../assets/img/userpic-empty.svg" : inputFieldProps.src,
+                src: isEmpty(inputFieldProps.src) ? "../assets/img/userpic-empty.svg" : `https://ya-praktikum.tech${inputFieldProps.src}`,
                 label: inputFieldProps.label,
-                input
-            })
+                input: new Input({
+                    attributes: {
+                        class: `${inputFieldProps.name}__input`,
+                        type: "file",
+                        name: inputFieldProps.name
+                    },
+                    eventListeners: [
+                        ["input", (event: Event) => setImageUpload(event, callback, imageInput)]
+                    ]
+                })
+            });
+            return imageInput;
         }
 
         function createInputField(inputFieldProps: IInputFieldProps, formName: string, state: IFormInputState) {
             const {label, type, name, mustEqual} = inputFieldProps;
 
             state[name] = {
-                value: useState(""),
+                value: useState(inputFieldProps.value ? inputFieldProps.value : ""),
                 error: useState(""),
                 inputField: null,
                 errorMessage: null,
