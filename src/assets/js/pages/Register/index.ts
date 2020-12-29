@@ -89,42 +89,40 @@ export default class Register extends Block {
                         }
                     }
                 ],
-                onSubmit: handleRegisterSubmit
+                onSubmit: (formObject: ISignUpProps): void => {
+                    console.log("[INFO] Sign up", formObject);
+                    authAPI.signUp(formObject)
+                        .then((xhr: XMLHttpRequest) => {
+                            const response = JSON.parse(xhr.response);
+                            if (response.id && typeof response.id === "number") {
+                                return authAPI.getCurrentUser();
+                            }
+                            throw new Error("Could not create user");
+                        })
+                        .then((xhr: XMLHttpRequest) => {
+                            const userDetails = JSON.parse(xhr.response);
+                            globalStateInstance.setProp("currentUser", userDetails);
+                            router.go("/chats/");
+                        })
+                        .catch((error: XMLHttpRequest | Error) => {
+                            console.log('[REGISTER] Error', error);
+                            if (error instanceof Error || error.status === 500) {
+                                router.go("/500/");
+                                return;
+                            }
+
+                            const errorMessage = getResponseErrorText(error);
+                            if (errorMessage === "Login already exists") {
+                                setErrorTextForInputField("login", errorMessage, this.props.child.props.inputFields);
+                            } else if (errorMessage === "phone is not valid") {
+                                setErrorTextForInputField("phone", errorMessage, this.props.child.props.inputFields);
+                            } else if (errorMessage === "Email already exists") {
+                                setErrorTextForInputField("email", errorMessage, this.props.child.props.inputFields);
+                            }
+                        });
+                }
             })
         });
-
-        function handleRegisterSubmit(formObject: ISignUpProps) {
-            console.log("[INFO] Sign up", formObject);
-            authAPI.signUp(formObject)
-                .then((xhr: XMLHttpRequest) => {
-                    const response = JSON.parse(xhr.response);
-                    if (response.id && typeof response.id === "number") {
-                        return authAPI.getCurrentUser();
-                    }
-                    throw new Error("Could not create user");
-                })
-                .then((xhr: XMLHttpRequest) => {
-                    const userDetails = JSON.parse(xhr.response);
-                    globalStateInstance.setProp("currentUser", userDetails);
-                    router.go("/chats/");
-                })
-                .catch((error: XMLHttpRequest | Error) => {
-                    console.log('[REGISTER] Error', error);
-                    if (error instanceof Error || error.status === 500) {
-                        router.go("/500/");
-                        return;
-                    }
-
-                    const errorMessage = getResponseErrorText(error);
-                    if (errorMessage === "Login already exists") {
-                        setErrorTextForInputField("login", errorMessage, this.props.child.props.inputFields);
-                    } else if (errorMessage === "phone is not valid") {
-                        setErrorTextForInputField("phone", errorMessage, this.props.child.props.inputFields);
-                    } else if (errorMessage === "Email already exists") {
-                        setErrorTextForInputField("email", errorMessage, this.props.child.props.inputFields);
-                    }
-                });
-        }
     }
 
     componentDidMount() {

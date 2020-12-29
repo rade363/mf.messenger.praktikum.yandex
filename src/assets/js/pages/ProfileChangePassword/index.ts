@@ -66,7 +66,21 @@ export default class ProfileChangePassword extends Block {
                         ]
                     }
                 ],
-                onSubmit: handleSubmitPasswordChange
+                onSubmit: (formObject: IUpdatePasswordProps): void => {
+                    console.log('[INFO] Password change object', formObject);
+                    userAPI.changePassword(formObject)
+                        .then((xhr: XMLHttpRequest) => {
+                            if (xhr.response === "OK") {
+                                router.go("/profile/");
+                            }
+                        })
+                        .catch((error: XMLHttpRequest) => {
+                            console.log('[ERROR]', error);
+                            if (error.response === "Password is incorrect") {
+                                setErrorTextForInputField("oldPassword", error.response, this.props.child.props.inputFields);
+                            }
+                        });
+                }
             })
         });
 
@@ -78,22 +92,6 @@ export default class ProfileChangePassword extends Block {
             inputFields.push(createInputField("newPassword-repeat", "Repeat new password", "password", currentUser, "newPassword"));
 
             return inputFields;
-        }
-
-        function handleSubmitPasswordChange(formObject: IUpdatePasswordProps): void {
-            console.log('[INFO] Password change object', formObject);
-            userAPI.changePassword(formObject)
-                .then((xhr: XMLHttpRequest) => {
-                    if (xhr.response === "OK") {
-                        router.go("/profile/");
-                    }
-                })
-                .catch((error: XMLHttpRequest) => {
-                    console.log('[ERROR]', error);
-                    if (error.response === "Password is incorrect") {
-                        setErrorTextForInputField("oldPassword", error.response, this.props.child.props.inputFields);
-                    }
-                });
         }
     }
 

@@ -103,28 +103,26 @@ function createProfileForm(currentUser: ICurrentUser) {
                 ]
             }
         ],
-        onSubmit: handleEditProfileSubmit
+        onSubmit: (formObject: IUpdateUserProps): void => {
+            userAPI.editProfile(formObject)
+                .then((xhr: XMLHttpRequest) => {
+                    const userDetails = JSON.parse(xhr.response);
+                    globalStateInstance.setProp("currentUser", userDetails);
+                    router.go("/profile/");
+                })
+                .catch((error: XMLHttpRequest) => {
+                    console.log('Error', error);
+                    const errorMessage = getResponseErrorText(error);
+                    if (errorMessage === "Login already exists") {
+                        setErrorTextForInputField("login", errorMessage, this.props.child.props.inputFields);
+                    } else if (errorMessage === "phone is not valid") {
+                        setErrorTextForInputField("phone", errorMessage, this.props.child.props.inputFields);
+                    } else if (errorMessage === "Email already exists") {
+                        setErrorTextForInputField("email", errorMessage, this.props.child.props.inputFields);
+                    }
+                });
+        }
     })
-}
-
-function handleEditProfileSubmit(formObject: IUpdateUserProps): void {
-    userAPI.editProfile(formObject)
-        .then((xhr: XMLHttpRequest) => {
-            const userDetails = JSON.parse(xhr.response);
-            globalStateInstance.setProp("currentUser", userDetails);
-            router.go("/profile/");
-        })
-        .catch((error: XMLHttpRequest) => {
-            console.log('Error', error);
-            const errorMessage = getResponseErrorText(error);
-            if (errorMessage === "Login already exists") {
-                setErrorTextForInputField("login", errorMessage, this.props.child.props.inputFields);
-            } else if (errorMessage === "phone is not valid") {
-                setErrorTextForInputField("phone", errorMessage, this.props.child.props.inputFields);
-            } else if (errorMessage === "Email already exists") {
-                setErrorTextForInputField("email", errorMessage, this.props.child.props.inputFields);
-            }
-        });
 }
 
 function createProfileFields(currentUser: ICurrentUser): TFormElement[] {

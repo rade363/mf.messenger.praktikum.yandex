@@ -56,42 +56,40 @@ export default class Login extends Block {
                         ]
                     }
                 ],
-                onSubmit: handleLoginSubmit
+                onSubmit: (formObject: ISignIpProps) => {
+                    console.log("[INFO] Sign in", formObject);
+
+                    authAPI.signIn(formObject)
+                        .then((xhr: XMLHttpRequest) => {
+                            if (xhr.response === "OK") {
+                                return authAPI.getCurrentUser();
+                            }
+                            throw new Error("Could not log in");
+                        })
+                        .then((xhr: XMLHttpRequest) => {
+                            const userDetails = JSON.parse(xhr.response);
+                            globalStateInstance.setProp("currentUser", userDetails);
+                            router.go("/chats/");
+                        })
+                        .catch((error: XMLHttpRequest | Error) => {
+                            console.log('[LOGIN] Error', error);
+                            if (error instanceof Error || error.status === 500) {
+                                router.go("/500/");
+                                return;
+                            }
+
+                            const errorMessage = getResponseErrorText(error);
+                            this.props.child.props.inputFields.forEach((formInput: any) => {
+                                const prevProps = formInput.inputField.props.errorMessage.props;
+                                formInput.inputField.props.errorMessage.setProps({
+                                    ...prevProps,
+                                    text: errorMessage
+                                });
+                            });
+                        });
+                }
             })
         });
-
-        function handleLoginSubmit(formObject: ISignIpProps) {
-            console.log("[INFO] Sign in", formObject);
-
-            authAPI.signIn(formObject)
-                .then((xhr: XMLHttpRequest) => {
-                    if (xhr.response === "OK") {
-                        return authAPI.getCurrentUser();
-                    }
-                    throw new Error("Could not log in");
-                })
-                .then((xhr: XMLHttpRequest) => {
-                    const userDetails = JSON.parse(xhr.response);
-                    globalStateInstance.setProp("currentUser", userDetails);
-                    router.go("/chats/");
-                })
-                .catch((error: XMLHttpRequest | Error) => {
-                    console.log('[LOGIN] Error', error);
-                    if (error instanceof Error || error.status === 500) {
-                        router.go("/500/");
-                        return;
-                    }
-
-                    const errorMessage = getResponseErrorText(error);
-                    this.props.child.props.inputFields.forEach((formInput: any) => {
-                        const prevProps = formInput.inputField.props.errorMessage.props;
-                        formInput.inputField.props.errorMessage.setProps({
-                            ...prevProps,
-                            text: errorMessage
-                        });
-                    });
-                });
-        }
     }
 
     componentDidMount() {
