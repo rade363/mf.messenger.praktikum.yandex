@@ -15,12 +15,59 @@ import handleUserSearch from "../../controllers/searchController.js";
 import validateAuth from "../../controllers/authValidationController.js";
 import {getExistingChats, handleExistingChats, renderChatsList} from "../../controllers/existingChatsListController.js";
 import handleDeleteChat from "../../controllers/deleteChatController.js";
+import createChat from "../../controllers/createNewChatController.js";
 
 const router = new Router("#root");
 const globalStateInstance = new GlobalState();
 
 export default class Conversation extends Block {
     constructor() {
+        const createGroupChatModal = new Modal({
+            name: "new-group-chat-title",
+            title: "New group chat title",
+            child: new Form({
+                name: "new-group-chat-title-form",
+                inputFields: [
+                    {
+                        label: "Group chat title",
+                        type: "text",
+                        name: "title"
+                    }
+                ],
+                actions: [
+                    {
+                        type: "double",
+                        attributes: {
+                            class: ""
+                        },
+                        children: [
+                            {
+                                text: "Create",
+                                attributes: {
+                                    type: "submit",
+                                    class: "new-group-chat-title-form__add-button button button_wide button_primary"
+                                }
+                            },
+                            {
+                                text: "Cancel",
+                                attributes: {
+                                    type: "button",
+                                    class: "new-group-chat-title-form__cancel-button button button_wide button_secondary"
+                                },
+                                eventListeners: [
+                                    ["click", () => createGroupChatModal.hide()]
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                onSubmit: (formObject: INewGroupChatTitle): void => {
+                    console.log("[INFO] Creating a new group chat...", formObject);
+                    createGroupChatModal.hide();
+                    createChat(`Group: ${formObject.title}`, globalStateInstance, router);
+                }
+            })
+        });
         const addUserModal = new Modal({
             name: "add-user",
             title: "Add user",
@@ -109,10 +156,23 @@ export default class Conversation extends Block {
             })
         });
         super("div", {
+            newChatButton: new Button("button", {
+                text: "New chat",
+                attributes: {
+                    class: "chat__top-link chat__new-chat-button",
+                    href: ""
+                },
+                eventListeners: [
+                    ["click", (event: Event) => {
+                        event.preventDefault();
+                        createGroupChatModal.show();
+                    }]
+                ]
+            }),
             profileLink: new Button("a", {
                 text: "Profile",
                 attributes: {
-                    class: "chat__profile-link",
+                    class: "chat__top-link",
                     href: "/profile/"
                 },
                 eventListeners: [
@@ -234,7 +294,8 @@ export default class Conversation extends Block {
             }),
             modals: [
                 { modal: addUserModal },
-                { modal: deleteConversationModal }
+                { modal: deleteConversationModal },
+                { modal: createGroupChatModal }
             ]
         })
     }

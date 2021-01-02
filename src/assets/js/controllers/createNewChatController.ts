@@ -2,10 +2,11 @@ import ChatsAPI from "../api/chats-api.js";
 import Router from "../modules/Router";
 import {handleExistingChats, renderChatsList} from "./existingChatsListController.js";
 import {setConversationTitle} from "./conversationInfoController.js";
+import addUsersToChat from "./addUsersController.js";
 
 const chatsAPI = new ChatsAPI();
 
-export function createChat(title: string, userId: number, globalStateInstance: IGlobalState, router: Router): void {
+export default function createChat(title: string, globalStateInstance: IGlobalState, router: Router, userIds?: number[]): void {
     chatsAPI.createChat({title})
         .then((xhr: XMLHttpRequest) => {
             console.log('[SUCCESS] Chat created', xhr.response);
@@ -18,17 +19,13 @@ export function createChat(title: string, userId: number, globalStateInstance: I
             if (!createdChat) {
                 throw new Error("[ERROR] Chat was not created");
             }
-            if (!userId) {
-                throw new Error("[ERROR] No selected user id");
-            }
             globalStateInstance.setProp("selectedChat", createdChat);
-            return chatsAPI.addUsers({
-                users: [userId],
-                chatId: createdChat.id
-            });
+
+            if (userIds) {
+                return addUsersToChat(userIds, createdChat.id);
+            }
         })
-        .then((xhr: XMLHttpRequest) => {
-            console.log('[SUCCESS] User added to the new chat', xhr.response);
+        .then(() => {
             router.go("/conversation/");
             if (router._currentRoute && router._currentRoute._block) {
                 const pageBlock = router._currentRoute._block;

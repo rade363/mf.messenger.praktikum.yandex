@@ -3,7 +3,7 @@ import {compile} from "../../modules/templator.js";
 import template from "./ChatListItem.js";
 import GlobalState from "../../modules/GlobalState.js";
 import Router from "../../modules/Router.js";
-import {createChat} from "../../controllers/chatListItemController.js";
+import createChat from "../../controllers/createNewChatController.js";
 import {handleExistingChats, renderChatsList} from "../../controllers/existingChatsListController.js";
 import {setConversationTitle} from "../../controllers/conversationInfoController.js";
 
@@ -22,7 +22,7 @@ export default class ChatListItem extends Block {
                     const selectedChat = existingChats.find(chat => chat.title === title);
 
                     if (!selectedChat) {
-                        return createChat(title, id, globalStateInstance, router);
+                        return createChat(title, globalStateInstance, router, [id]);
                     }
 
                     globalStateInstance.setProp("selectedChat", selectedChat);

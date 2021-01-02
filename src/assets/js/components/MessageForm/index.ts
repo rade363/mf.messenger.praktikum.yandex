@@ -32,7 +32,7 @@ export default class MessageForm extends Block {
                     name: "photo",
                     eventListeners: [
                         ["input", (event: Event) => {
-                            setImageUpload(event, setAttachment);
+                            setImageUpload(event, setAttachment, this);
                             attachmentContextMenu.hide();
                         }]
                     ]
@@ -43,7 +43,7 @@ export default class MessageForm extends Block {
                     name: "file",
                     eventListeners: [
                         ["input", (event: Event) => {
-                            setImageUpload(event, setAttachment);
+                            setImageUpload(event, setAttachment, this);
                             attachmentContextMenu.hide();
                         }]
                     ]
@@ -54,7 +54,7 @@ export default class MessageForm extends Block {
                     name: "location",
                     eventListeners: [
                         ["input", (event: Event) => {
-                            setImageUpload(event, setAttachment);
+                            setImageUpload(event, setAttachment, this);
                             attachmentContextMenu.hide();
                         }]
                     ]

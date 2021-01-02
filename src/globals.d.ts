@@ -393,3 +393,7 @@ interface IGlobalState {
     getProp: (propName: string) => any;
     check: () => TObjectType;
 }
+
+interface INewGroupChatTitle {
+    title: string;
+}

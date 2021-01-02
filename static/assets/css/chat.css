@@ -27,11 +27,14 @@
 
 .chat__topbar {
     display: flex;
-    justify-content: flex-end;
     margin-bottom: 10px;
 }
 
-.chat__profile-link {
+.topbar__right {
+    justify-content: flex-end;
+}
+
+.chat__top-link {
     font-size: 20px;
     color: var(--blue);
     background-color: transparent;
@@ -39,6 +42,10 @@
     cursor: pointer;
     padding: 0;
     text-decoration: none;
+}
+
+.chat__new-chat-button {
+
 }
 
 .chat__search {
