@@ -5,7 +5,7 @@ import GlobalState from "../../modules/GlobalState.js";
 import Router from "../../modules/Router.js";
 import createChat from "../../controllers/createNewChatController.js";
 import {handleExistingChats, renderChatsList} from "../../controllers/existingChatsListController.js";
-import {setConversationTitle} from "../../controllers/conversationInfoController.js";
+import {setConversationMain} from "../../controllers/conversationMainController.js";
 
 const globalStateInstance = new GlobalState();
 const router = new Router("#root");
@@ -33,7 +33,7 @@ export default class ChatListItem extends Block {
                     if (router._currentRoute && router._currentRoute._block) {
                         const pageBlock = router._currentRoute._block;
                         const existingChatsList = handleExistingChats(existingChats);
-                        setConversationTitle(selectedChat, pageBlock);
+                        setConversationMain(selectedChat, pageBlock);
                         return renderChatsList(existingChatsList, pageBlock, selectedChat);
                     }
                 }]

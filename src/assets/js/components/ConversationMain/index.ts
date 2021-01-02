@@ -6,7 +6,9 @@ import ContextMenu from "../ContextMenu/index.js";
 import {useState} from "../../modules/state.js";
 import MessageForm from "../MessageForm/index.js";
 import ContextButton from "../ContextButton/index.js";
+import GlobalState from "../../modules/GlobalState.js";
 
+const globalStateInstance = new GlobalState();
 const state = {
     isConversationActionsMenuOpen: useState(false)
 };
@@ -14,7 +16,8 @@ const state = {
 export default class ConversationMain extends Block {
     constructor(props: IConversationMain) {
         const [getIsConversationActionsMenuOpen, setIsConversationActionsMenuOpen] = state.isConversationActionsMenuOpen;
-        const conversationActionsMenu = new ContextMenu({
+        const selectedChat: IExistingChat = globalStateInstance.getProp("selectedChat");
+        const contextMenuOptions = {
             attributes: {
                 class: "conversation__context"
             },
@@ -32,9 +35,13 @@ export default class ConversationMain extends Block {
                             props.addUserModal.show();
                         }]
                     ]
-                }),
+                })
+            ]
+        };
+        if (selectedChat.title.indexOf("Group: ") === 0) {
+            contextMenuOptions.items.push(
                 new ContextButton({
-                    text: "Delete conversation",
+                    text: "Delete user",
                     icon: "../assets/img/delete.svg",
                     name: "context__delete",
                     eventListeners: [
@@ -43,12 +50,29 @@ export default class ConversationMain extends Block {
                             conversationActionsMenu.hide();
                             setIsConversationActionsMenuOpen(false);
 
-                            props.deleteConversationModal.show();
+                            props.deleteUserModal.show();
                         }]
                     ]
-                })
-            ]
-        });
+                }),
+            );
+        }
+        contextMenuOptions.items.push(
+            new ContextButton({
+                text: "Delete conversation",
+                icon: "../assets/img/delete.svg",
+                name: "context__delete",
+                eventListeners: [
+                    ["click", (event: Event) => {
+                        event.preventDefault();
+                        conversationActionsMenu.hide();
+                        setIsConversationActionsMenuOpen(false);
+
+                        props.deleteConversationModal.show();
+                    }]
+                ]
+            })
+        );
+        const conversationActionsMenu = new ContextMenu(contextMenuOptions);
 
         super("div", {
             ...props,

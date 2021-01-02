@@ -203,6 +203,7 @@ interface IConversationMain {
     messagesList: IMessage[];
     addUserModal: TObjectType;
     deleteConversationModal: TObjectType;
+    deleteUserModal: TObjectType;
 }
 
 interface IErrorMessage {

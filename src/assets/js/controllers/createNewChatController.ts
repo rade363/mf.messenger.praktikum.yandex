@@ -1,7 +1,7 @@
 import ChatsAPI from "../api/chats-api.js";
 import Router from "../modules/Router";
 import {handleExistingChats, renderChatsList} from "./existingChatsListController.js";
-import {setConversationTitle} from "./conversationInfoController.js";
+import {setConversationMain} from "./conversationMainController.js";
 import addUsersToChat from "./addUsersController.js";
 
 const chatsAPI = new ChatsAPI();
@@ -32,7 +32,7 @@ export default function createChat(title: string, globalStateInstance: IGlobalSt
                 const existingChats = globalStateInstance.getProp("existingChats");
                 const selectedChat = globalStateInstance.getProp("selectedChat");
                 const existingChatsList = handleExistingChats(existingChats);
-                setConversationTitle(selectedChat, pageBlock);
+                setConversationMain(selectedChat, pageBlock);
                 return renderChatsList(existingChatsList, pageBlock, selectedChat);
             }
         })

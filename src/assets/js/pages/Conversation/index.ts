@@ -4,157 +4,26 @@ import template from "./template.js";
 import {compile} from "../../modules/templator.js";
 import ChatList from "../../components/ChatList/index.js";
 import ConversationMain from "../../components/ConversationMain/index.js";
-import Modal from "../../components/Modal/index.js";
-import Form from "../../components/Form/index.js";
-import ConfirmMessage from "../../components/ConfirmMessage/index.js";
-import Double from "../../components/Double/index.js";
 import Button from "../../components/Button/index.js";
 import Router from "../../modules/Router.js";
 import GlobalState from "../../modules/GlobalState.js";
 import handleUserSearch from "../../controllers/searchController.js";
 import validateAuth from "../../controllers/authValidationController.js";
 import {getExistingChats, handleExistingChats, renderChatsList} from "../../controllers/existingChatsListController.js";
-import handleDeleteChat from "../../controllers/deleteChatController.js";
-import createChat from "../../controllers/createNewChatController.js";
+import createNewGroupChatTitleModal from "../../controllers/newGroupChatTItleModalController.js";
+import createAddUserModal from "../../controllers/addUserModalController.js";
+import createDeleteUserModalController from "../../controllers/deleteUserFromGroupChatModalController.js";
+import createDeleteConversationModal from "../../controllers/deleteConversationModalController.js";
 
 const router = new Router("#root");
 const globalStateInstance = new GlobalState();
 
 export default class Conversation extends Block {
     constructor() {
-        const createGroupChatModal = new Modal({
-            name: "new-group-chat-title",
-            title: "New group chat title",
-            child: new Form({
-                name: "new-group-chat-title-form",
-                inputFields: [
-                    {
-                        label: "Group chat title",
-                        type: "text",
-                        name: "title"
-                    }
-                ],
-                actions: [
-                    {
-                        type: "double",
-                        attributes: {
-                            class: ""
-                        },
-                        children: [
-                            {
-                                text: "Create",
-                                attributes: {
-                                    type: "submit",
-                                    class: "new-group-chat-title-form__add-button button button_wide button_primary"
-                                }
-                            },
-                            {
-                                text: "Cancel",
-                                attributes: {
-                                    type: "button",
-                                    class: "new-group-chat-title-form__cancel-button button button_wide button_secondary"
-                                },
-                                eventListeners: [
-                                    ["click", () => createGroupChatModal.hide()]
-                                ]
-                            }
-                        ]
-                    }
-                ],
-                onSubmit: (formObject: INewGroupChatTitle): void => {
-                    console.log("[INFO] Creating a new group chat...", formObject);
-                    createGroupChatModal.hide();
-                    createChat(`Group: ${formObject.title}`, globalStateInstance, router);
-                }
-            })
-        });
-        const addUserModal = new Modal({
-            name: "add-user",
-            title: "Add user",
-            child: new Form({
-                name: "add-user-form",
-                inputFields: [
-                    {
-                        label: "Username",
-                        type: "text",
-                        name: "username"
-                    }
-                ],
-                actions: [
-                    {
-                        type: "double",
-                        attributes: {
-                            class: ""
-                        },
-                        children: [
-                            {
-                                text: "Add",
-                                attributes: {
-                                    type: "submit",
-                                    class: "add-user-form__add-button button button_wide button_primary"
-                                }
-                            },
-                            {
-                                text: "Cancel",
-                                attributes: {
-                                    type: "button",
-                                    class: "add-user-form__cancel-button button button_wide button_secondary"
-                                },
-                                eventListeners: [
-                                    ["click", () => addUserModal.hide()]
-                                ]
-                            }
-                        ]
-                    }
-                ],
-                onSubmit: (formObject: IFormObject): void => {
-                    console.log("[INFO] Username valid, add user event executed, form will be submitted later in this course", formObject)
-                }
-            })
-        });
-        const deleteConversationModal: IBlock = new Modal({
-            name: "delete-conversation",
-            title: "Delete conversation",
-            child: new ConfirmMessage({
-                message: `<div class="modal__message">Are you sure? <br/>This action cannot be undone.</div>`,
-                actions: [
-                    {
-                        action: new Double({
-                            type: "double",
-                            attributes: {
-                                class: ""
-                            },
-                            children: [
-                                {
-                                    child: new Button("button", {
-                                        text: "Delete",
-                                        attributes: {
-                                            type: "button",
-                                            class: "delete-conversation__approve button button_wide button_danger"
-                                        },
-                                        eventListeners: [
-                                            ["click", () => handleDeleteChat(globalStateInstance, router, deleteConversationModal)]
-                                        ]
-                                    })
-                                },
-                                {
-                                    child: new Button("button", {
-                                        text: "Delete",
-                                        attributes: {
-                                            type: "button",
-                                            class: "delete-conversation__approve button button_wide button_secondary"
-                                        },
-                                        eventListeners: [
-                                            ["click", () => deleteConversationModal.hide()]
-                                        ]
-                                    })
-                                }
-                            ]
-                        })
-                    }
-                ]
-            })
-        });
+        const createGroupChatModal = createNewGroupChatTitleModal(globalStateInstance, router);
+        const addUserModal = createAddUserModal();
+        const deleteUserModal = createDeleteUserModalController();
+        const deleteConversationModal: IBlock = createDeleteConversationModal(globalStateInstance, router);
         super("div", {
             newChatButton: new Button("button", {
                 text: "New chat",
@@ -290,12 +159,14 @@ export default class Conversation extends Block {
                     }
                 ],
                 addUserModal,
-                deleteConversationModal
+                deleteConversationModal,
+                deleteUserModal
             }),
             modals: [
                 { modal: addUserModal },
                 { modal: deleteConversationModal },
-                { modal: createGroupChatModal }
+                { modal: createGroupChatModal },
+                { modal: deleteUserModal }
             ]
         })
     }
