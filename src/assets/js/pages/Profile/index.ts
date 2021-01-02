@@ -4,6 +4,8 @@ import Button from "../../components/Button/index.js";
 import template from "./template.js";
 import {compile} from "../../modules/templator.js";
 import {getResponseErrorText} from "../../modules/helpers.js";
+import {createAPIUrl} from "../../modules/domHelpers.js";
+import {NO_AVATAR_IMG} from "../../constants/index.js";
 
 import Router from "../../modules/Router.js";
 import AuthAPI from "../../api/auth-api.js";
@@ -15,7 +17,7 @@ const globalStateInstance = new GlobalState();
 
 export default class Profile extends Block {
     constructor() {
-        const currentUser: ICurrentUser = globalStateInstance.getProp("currentUser");
+        const currentUser: IUser = globalStateInstance.getProp("currentUser");
         const profile = createExistingUser(currentUser);
 
         super("div", {
@@ -114,10 +116,10 @@ export default class Profile extends Block {
     }
 }
 
-function createExistingUser(currentUser: ICurrentUser | null): ICurrentUserDetails {
+function createExistingUser(currentUser: IUser | null): ICurrentUserDetails {
     const avatar = currentUser && currentUser.avatar
-        ? { isEmpty: false, url: `https://ya-praktikum.tech${currentUser.avatar}` }
-        : { isEmpty: true, url: "../assets/img/userpic-empty.svg"};
+        ? { isEmpty: false, url: createAPIUrl(currentUser.avatar) }
+        : { isEmpty: true, url: NO_AVATAR_IMG};
     const fullname = currentUser && currentUser.first_name && currentUser.second_name
         ? `${currentUser.first_name} ${currentUser.second_name}`
         : "";
@@ -137,7 +139,7 @@ function createExistingUser(currentUser: ICurrentUser | null): ICurrentUserDetai
     };
 }
 
-function createUserProperty(type: string, title: string, currentUser: ICurrentUser | null): IUserProperty {
+function createUserProperty(type: string, title: string, currentUser: IUser | null): IUserProperty {
     if (currentUser && type in currentUser && typeof currentUser[type] === "string") {
         const value = currentUser[type];
         if (typeof value === "string") {

@@ -10,10 +10,17 @@ import ConfirmMessage from "../../components/ConfirmMessage/index.js";
 import Double from "../../components/Double/index.js";
 import Button from "../../components/Button/index.js";
 import Router from "../../modules/Router.js";
+import GlobalState from "../../modules/GlobalState.js";
+import handleUserSearch from "../../controllers/searchController.js";
+import validateAuth from "../../controllers/authValidationController.js";
+import {getExistingChats, handleExistingChats, renderChatsList} from "../../controllers/existingChatsListController.js";
+import handleDeleteChat from "../../controllers/deleteChatController.js";
+
+const router = new Router("#root");
+const globalStateInstance = new GlobalState();
 
 export default class Conversation extends Block {
     constructor() {
-        const router = new Router("#root");
         const addUserModal = new Modal({
             name: "add-user",
             title: "Add user",
@@ -58,7 +65,7 @@ export default class Conversation extends Block {
                 }
             })
         });
-        const deleteConversationModal: TObjectType = new Modal({
+        const deleteConversationModal: IBlock = new Modal({
             name: "delete-conversation",
             title: "Delete conversation",
             child: new ConfirmMessage({
@@ -79,10 +86,7 @@ export default class Conversation extends Block {
                                             class: "delete-conversation__approve button button_wide button_danger"
                                         },
                                         eventListeners: [
-                                            ["click", () => {
-                                                console.log('Conversation deleted (will be implemented later in the course');
-                                                deleteConversationModal.hide()
-                                            }]
+                                            ["click", () => handleDeleteChat(globalStateInstance, router, deleteConversationModal)]
                                         ]
                                     })
                                 },
@@ -118,145 +122,19 @@ export default class Conversation extends Block {
                     }]
                 ]
             }),
-            searchInput: new SearchInput(),
+            searchInput: new SearchInput({
+                search: (login: string): void => handleUserSearch(login, this)
+            }),
             chatList: new ChatList({
                 attributes: {
                     class: "chat__list"
                 },
-                items: [
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "John",
-                        lastMessage: "Image",
-                        lastMessageBy: "",
-                        time: "20:37",
-                        unread: 2,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Alex",
-                        lastMessage: ":)",
-                        lastMessageBy: "",
-                        time: "17:51",
-                        unread: 0,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Viktor",
-                        lastMessage: "Давно не виделись! Как п...",
-                        lastMessageBy: "You",
-                        time: "17:40",
-                        unread: 0,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Developers",
-                        lastMessage: "What is this?",
-                        lastMessageBy: "Vlad",
-                        time: "16:05",
-                        unread: 9,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Pavel",
-                        lastMessage: "I will create my own Telegr...",
-                        lastMessageBy: "You",
-                        time: "12:25",
-                        unread: 0,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Daniel",
-                        lastMessage: "Damn, Daniel!",
-                        lastMessageBy: "You",
-                        time: "MON",
-                        unread: 0,
-                        isSelected: true,
-                        url: "/conversation/"
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Narayan",
-                        lastMessage: "Thank you my friend!",
-                        lastMessageBy: "",
-                        time: "SAT",
-                        unread: 0,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Konstantin",
-                        lastMessage: "We need to discuss something i...",
-                        lastMessageBy: "",
-                        time: "15/11/20",
-                        unread: 0,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Artemy",
-                        lastMessage: "Image",
-                        lastMessageBy: "",
-                        time: "13/11/20",
-                        unread: 0,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Artemy",
-                        lastMessage: "Image",
-                        lastMessageBy: "",
-                        time: "13/11/20",
-                        unread: 0,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Artemy",
-                        lastMessage: "Image",
-                        lastMessageBy: "",
-                        time: "13/11/20",
-                        unread: 0,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Artemy",
-                        lastMessage: "Image",
-                        lastMessageBy: "",
-                        time: "13/11/20",
-                        unread: 0,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Artemy",
-                        lastMessage: "Image",
-                        lastMessageBy: "",
-                        time: "13/11/20",
-                        unread: 0,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Artemy",
-                        lastMessage: "Image",
-                        lastMessageBy: "",
-                        time: "13/11/20",
-                        unread: 0,
-                        isSelected: false
-                    }
-                ]
+                items: []
             }),
             conversationMain: new ConversationMain({
                 user: {
-                    name: "Daniel",
-                    status: "last seen 1 hour ago"
+                    name: "",
+                    status: ""
                 },
                 messagesList: [
                     {
@@ -355,14 +233,41 @@ export default class Conversation extends Block {
                 deleteConversationModal
             }),
             modals: [
-                {
-                    modal: addUserModal
-                },
-                {
-                    modal: deleteConversationModal
-                }
+                { modal: addUserModal },
+                { modal: deleteConversationModal }
             ]
         })
+    }
+
+    componentDidMount() {
+        console.log('[CONVERSATION] Mounted');
+        validateAuth(globalStateInstance)
+            .then((isAuthenticated) => {
+                if (!isAuthenticated) {
+                    throw new Error("Not authorized");
+                }
+                return getExistingChats(globalStateInstance);
+            })
+            .then((existingChats: IExistingChat[]) => handleExistingChats(existingChats))
+            .then((existingChatsList: IChatListItem[]) => {
+                const selectedChat = globalStateInstance.getProp("selectedChat");
+                if (selectedChat) {
+                    renderChatsList(existingChatsList, this, selectedChat);
+                } else {
+                    renderChatsList(existingChatsList, this);
+                    throw new Error("No chat selected");
+                }
+            })
+            .catch((error: XMLHttpRequest | Error) => {
+                console.log('[CONVERSATION] ERROR', error)
+                if (error instanceof Error) {
+                    if (error.message === "Not authorized") {
+                        router.go("/login/");
+                    } else if (error.message === "No chat selected") {
+                        router.go("/chats/");
+                    }
+                }
+            });
     }
 
     render(): Element | null {

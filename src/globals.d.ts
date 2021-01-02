@@ -126,12 +126,13 @@ interface IFormProps {
 
 interface IChatListItem {
     avatar: string;
-    username: string;
+    title: string;
     lastMessage: string;
     lastMessageBy: string;
     time: string;
     unread: number;
     isSelected: boolean;
+    id: number;
     url?: string;
 }
 
@@ -278,7 +279,7 @@ interface IRootQuery {
 }
 
 interface IRouter {
-    __instance: this;
+    __instance?: this;
     _currentRoute: unknown;
     _rootQuery: string;
     _onRoute: (pathname: string) => void;
@@ -333,7 +334,7 @@ interface ICurrentUserDetails {
     infoBlock: IUserProperty[];
 }
 
-interface ICurrentUser {
+interface IUser {
     [key: string]: unknown;
     id: number;
     login: string;
@@ -357,4 +358,38 @@ interface IUpdateUserProps {
 interface IUpdatePasswordProps {
     oldPassword: string;
     newPassword: string;
+}
+
+interface INewChatProps {
+    title: string
+}
+
+interface IDeleteChatProps {
+    chatId: number;
+}
+
+interface IChatActionUsersProps {
+    users: number[];
+    chatId: number;
+}
+
+interface ISearchInputProps {
+    search: (login: string) => unknown;
+}
+
+interface ISearchRequestProps {
+    login: string;
+}
+
+interface IExistingChat {
+    id: number;
+    title: string;
+    avatar: string;
+}
+
+interface IGlobalState {
+    state: TObjectType;
+    setProp: (propName: string, possibleCallback: unknown) => void;
+    getProp: (propName: string) => any;
+    check: () => TObjectType;
 }

@@ -1,10 +1,10 @@
 export default `
 <div class="{{className}}">
     <div class="chat-list__userpic userpic">
-        <img class="userpic__image" src="{{avatar}}" alt="{{username}}" />
+        <img class="userpic__image" src="{{avatar}}" alt="{{title}}" />
     </div>
     <div class="chat-list__content">
-        <h2 class="chat-list__username">{{username}}</h2>
+        <h2 class="chat-list__username">{{title}}</h2>
         <div class="chat-list__preview preview">
             {{#notEmpty lastMessageBy}}
             <span class="preview__highlight">{{lastMessageBy}}:</span>

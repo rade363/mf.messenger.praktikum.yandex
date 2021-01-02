@@ -11,7 +11,7 @@ const state: ISearchState = {
 };
 
 export default class SearchInput extends Block {
-    constructor() {
+    constructor(props: ISearchInputProps) {
         const [getSearchKey, setSearchKey] = state.searchKey;
         super("form", {
             attributes: {
@@ -42,7 +42,8 @@ export default class SearchInput extends Block {
                 if (isXssPresent(searchKey)) {
                     alert("Invalid symbols");
                 } else {
-                    console.log("[INFO] Search form submitted, this will be handled later in this course", searchKey);
+                    console.log("[INFO] Search form submitted", searchKey);
+                    props.search(searchKey);
                 }
             }
         });

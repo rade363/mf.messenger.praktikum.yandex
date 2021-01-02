@@ -2,7 +2,6 @@ import Block from "../../modules/Block.js";
 import {compile} from "../../modules/templator.js";
 import {useState} from "../../modules/state.js";
 import template from "./Form.js";
-
 import FormInput from "../FormInput/index.js";
 import ErrorMessage from "../ErrorMessage/index.js";
 import Input from "../Input/index.js";
@@ -12,7 +11,8 @@ import ImageInput from "../ImageInput/index.js";
 
 import {validateField, setFormInput} from "../../modules/formHelpers.js";
 import {isEmpty} from "../../modules/helpers.js";
-import {setImageUpload} from "../../modules/domHelpers.js";
+import {createAPIUrl, setImageUpload} from "../../modules/domHelpers.js";
+import {NO_AVATAR_IMG} from "../../constants/index.js";
 
 export default class Form extends Block {
     constructor(props: IFormProps) {
@@ -69,7 +69,7 @@ export default class Form extends Block {
                     class: `${inputFieldProps.attributes.class} ${inputFieldProps.name} ${isEmpty(inputFieldProps.src) ? `${inputFieldProps.name}_empty` : ""}`
                 },
                 name: inputFieldProps.name,
-                src: isEmpty(inputFieldProps.src) ? "../assets/img/userpic-empty.svg" : `https://ya-praktikum.tech${inputFieldProps.src}`,
+                src: isEmpty(inputFieldProps.src) ? NO_AVATAR_IMG : createAPIUrl(inputFieldProps.src),
                 label: inputFieldProps.label,
                 input: new Input({
                     attributes: {

@@ -15,4 +15,12 @@ export default class UserAPI {
     changePassword(data: IUpdatePasswordProps): Promise<XMLHttpRequest> {
         return userAPIInstance.put("/password", {data});
     }
+
+    searchUserByLogin(data: ISearchRequestProps): Promise<XMLHttpRequest> {
+        return userAPIInstance.post("/search", {data});
+    }
+
+    getUserById(id: number): Promise<XMLHttpRequest> {
+        return userAPIInstance.get(`/${id}`, {});
+    }
 }

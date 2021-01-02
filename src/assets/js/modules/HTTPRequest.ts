@@ -45,7 +45,7 @@ export default class HTTPRequest {
 
     request(url: string, options: IFetchRequestOptions, timeout: number = 5000): Promise<XMLHttpRequest> {
         const {method, headers, data} = options;
-        const realUrl = method === METHODS.GET && data !== undefined ? `${url}${queryString(data)}` : url;
+        const realUrl = method === METHODS.GET && data !== undefined ? `${url}?${queryString(data)}` : url;
         const fullUrl = `${this.baseUrl}${realUrl}`;
 
         return new Promise((resolve, reject) => {

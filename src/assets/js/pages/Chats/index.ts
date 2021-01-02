@@ -3,12 +3,18 @@ import SearchInput from "../../components/SearchInput/index.js";
 import template from "./template.js";
 import {compile} from "../../modules/templator.js";
 import ChatList from "../../components/ChatList/index.js";
-import Router from "../../modules/Router.js";
 import Button from "../../components/Button/index.js";
+import Router from "../../modules/Router.js";
+import GlobalState from "../../modules/GlobalState.js";
+import handleUserSearch from "../../controllers/searchController.js";
+import validateAuth from "../../controllers/authValidationController.js";
+import {getExistingChats, handleExistingChats, renderChatsList} from "../../controllers/existingChatsListController.js";
+
+const router = new Router("#root");
+const globalStateInstance = new GlobalState();
 
 export default class Chats extends Block {
     constructor() {
-        const router = new Router("#root");
         super("div", {
             profileLink: new Button("a", {
                 text: "Profile",
@@ -23,142 +29,37 @@ export default class Chats extends Block {
                     }]
                 ]
             }),
-            searchInput: new SearchInput(),
+            searchInput: new SearchInput({
+                search: (login: string): void => handleUserSearch(login, this)
+            }),
             chatList: new ChatList({
                 attributes: {
                     class: "chat__list"
                 },
-                items: [
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "John",
-                        lastMessage: "Image",
-                        lastMessageBy: "",
-                        time: "20:37",
-                        unread: 2,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Alex",
-                        lastMessage: ":)",
-                        lastMessageBy: "",
-                        time: "17:51",
-                        unread: 0,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Viktor",
-                        lastMessage: "Давно не виделись! Как п...",
-                        lastMessageBy: "You",
-                        time: "17:40",
-                        unread: 0,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Developers",
-                        lastMessage: "What is this?",
-                        lastMessageBy: "Vlad",
-                        time: "16:05",
-                        unread: 9,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Pavel",
-                        lastMessage: "I will create my own Telegr...",
-                        lastMessageBy: "You",
-                        time: "12:25",
-                        unread: 0,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Daniel",
-                        lastMessage: "Damn, Daniel!",
-                        lastMessageBy: "You",
-                        time: "MON",
-                        unread: 0,
-                        isSelected: false,
-                        url: "/conversation/"
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Narayan",
-                        lastMessage: "Thank you my friend!",
-                        lastMessageBy: "",
-                        time: "SAT",
-                        unread: 0,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Konstantin",
-                        lastMessage: "We need to discuss something i...",
-                        lastMessageBy: "",
-                        time: "15/11/20",
-                        unread: 0,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Artemy",
-                        lastMessage: "Image",
-                        lastMessageBy: "",
-                        time: "13/11/20",
-                        unread: 0,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Artemy",
-                        lastMessage: "Image",
-                        lastMessageBy: "",
-                        time: "13/11/20",
-                        unread: 0,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Artemy",
-                        lastMessage: "Image",
-                        lastMessageBy: "",
-                        time: "13/11/20",
-                        unread: 0,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Artemy",
-                        lastMessage: "Image",
-                        lastMessageBy: "",
-                        time: "13/11/20",
-                        unread: 0,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Artemy",
-                        lastMessage: "Image",
-                        lastMessageBy: "",
-                        time: "13/11/20",
-                        unread: 0,
-                        isSelected: false
-                    },
-                    {
-                        avatar: "../assets/img/userpic-no-avatar.svg",
-                        username: "Artemy",
-                        lastMessage: "Image",
-                        lastMessageBy: "",
-                        time: "13/11/20",
-                        unread: 0,
-                        isSelected: false
-                    }
-                ]
+                items: []
             })
         });
+    }
+
+    componentDidMount() {
+        console.log('[CHATS] Mounted');
+        validateAuth(globalStateInstance)
+            .then((isAuthenticated) => {
+                if (!isAuthenticated) {
+                    throw new Error("Not authorized");
+                }
+                return getExistingChats(globalStateInstance);
+            })
+            .then((existingChats: IExistingChat[]) => handleExistingChats(existingChats))
+            .then((existingChatsList: IChatListItem[]) => renderChatsList(existingChatsList, this))
+            .catch((error: XMLHttpRequest | Error) => {
+                console.log('[CHATS] ERROR', error)
+                if (error instanceof Error) {
+                    if (error.message === "Not authorized") {
+                        router.go("/login/");
+                    }
+                }
+            });
     }
 
     render(): Element | null {

@@ -121,7 +121,7 @@ export function setFormInput(event: Event, fieldName: string, state: IFormInputS
     callback(value);
 }
 
-export function createInputField(name: string, label: string, type: string, currentUser: ICurrentUser, mustEqual?: string): IInputFieldProps {
+export function createInputField(name: string, label: string, type: string, currentUser: IUser, mustEqual?: string): IInputFieldProps {
     const initialField = { name, label, type };
     const inputField = mustEqual ? { ...initialField, mustEqual } : initialField;
 

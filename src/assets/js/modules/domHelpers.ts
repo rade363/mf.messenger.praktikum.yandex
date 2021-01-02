@@ -8,6 +8,7 @@ import ProfileEditInfo from "../pages/ProfileEditInfo/index.js";
 import ProfileChangePassword from "../pages/ProfileChangePassword/index.js";
 import NotFound from "../pages/404/index.js";
 import ServerError from "../pages/500/index.js";
+import {API_URL} from "../constants/index.js";
 
 export function initInterface(): void {
     const router = new Router("#root");
@@ -59,4 +60,8 @@ export function setImageUpload(event: Event, callback: (avatar: File, context: I
         console.log("[INFO] Image uploaded", files);
         callback(image, context);
     }
+}
+
+export function createAPIUrl(path: string): string {
+    return `${API_URL}${path}`;
 }

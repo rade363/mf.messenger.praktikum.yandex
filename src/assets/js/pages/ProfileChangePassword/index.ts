@@ -17,7 +17,7 @@ const globalStateInstance = new GlobalState();
 
 export default class ProfileChangePassword extends Block {
     constructor() {
-        const currentUser: ICurrentUser = globalStateInstance.getProp("currentUser");
+        const currentUser: IUser = globalStateInstance.getProp("currentUser");
 
         super("div", {
             attributes: {
@@ -84,7 +84,7 @@ export default class ProfileChangePassword extends Block {
             })
         });
 
-        function createProfilePasswordChangeFields(currentUser: ICurrentUser): TFormElement[] {
+        function createProfilePasswordChangeFields(currentUser: IUser): TFormElement[] {
             const inputFields = [];
 
             inputFields.push(createInputField("oldPassword", "Old password", "password", currentUser));

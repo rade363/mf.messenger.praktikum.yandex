@@ -5,6 +5,7 @@ import {compile} from "../../modules/templator.js";
 import Form from "../../components/Form/index.js";
 import {getResponseErrorText} from "../../modules/helpers.js";
 import {createInputField, setErrorTextForInputField} from "../../modules/formHelpers.js";
+import {createAPIUrl} from "../../modules/domHelpers.js";
 
 import Router from "../../modules/Router.js";
 import AuthAPI from "../../api/auth-api.js";
@@ -20,7 +21,7 @@ const globalStateInstance = new GlobalState();
 
 export default class ProfileEditInfo extends Block {
     constructor() {
-        const currentUser: ICurrentUser = globalStateInstance.getProp("currentUser");
+        const currentUser: IUser = globalStateInstance.getProp("currentUser");
 
         super("div", {
             attributes: {
@@ -69,7 +70,7 @@ export default class ProfileEditInfo extends Block {
     }
 }
 
-function createProfileForm(currentUser: ICurrentUser) {
+function createProfileForm(currentUser: IUser) {
     return new Form({
         name: "profile-form",
         inputFields: createProfileFields(currentUser),
@@ -125,7 +126,7 @@ function createProfileForm(currentUser: ICurrentUser) {
     })
 }
 
-function createProfileFields(currentUser: ICurrentUser): TFormElement[] {
+function createProfileFields(currentUser: IUser): TFormElement[] {
     const inputFields = [];
 
     inputFields.push(createAvatarField(currentUser));
@@ -147,7 +148,7 @@ function createProfileFields(currentUser: ICurrentUser): TFormElement[] {
     return inputFields;
 }
 
-function createAvatarField(currentUser: ICurrentUser) {
+function createAvatarField(currentUser: IUser) {
     const avatarSource = currentUser && currentUser.avatar && currentUser.avatar !== "" ? currentUser.avatar : "";
     return {
         type: "file",
@@ -174,7 +175,7 @@ function handleAvatarSubmit(avatar: File, imageInput: IBlock) {
                 const prevProps = imageInput.props;
                 imageInput.setProps({
                     ...prevProps,
-                    src: `https://ya-praktikum.tech${userDetails.avatar}`
+                    src: createAPIUrl(userDetails.avatar)
                 })
             }
         })
