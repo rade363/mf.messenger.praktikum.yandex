@@ -1,12 +1,12 @@
-import Block from "../../modules/Block.js";
-import template from "./template.js";
-import {compile} from "../../modules/templator.js";
-import Form from "../../components/Form/index.js";
-import {getResponseErrorText} from "../../modules/helpers.js";
+import Block from "../../modules/Block";
+import template from "./template";
+import {compile} from "../../modules/templator";
+import Form from "../../components/Form/index";
+import {getResponseErrorText} from "../../modules/helpers";
 
-import Router from "../../modules/Router.js";
-import AuthAPI from "../../api/auth-api.js";
-import GlobalState from "../../modules/GlobalState.js";
+import Router from "../../modules/Router";
+import AuthAPI from "../../api/auth-api";
+import GlobalState from "../../modules/GlobalState";
 
 const router = new Router("#root");
 const authAPI = new AuthAPI();

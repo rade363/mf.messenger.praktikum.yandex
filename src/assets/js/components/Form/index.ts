@@ -1,18 +1,18 @@
-import Block from "../../modules/Block.js";
-import {compile} from "../../modules/templator.js";
-import {useState} from "../../modules/state.js";
-import template from "./Form.js";
-import FormInput from "../FormInput/index.js";
-import ErrorMessage from "../ErrorMessage/index.js";
-import Input from "../Input/index.js";
-import Button from "../Button/index.js";
-import Double from "../Double/index.js";
-import ImageInput from "../ImageInput/index.js";
+import Block from "../../modules/Block";
+import {compile} from "../../modules/templator";
+import {useState} from "../../modules/state";
+import template from "./Form";
+import FormInput from "../FormInput/index";
+import ErrorMessage from "../ErrorMessage/index";
+import Input from "../Input/index";
+import Button from "../Button/index";
+import Double from "../Double/index";
+import ImageInput from "../ImageInput/index";
 
-import {validateField, setFormInput} from "../../modules/formHelpers.js";
-import {isEmpty} from "../../modules/helpers.js";
-import {createAPIUrl, setImageUpload} from "../../modules/domHelpers.js";
-import {NO_AVATAR_IMG} from "../../constants/index.js";
+import {validateField, setFormInput} from "../../modules/formHelpers";
+import {isEmpty} from "../../modules/helpers";
+import {createAPIUrl, setImageUpload} from "../../modules/domHelpers";
+import {NO_AVATAR_IMG} from "../../constants/index";
 
 export default class Form extends Block {
     constructor(props: IFormProps) {

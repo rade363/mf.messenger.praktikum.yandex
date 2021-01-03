@@ -1,14 +1,14 @@
-import Block from "../../modules/Block.js";
-import {compile} from "../../modules/templator.js";
-import template from "./ConversationMain.js";
-import Button from "../Button/index.js";
-import ContextMenu from "../ContextMenu/index.js";
-import {useState} from "../../modules/state.js";
-import MessageForm from "../MessageForm/index.js";
-import ContextButton from "../ContextButton/index.js";
-import GlobalState from "../../modules/GlobalState.js";
-import getChatUsers from "../../controllers/collectChatUsersController.js";
-import DeleteUsersList from "../DeleteUsersList/index.js";
+import Block from "../../modules/Block";
+import {compile} from "../../modules/templator";
+import template from "./ConversationMain";
+import Button from "../Button/index";
+import ContextMenu from "../ContextMenu/index";
+import {useState} from "../../modules/state";
+import MessageForm from "../MessageForm/index";
+import ContextButton from "../ContextButton/index";
+import GlobalState from "../../modules/GlobalState";
+import getChatUsers from "../../controllers/collectChatUsersController";
+import DeleteUsersList from "../DeleteUsersList/index";
 
 const globalStateInstance = new GlobalState();
 const state = {

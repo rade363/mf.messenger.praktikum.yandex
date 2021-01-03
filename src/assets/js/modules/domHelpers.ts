@@ -1,14 +1,14 @@
-import Router from "./Router.js";
-import Login from "../pages/Login/index.js";
-import Register from "../pages/Register/index.js";
-import Chats from "../pages/Chats/index.js";
-import Conversation from "../pages/Conversation/index.js";
-import Profile from "../pages/Profile/index.js";
-import ProfileEditInfo from "../pages/ProfileEditInfo/index.js";
-import ProfileChangePassword from "../pages/ProfileChangePassword/index.js";
-import NotFound from "../pages/404/index.js";
-import ServerError from "../pages/500/index.js";
-import {API_URL} from "../constants/index.js";
+import Router from "./Router";
+import Login from "../pages/Login/index";
+import Register from "../pages/Register/index";
+import Chats from "../pages/Chats/index";
+import Conversation from "../pages/Conversation/index";
+import Profile from "../pages/Profile/index";
+import ProfileEditInfo from "../pages/ProfileEditInfo/index";
+import ProfileChangePassword from "../pages/ProfileChangePassword/index";
+import NotFound from "../pages/404/index";
+import ServerError from "../pages/500/index";
+import {API_URL} from "../constants/index";
 
 export function initInterface(): void {
     const router = new Router("#root");

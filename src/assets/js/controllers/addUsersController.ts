@@ -1,4 +1,4 @@
-import ChatsAPI from "../api/chats-api.js";
+import ChatsAPI from "../api/chats-api";
 
 const chatsAPI = new ChatsAPI();
 

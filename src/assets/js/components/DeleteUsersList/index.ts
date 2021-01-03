@@ -1,9 +1,9 @@
-import Block from "../../modules/Block.js";
-import {compile} from "../../modules/templator.js";
-import template from "./DeleteUsersList.js";
-import Button from "../Button/index.js";
-import ChatsAPI from "../../api/chats-api.js";
-import GlobalState from "../../modules/GlobalState.js";
+import Block from "../../modules/Block";
+import {compile} from "../../modules/templator";
+import template from "./DeleteUsersList";
+import Button from "../Button/index";
+import ChatsAPI from "../../api/chats-api";
+import GlobalState from "../../modules/GlobalState";
 
 const chatsAPI = new ChatsAPI();
 const globalStateInstance = new GlobalState();

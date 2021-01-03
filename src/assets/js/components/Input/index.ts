@@ -1,6 +1,6 @@
-import Block from "../../modules/Block.js";
-import {compile} from "../../modules/templator.js";
-import template from "./Input.js";
+import Block from "../../modules/Block";
+import {compile} from "../../modules/templator";
+import template from "./Input";
 
 export default class Input extends Block {
     constructor(props: IInput) {

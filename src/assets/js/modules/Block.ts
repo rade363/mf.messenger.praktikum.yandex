@@ -1,6 +1,6 @@
-import EventBus from "./EventBus.js";
-import {generateUniqueId} from "./helpers.js";
-import {connectBlockWithDom} from "./domHelpers.js";
+import EventBus from "./EventBus";
+import {generateUniqueId} from "./helpers";
+import {connectBlockWithDom} from "./domHelpers";
 
 export default class Block implements IBlock{
     static EVENTS: IBlockEvents = {

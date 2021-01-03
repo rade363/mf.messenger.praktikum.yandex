@@ -1,4 +1,4 @@
-import HTTPRequest from "../modules/HTTPRequest.js";
+import HTTPRequest from "../modules/HTTPRequest";
 
 const userAPIInstance = new HTTPRequest({
     url: "https://ya-praktikum.tech/api/v2/user",

@@ -1,7 +1,7 @@
-import Block from "../../modules/Block.js";
-import {compile} from "../../modules/templator.js";
-import template from "./ChatList.js";
-import ChatListItem from "../ChatListItem/index.js";
+import Block from "../../modules/Block";
+import {compile} from "../../modules/templator";
+import template from "./ChatList";
+import ChatListItem from "../ChatListItem/index";
 
 export default class ChatList extends Block {
     constructor(props: IChatList) {

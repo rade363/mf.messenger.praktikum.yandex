@@ -1,4 +1,4 @@
-import {isEmpty, isXssPresent, isEmailValid} from "./helpers.js";
+import {isEmpty, isXssPresent, isEmailValid} from "./helpers";
 
 export function validateField(fieldName: string, state: IFormInputState): [isValid: boolean, value: unknown] {
     const stateProp = state[fieldName];

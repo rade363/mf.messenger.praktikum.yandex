@@ -1,7 +1,7 @@
-import UserAPI from "../api/user-api.js";
-import {createAPIUrl} from "../modules/domHelpers.js";
-import {NO_AVATAR_IMG} from "../constants/index.js";
-import ChatList from "../components/ChatList/index.js";
+import UserAPI from "../api/user-api";
+import {createAPIUrl} from "../modules/domHelpers";
+import {NO_AVATAR_IMG} from "../constants/index";
+import ChatList from "../components/ChatList/index";
 
 const userAPI = new UserAPI();
 

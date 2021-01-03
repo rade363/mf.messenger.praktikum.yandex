@@ -1,6 +1,6 @@
-import Block from "../../modules/Block.js";
-import {compile} from "../../modules/templator.js";
-import template from "./Double.js";
+import Block from "../../modules/Block";
+import {compile} from "../../modules/templator";
+import template from "./Double";
 
 export default class Double extends Block {
     constructor(props: TObjectType) {

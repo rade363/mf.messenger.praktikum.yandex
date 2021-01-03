@@ -1,5 +1,5 @@
-import ChatsAPI from "../api/chats-api.js";
-import {handleExistingChats, renderChatsList} from "./existingChatsListController.js";
+import ChatsAPI from "../api/chats-api";
+import {handleExistingChats, renderChatsList} from "./existingChatsListController";
 import Router from "../modules/Router";
 const chatsAPI = new ChatsAPI();
 

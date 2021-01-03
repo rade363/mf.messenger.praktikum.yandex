@@ -1,10 +1,10 @@
-import Block from "../../modules/Block.js";
-import {compile} from "../../modules/templator.js";
-import template from "./SearchInput.js";
-import Input from "../Input/index.js";
+import Block from "../../modules/Block";
+import {compile} from "../../modules/templator";
+import template from "./SearchInput";
+import Input from "../Input/index";
 
-import {useState} from "../../modules/state.js";
-import {isXssPresent} from "../../modules/helpers.js";
+import {useState} from "../../modules/state";
+import {isXssPresent} from "../../modules/helpers";
 
 const state: ISearchState = {
     searchKey: useState("")

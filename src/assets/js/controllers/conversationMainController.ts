@@ -1,4 +1,4 @@
-import ConversationMain from "../components/ConversationMain/index.js";
+import ConversationMain from "../components/ConversationMain/index";
 
 export function setConversationMain(selectedChat: IExistingChat, context: IBlock): void {
     const oldProps = context.props.conversationMain.props;

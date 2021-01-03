@@ -1,7 +1,7 @@
-import Block from "../../modules/Block.js";
-import {compile} from "../../modules/templator.js";
-import template from "./AttachmentContextButton.js";
-import Input from "../Input/index.js";
+import Block from "../../modules/Block";
+import {compile} from "../../modules/templator";
+import template from "./AttachmentContextButton";
+import Input from "../Input/index";
 
 export default class AttachmentContextButton extends Block {
     constructor(props: IAttachmentContextButtonProps) {

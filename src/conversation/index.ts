@@ -1,4 +1,4 @@
-import {initInterface} from "../assets/js/modules/domHelpers.js";
+import {initInterface} from "../assets/js/modules/domHelpers";
 
 document.addEventListener("DOMContentLoaded", initInterface);
 

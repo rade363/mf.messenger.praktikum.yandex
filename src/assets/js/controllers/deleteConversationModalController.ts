@@ -1,9 +1,9 @@
-import Modal from "../components/Modal/index.js";
-import ConfirmMessage from "../components/ConfirmMessage/index.js";
-import Double from "../components/Double/index.js";
-import Button from "../components/Button/index.js";
-import handleDeleteChat from "./deleteChatController.js";
-import Router from "../modules/Router.js";
+import Modal from "../components/Modal/index";
+import ConfirmMessage from "../components/ConfirmMessage/index";
+import Double from "../components/Double/index";
+import Button from "../components/Button/index";
+import handleDeleteChat from "./deleteChatController";
+import Router from "../modules/Router";
 
 export default function createDeleteConversationModal(globalStateInstance: IGlobalState, router: Router) {
     const modal: IBlock = new Modal({

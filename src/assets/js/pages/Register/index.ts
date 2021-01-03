@@ -1,18 +1,18 @@
-import Block from "../../modules/Block.js";
-import template from "./template.js";
-import {compile} from "../../modules/templator.js";
-import BackButton from "../../components/BackButton/index.js";
-import Form from "../../components/Form/index.js";
-import {getResponseErrorText} from "../../modules/helpers.js";
-import {setErrorTextForInputField} from "../../modules/formHelpers.js";
+import Block from "../../modules/Block";
+import template from "./template";
+import {compile} from "../../modules/templator";
+import BackButton from "../../components/BackButton/index";
+import Form from "../../components/Form/index";
+import {getResponseErrorText} from "../../modules/helpers";
+import {setErrorTextForInputField} from "../../modules/formHelpers";
 
-import Router from "../../modules/Router.js";
+import Router from "../../modules/Router";
 const router = new Router("#root");
 
-import AuthAPI from "../../api/auth-api.js";
+import AuthAPI from "../../api/auth-api";
 const authAPI = new AuthAPI();
 
-import GlobalState from "../../modules/GlobalState.js";
+import GlobalState from "../../modules/GlobalState";
 const globalStateInstance = new GlobalState();
 
 export default class Register extends Block {

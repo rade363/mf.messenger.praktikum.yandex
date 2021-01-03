@@ -1,6 +1,6 @@
-import Block from "../../modules/Block.js";
-import {compile} from "../../modules/templator.js";
-import template from "./FormInput.js";
+import Block from "../../modules/Block";
+import {compile} from "../../modules/templator";
+import template from "./FormInput";
 
 export default class FormInput extends Block {
     constructor(props: IFormInput) {

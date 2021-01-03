@@ -1,7 +1,7 @@
-import ChatList from "../components/ChatList/index.js";
-import {createAPIUrl} from "../modules/domHelpers.js";
-import {NO_AVATAR_IMG} from "../constants/index.js";
-import ChatsAPI from "../api/chats-api.js";
+import ChatList from "../components/ChatList/index";
+import {createAPIUrl} from "../modules/domHelpers";
+import {NO_AVATAR_IMG} from "../constants/index";
+import ChatsAPI from "../api/chats-api";
 const chatsAPI = new ChatsAPI();
 
 export function getExistingChats(globalStateInstance: IGlobalState) {

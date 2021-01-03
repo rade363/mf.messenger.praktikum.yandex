@@ -1,14 +1,14 @@
-import Block from "../../modules/Block.js";
-import {compile} from "../../modules/templator.js";
-import template from "./MessageForm.js";
-import Button from "../Button/index.js";
-import Input from "../Input/index.js";
-import ContextMenu from "../ContextMenu/index.js";
-import AttachmentContextButton from "../AttachmentContextButton/index.js";
+import Block from "../../modules/Block";
+import {compile} from "../../modules/templator";
+import template from "./MessageForm";
+import Button from "../Button/index";
+import Input from "../Input/index";
+import ContextMenu from "../ContextMenu/index";
+import AttachmentContextButton from "../AttachmentContextButton/index";
 
-import {useState} from "../../modules/state.js";
-import {isXssPresent} from "../../modules/helpers.js";
-import {setImageUpload} from "../../modules/domHelpers.js";
+import {useState} from "../../modules/state";
+import {isXssPresent} from "../../modules/helpers";
+import {setImageUpload} from "../../modules/domHelpers";
 
 const state = {
     isAttachmentMenuOpen: useState(false),

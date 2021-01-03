@@ -1,14 +1,14 @@
-import Block from "../../modules/Block.js";
-import BackButton from "../../components/BackButton/index.js";
-import template from "./template.js";
-import {compile} from "../../modules/templator.js";
-import Form from "../../components/Form/index.js";
-import {createInputField, setErrorTextForInputField} from "../../modules/formHelpers.js";
+import Block from "../../modules/Block";
+import BackButton from "../../components/BackButton/index";
+import template from "./template";
+import {compile} from "../../modules/templator";
+import Form from "../../components/Form/index";
+import {createInputField, setErrorTextForInputField} from "../../modules/formHelpers";
 
-import Router from "../../modules/Router.js";
-import AuthAPI from "../../api/auth-api.js";
-import UserAPI from "../../api/user-api.js";
-import GlobalState from "../../modules/GlobalState.js";
+import Router from "../../modules/Router";
+import AuthAPI from "../../api/auth-api";
+import UserAPI from "../../api/user-api";
+import GlobalState from "../../modules/GlobalState";
 
 const router = new Router("#root");
 const authAPI = new AuthAPI();

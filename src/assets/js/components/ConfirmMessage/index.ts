@@ -1,6 +1,6 @@
-import Block from "../../modules/Block.js";
-import {compile} from "../../modules/templator.js";
-import template from "./ConfirmMessage.js";
+import Block from "../../modules/Block";
+import {compile} from "../../modules/templator";
+import template from "./ConfirmMessage";
 
 export default class ConfirmMessage extends Block {
     constructor(props: IConfirmMessage) {

@@ -1,4 +1,4 @@
-import ChatsAPI from "../api/chats-api.js";
+import ChatsAPI from "../api/chats-api";
 const chatsAPI = new ChatsAPI();
 
 export default function getChatUsers(globalStateInstance: IGlobalState): Promise<boolean> | never {

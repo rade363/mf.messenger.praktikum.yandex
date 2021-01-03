@@ -1,7 +1,7 @@
-import Modal from "../components/Modal/index.js";
-import DeleteUsersList from "../components/DeleteUsersList/index.js";
-import Button from "../components/Button/index.js";
-import getChatUsers from "./collectChatUsersController.js";
+import Modal from "../components/Modal/index";
+import DeleteUsersList from "../components/DeleteUsersList/index";
+import Button from "../components/Button/index";
+import getChatUsers from "./collectChatUsersController";
 
 export default function createDeleteUserModalController(globalStateInstance: IGlobalState): IBlock {
     const modal: IBlock = new Modal({

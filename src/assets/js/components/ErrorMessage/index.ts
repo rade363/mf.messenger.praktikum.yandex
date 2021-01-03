@@ -1,6 +1,6 @@
-import Block from "../../modules/Block.js";
-import {compile} from "../../modules/templator.js";
-import template from "./ErrorMessage.js";
+import Block from "../../modules/Block";
+import {compile} from "../../modules/templator";
+import template from "./ErrorMessage";
 
 export default class ErrorMessage extends Block {
     constructor(props: IErrorMessage) {

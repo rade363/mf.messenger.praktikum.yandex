@@ -1,6 +1,6 @@
-import Block from "../../modules/Block.js";
-import {compile} from "../../modules/templator.js";
-import template from "./Button.js";
+import Block from "../../modules/Block";
+import {compile} from "../../modules/templator";
+import template from "./Button";
 
 export default class Button extends Block {
     constructor(tag: string, props: IButtonProps) {

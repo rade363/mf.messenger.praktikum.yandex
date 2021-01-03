@@ -1,8 +1,8 @@
-import Modal from "../components/Modal/index.js";
-import Form from "../components/Form/index.js";
-import UserAPI from "../api/user-api.js";
-import addUsersToChat from "./addUsersController.js";
-import getChatUsers from "./collectChatUsersController.js";
+import Modal from "../components/Modal/index";
+import Form from "../components/Form/index";
+import UserAPI from "../api/user-api";
+import addUsersToChat from "./addUsersController";
+import getChatUsers from "./collectChatUsersController";
 const userAPI = new UserAPI();
 
 export default function createAddUserModal(globalStateInstance: IGlobalState): IBlock {

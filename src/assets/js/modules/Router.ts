@@ -1,4 +1,4 @@
-import Route from "./Route.js";
+import Route from "./Route";
 
 export default class Router {
     private static __instance: Router;

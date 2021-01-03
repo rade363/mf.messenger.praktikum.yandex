@@ -1,6 +1,6 @@
-import Block from "../../modules/Block.js";
-import {compile} from "../../modules/templator.js";
-import template from "./ContextMenu.js";
+import Block from "../../modules/Block";
+import {compile} from "../../modules/templator";
+import template from "./ContextMenu";
 
 export default class ContextMenu extends Block {
     constructor(props: IContextMenuProps) {

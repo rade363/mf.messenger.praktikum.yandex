@@ -1,15 +1,15 @@
-import Block from "../../modules/Block.js";
-import SearchInput from "../../components/SearchInput/index.js";
-import template from "./template.js";
-import {compile} from "../../modules/templator.js";
-import ChatList from "../../components/ChatList/index.js";
-import Button from "../../components/Button/index.js";
-import Router from "../../modules/Router.js";
-import GlobalState from "../../modules/GlobalState.js";
-import handleUserSearch from "../../controllers/searchController.js";
-import validateAuth from "../../controllers/authValidationController.js";
-import {getExistingChats, handleExistingChats, renderChatsList} from "../../controllers/existingChatsListController.js";
-import createNewGroupChatTitleModal from "../../controllers/newGroupChatTItleModalController.js";
+import Block from "../../modules/Block";
+import SearchInput from "../../components/SearchInput/index";
+import template from "./template";
+import {compile} from "../../modules/templator";
+import ChatList from "../../components/ChatList/index";
+import Button from "../../components/Button/index";
+import Router from "../../modules/Router";
+import GlobalState from "../../modules/GlobalState";
+import handleUserSearch from "../../controllers/searchController";
+import validateAuth from "../../controllers/authValidationController";
+import {getExistingChats, handleExistingChats, renderChatsList} from "../../controllers/existingChatsListController";
+import createNewGroupChatTitleModal from "../../controllers/newGroupChatTItleModalController";
 
 const router = new Router("#root");
 const globalStateInstance = new GlobalState();

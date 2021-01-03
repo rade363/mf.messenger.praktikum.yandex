@@ -1,6 +1,6 @@
-import Block from "../../modules/Block.js";
-import {compile} from "../../modules/templator.js";
-import template from "./ImageInput.js";
+import Block from "../../modules/Block";
+import {compile} from "../../modules/templator";
+import template from "./ImageInput";
 
 export default class ImageInput extends Block {
     constructor(props: IImageInput) {

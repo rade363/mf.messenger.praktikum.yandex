@@ -1,4 +1,4 @@
-import queryString from "./queryString.js";
+import queryString from "./queryString";
 
 const METHODS: IMethodsList = {
     GET: "GET",

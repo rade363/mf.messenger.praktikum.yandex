@@ -1,6 +1,6 @@
-import Block from "../../modules/Block.js";
-import {compile} from "../../modules/templator.js";
-import template from "./ContextButton.js";
+import Block from "../../modules/Block";
+import {compile} from "../../modules/templator";
+import template from "./ContextButton";
 
 export default class ContextButton extends Block {
     constructor(props: IContextButton) {

@@ -1,4 +1,4 @@
-import {isEmpty} from "./helpers.js";
+import {isEmpty} from "./helpers";
 
 export function compile(template: string, props: TObjectType): Element {
     const templatedProps = getTemplatedProps(props);

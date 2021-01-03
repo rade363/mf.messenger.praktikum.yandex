@@ -1,11 +1,11 @@
-import Block from "../../modules/Block.js";
-import {compile} from "../../modules/templator.js";
-import template from "./ChatListItem.js";
-import GlobalState from "../../modules/GlobalState.js";
-import Router from "../../modules/Router.js";
-import createChat from "../../controllers/createNewChatController.js";
-import {handleExistingChats, renderChatsList} from "../../controllers/existingChatsListController.js";
-import {setConversationMain} from "../../controllers/conversationMainController.js";
+import Block from "../../modules/Block";
+import {compile} from "../../modules/templator";
+import template from "./ChatListItem";
+import GlobalState from "../../modules/GlobalState";
+import Router from "../../modules/Router";
+import createChat from "../../controllers/createNewChatController";
+import {handleExistingChats, renderChatsList} from "../../controllers/existingChatsListController";
+import {setConversationMain} from "../../controllers/conversationMainController";
 
 const globalStateInstance = new GlobalState();
 const router = new Router("#root");

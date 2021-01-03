@@ -1,4 +1,4 @@
-import AuthAPI from "../api/auth-api.js";
+import AuthAPI from "../api/auth-api";
 const authAPI = new AuthAPI();
 
 export default function validateAuth(globalStateInstance: IGlobalState): Promise<boolean> {

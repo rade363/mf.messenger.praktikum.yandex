@@ -1,6 +1,6 @@
-import ErrorPage from "../ErrorPage/index.js";
-import Button from "../../components/Button/index.js";
-import Router from "../../modules/Router.js";
+import ErrorPage from "../ErrorPage/index";
+import Button from "../../components/Button/index";
+import Router from "../../modules/Router";
 
 export default class NotFound extends ErrorPage {
     constructor() {

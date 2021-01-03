@@ -1,6 +1,6 @@
-import Block from "../../modules/Block.js";
-import {compile} from "../../modules/templator.js";
-import template from "./Modal.js";
+import Block from "../../modules/Block";
+import {compile} from "../../modules/templator";
+import template from "./Modal";
 
 export default class Modal extends Block {
     constructor(props: IModal) {

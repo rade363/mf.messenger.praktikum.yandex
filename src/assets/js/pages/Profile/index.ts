@@ -1,15 +1,15 @@
-import Block from "../../modules/Block.js";
-import BackButton from "../../components/BackButton/index.js";
-import Button from "../../components/Button/index.js";
-import template from "./template.js";
-import {compile} from "../../modules/templator.js";
-import {getResponseErrorText} from "../../modules/helpers.js";
-import {createAPIUrl} from "../../modules/domHelpers.js";
-import {NO_AVATAR_IMG} from "../../constants/index.js";
+import Block from "../../modules/Block";
+import BackButton from "../../components/BackButton/index";
+import Button from "../../components/Button/index";
+import template from "./template";
+import {compile} from "../../modules/templator";
+import {getResponseErrorText} from "../../modules/helpers";
+import {createAPIUrl} from "../../modules/domHelpers";
+import {NO_AVATAR_IMG} from "../../constants/index";
 
-import Router from "../../modules/Router.js";
-import AuthAPI from "../../api/auth-api.js";
-import GlobalState from "../../modules/GlobalState.js";
+import Router from "../../modules/Router";
+import AuthAPI from "../../api/auth-api";
+import GlobalState from "../../modules/GlobalState";
 
 const router = new Router("#root");
 const authAPI = new AuthAPI();
