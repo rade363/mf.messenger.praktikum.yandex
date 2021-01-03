@@ -147,7 +147,7 @@ interface IContextMenuItem {
     eventListeners: unknown[]
 }
 
-type TEventListener = (event: Event) => unknown;
+type TEventListener = (event: Event) => any;
 type TEventListenerTemplate = [string, TEventListener];
 
 interface IAttachmentContextButtonProps {
@@ -180,7 +180,7 @@ interface IContextButton {
     eventListeners: TEventListenerTemplate[];
 }
 
-interface IContextMenu {
+interface IContextMenuProps {
     attributes?: IAttributes;
     items: TObjectType;
 }
@@ -201,9 +201,9 @@ interface IMessage {
 interface IConversationMain {
     user: IUserInfo;
     messagesList: IMessage[];
-    addUserModal: TObjectType;
-    deleteConversationModal: TObjectType;
-    deleteUserModal: TObjectType;
+    addUserModal: IBlock;
+    deleteConversationModal: IBlock;
+    deleteUserModal: IBlock;
 }
 
 interface IErrorMessage {
@@ -228,7 +228,7 @@ interface IImageInput {
 
 interface IInput {
     attributes?: IAttributes;
-    eventListeners?: TEventListenerTemplate[];
+    eventListeners?: any[];
 }
 
 interface IModal {
@@ -397,4 +397,14 @@ interface IGlobalState {
 
 interface INewGroupChatTitle {
     title: string;
+}
+
+interface IDeleteUsersListProps {
+    users: IUser[];
+    closeButton: IBlock;
+}
+
+interface IDeleteUserProps {
+    login: string;
+    deleteButton: IBlock;
 }

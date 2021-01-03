@@ -3,7 +3,7 @@ import {compile} from "../../modules/templator.js";
 import template from "./ContextMenu.js";
 
 export default class ContextMenu extends Block {
-    constructor(props: IContextMenu) {
+    constructor(props: IContextMenuProps) {
         super("div", {
             ...props,
             items: props.items.map((item: IContextMenuItem) => ({item}))

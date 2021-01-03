@@ -7,6 +7,8 @@ import {useState} from "../../modules/state.js";
 import MessageForm from "../MessageForm/index.js";
 import ContextButton from "../ContextButton/index.js";
 import GlobalState from "../../modules/GlobalState.js";
+import getChatUsers from "../../controllers/collectChatUsersController.js";
+import DeleteUsersList from "../DeleteUsersList/index.js";
 
 const globalStateInstance = new GlobalState();
 const state = {
@@ -17,11 +19,14 @@ export default class ConversationMain extends Block {
     constructor(props: IConversationMain) {
         const [getIsConversationActionsMenuOpen, setIsConversationActionsMenuOpen] = state.isConversationActionsMenuOpen;
         const selectedChat: IExistingChat = globalStateInstance.getProp("selectedChat");
-        const contextMenuOptions = {
+        const contextMenuOptions: IContextMenuProps = {
             attributes: {
                 class: "conversation__context"
             },
-            items: [
+            items: []
+        };
+        if (selectedChat && selectedChat.title.indexOf("Group: ") === 0) {
+            contextMenuOptions.items.push(
                 new ContextButton({
                     text: "Add user",
                     icon: "../assets/img/add.svg",
@@ -36,20 +41,25 @@ export default class ConversationMain extends Block {
                         }]
                     ]
                 })
-            ]
-        };
-        if (selectedChat.title.indexOf("Group: ") === 0) {
+            );
             contextMenuOptions.items.push(
                 new ContextButton({
                     text: "Delete user",
                     icon: "../assets/img/delete.svg",
-                    name: "context__delete",
+                    name: "user__delete",
                     eventListeners: [
                         ["click", (event: Event) => {
                             event.preventDefault();
                             conversationActionsMenu.hide();
                             setIsConversationActionsMenuOpen(false);
 
+                            const chatUsers = globalStateInstance.getProp("chatUsers");
+                            const oldDeleteUserListProps = props.deleteUserModal.props.child.props;
+                            const child = new DeleteUsersList({
+                                ...oldDeleteUserListProps,
+                                users: chatUsers
+                            })
+                            props.deleteUserModal.setProps({child});
                             props.deleteUserModal.show();
                         }]
                     ]
@@ -60,7 +70,7 @@ export default class ConversationMain extends Block {
             new ContextButton({
                 text: "Delete conversation",
                 icon: "../assets/img/delete.svg",
-                name: "context__delete",
+                name: "conversation__delete",
                 eventListeners: [
                     ["click", (event: Event) => {
                         event.preventDefault();
@@ -101,6 +111,14 @@ export default class ConversationMain extends Block {
             conversationActionsMenu,
             messageForm: new MessageForm()
         });
+    }
+
+    componentDidMount() {
+        const selectedChat = globalStateInstance.getProp("selectedChat");
+        if (selectedChat) {
+            getChatUsers(globalStateInstance)
+                .then(() => console.log("[INFO] Chat users collected"))
+        }
     }
 
     render() {

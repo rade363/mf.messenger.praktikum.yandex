@@ -21,12 +21,12 @@ const globalStateInstance = new GlobalState();
 export default class Conversation extends Block {
     constructor() {
         const createGroupChatModal = createNewGroupChatTitleModal(globalStateInstance, router);
-        const addUserModal = createAddUserModal();
-        const deleteUserModal = createDeleteUserModalController();
+        const addUserModal = createAddUserModal(globalStateInstance);
+        const deleteUserModal = createDeleteUserModalController(globalStateInstance);
         const deleteConversationModal: IBlock = createDeleteConversationModal(globalStateInstance, router);
         super("div", {
             newChatButton: new Button("button", {
-                text: "New chat",
+                text: "New group",
                 attributes: {
                     class: "chat__top-link chat__new-chat-button",
                     href: ""

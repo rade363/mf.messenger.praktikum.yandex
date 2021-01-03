@@ -19,7 +19,7 @@ export default class Chats extends Block {
         const createGroupChatModal = createNewGroupChatTitleModal(globalStateInstance, router);
         super("div", {
             newChatButton: new Button("button", {
-                text: "New chat",
+                text: "New group",
                 attributes: {
                     class: "chat__top-link chat__new-chat-button",
                     href: ""

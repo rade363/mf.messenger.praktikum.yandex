@@ -33,7 +33,7 @@ export default function createDeleteConversationModal(globalStateInstance: IGlob
                             },
                             {
                                 child: new Button("button", {
-                                    text: "Delete",
+                                    text: "Cancel",
                                     attributes: {
                                         type: "button",
                                         class: "delete-conversation__approve button button_wide button_secondary"

@@ -1,49 +1,26 @@
 import Modal from "../components/Modal/index.js";
-import Form from "../components/Form/index.js";
+import DeleteUsersList from "../components/DeleteUsersList/index.js";
+import Button from "../components/Button/index.js";
+import getChatUsers from "./collectChatUsersController.js";
 
-export default function createDeleteUserModalController() {
-    const modal = new Modal({
+export default function createDeleteUserModalController(globalStateInstance: IGlobalState): IBlock {
+    const modal: IBlock = new Modal({
         name: "delete-user",
-        title: "Delete user",
-        child: new Form({
-            name: "delete-user-form",
-            inputFields: [
-                {
-                    label: "Username",
-                    type: "text",
-                    name: "username"
-                }
-            ],
-            actions: [
-                {
-                    type: "double",
-                    attributes: {
-                        class: ""
-                    },
-                    children: [
-                        {
-                            text: "Delete",
-                            attributes: {
-                                type: "submit",
-                                class: "delete-user-form__add-button button button_wide button_danger"
-                            }
-                        },
-                        {
-                            text: "Cancel",
-                            attributes: {
-                                type: "button",
-                                class: "delete-user-form__cancel-button button button_wide button_secondary"
-                            },
-                            eventListeners: [
-                                ["click", () => modal.hide()]
-                            ]
-                        }
-                    ]
-                }
-            ],
-            onSubmit: (formObject: IFormObject): void => {
-                console.log("[INFO] Username valid, add user event executed, form will be submitted later in this course", formObject)
-            }
+        title: "Delete users from group chat",
+        child: new DeleteUsersList({
+            users: [],
+            closeButton: new Button("a", {
+                text: "Close",
+                attributes: {
+                    class: "delete-user-form__cancel-button button button_wide button_secondary"
+                },
+                eventListeners: [
+                    ["click", () => {
+                        getChatUsers(globalStateInstance)
+                            .then(() => modal.hide());
+                    }]
+                ]
+            })
         })
     });
     return modal;
