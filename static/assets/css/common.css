@@ -1,14 +1,17 @@
-.body {
+.wrapper {
     font-family: 'Roboto', sans-serif;
     font-size: 12px;
     height: 100%;
+    width: 100%;
+    height: 100%;
+    position: absolute;
 }
 
-.body_background_empty {
+.wrapper_background_empty {
     background-color: var(--backgroundGrey);
 }
 
-.body_background_profile {
+.wrapper_background_profile {
     background-color: var(--lightestGrey);
 }
 

@@ -25,6 +25,9 @@ export default class Conversation extends Block {
         const deleteUserModal = createDeleteUserModalController(globalStateInstance);
         const deleteConversationModal: IBlock = createDeleteConversationModal(globalStateInstance, router);
         super("div", {
+            attributes: {
+                class: "wrapper"
+            },
             newChatButton: new Button("button", {
                 text: "New group",
                 attributes: {

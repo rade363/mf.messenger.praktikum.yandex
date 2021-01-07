@@ -7,7 +7,7 @@ export default class NotFound extends ErrorPage {
         const router = new Router("#root");
         super({
             attributes: {
-                class: "container"
+                class: "wrapper wrapper_background_empty"
             },
             code: 404,
             description: "Not found",

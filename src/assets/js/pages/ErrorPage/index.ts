@@ -4,7 +4,7 @@ import {compile} from "../../modules/templator/templator";
 
 export default class ErrorPage extends Block {
     constructor(props: IErrorPage) {
-        super("main", props);
+        super("div", props);
     }
 
     render(): Element | null {

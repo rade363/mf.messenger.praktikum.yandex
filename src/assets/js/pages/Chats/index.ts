@@ -18,6 +18,9 @@ export default class Chats extends Block {
     constructor() {
         const createGroupChatModal = createNewGroupChatTitleModal(globalStateInstance, router);
         super("div", {
+            attributes: {
+                class: "wrapper wrapper_background_empty"
+            },
             newChatButton: new Button("button", {
                 text: "New group",
                 attributes: {

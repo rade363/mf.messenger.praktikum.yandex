@@ -5,21 +5,19 @@ import BackButton from "../../components/BackButton/index";
 import Form from "../../components/Form/index";
 import {getResponseErrorText} from "../../modules/helpers";
 import {setErrorTextForInputField} from "../../modules/formHelpers";
-
 import Router from "../../modules/Router/Router";
-const router = new Router("#root");
-
 import AuthAPI from "../../api/auth-api";
-const authAPI = new AuthAPI();
-
 import GlobalState from "../../modules/GlobalState";
+
+const authAPI = new AuthAPI();
+const router = new Router("#root");
 const globalStateInstance = new GlobalState();
 
 export default class Register extends Block {
     constructor() {
-        super("main", {
+        super("div", {
             attributes: {
-                class: "container register"
+                class: "wrapper wrapper_background_empty"
             },
             title: "messenger",
             backButton: new BackButton({

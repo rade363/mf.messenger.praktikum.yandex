@@ -6,7 +6,6 @@ import Form from "../../components/Form/index";
 import {getResponseErrorText} from "../../modules/helpers";
 import {createInputField, setErrorTextForInputField} from "../../modules/formHelpers";
 import {createAPIUrl} from "../../modules/domHelpers";
-
 import Router from "../../modules/Router/Router";
 import AuthAPI from "../../api/auth-api";
 import UserAPI from "../../api/user-api";
@@ -25,7 +24,7 @@ export default class ProfileEditInfo extends Block {
 
         super("div", {
             attributes: {
-                class: "profile"
+                class: "wrapper wrapper_background_profile"
             },
             title: "Profile",
             backButton: new BackButton({

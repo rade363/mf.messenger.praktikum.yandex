@@ -4,7 +4,6 @@ import template from "./template";
 import {compile} from "../../modules/templator/templator";
 import Form from "../../components/Form/index";
 import {createInputField, setErrorTextForInputField} from "../../modules/formHelpers";
-
 import Router from "../../modules/Router/Router";
 import AuthAPI from "../../api/auth-api";
 import UserAPI from "../../api/user-api";
@@ -21,7 +20,7 @@ export default class ProfileChangePassword extends Block {
 
         super("div", {
             attributes: {
-                class: "profile"
+                class: "wrapper wrapper_background_profile"
             },
             title: "Profile",
             backButton: new BackButton({

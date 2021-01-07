@@ -3,7 +3,6 @@ import template from "./template";
 import {compile} from "../../modules/templator/templator";
 import Form from "../../components/Form/index";
 import {getResponseErrorText} from "../../modules/helpers";
-
 import Router from "../../modules/Router/Router";
 import AuthAPI from "../../api/auth-api";
 import GlobalState from "../../modules/GlobalState";
@@ -14,9 +13,9 @@ const globalStateInstance = new GlobalState();
 
 export default class Login extends Block {
     constructor() {
-        super("main", {
+        super("div", {
             attributes: {
-                class: "container login"
+                class: "wrapper wrapper_background_empty"
             },
             title: "messenger",
             child: new Form({
