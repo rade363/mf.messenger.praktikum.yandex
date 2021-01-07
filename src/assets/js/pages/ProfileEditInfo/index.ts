@@ -1,13 +1,13 @@
-import Block from "../../modules/Block";
+import Block from "../../modules/Block/Block";
 import BackButton from "../../components/BackButton/index";
 import template from "./template";
-import {compile} from "../../modules/templator";
+import {compile} from "../../modules/templator/templator";
 import Form from "../../components/Form/index";
 import {getResponseErrorText} from "../../modules/helpers";
 import {createInputField, setErrorTextForInputField} from "../../modules/formHelpers";
 import {createAPIUrl} from "../../modules/domHelpers";
 
-import Router from "../../modules/Router";
+import Router from "../../modules/Router/Router";
 import AuthAPI from "../../api/auth-api";
 import UserAPI from "../../api/user-api";
 import AvatarAPI from "../../api/avatar-api";

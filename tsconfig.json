@@ -11,7 +11,7 @@
     "strictNullChecks": true,
     "rootDir": "src",
     "outDir": "static",
-    "types": ["handlebars", "mocha", "chai"],
+    "types": ["handlebars", "mocha", "chai", "sinon"],
     "plugins": [
       {
         "transform": "@zoltu/typescript-transformer-append-js-extension/output/index.js",

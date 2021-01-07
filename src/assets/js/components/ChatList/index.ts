@@ -1,5 +1,5 @@
-import Block from "../../modules/Block";
-import {compile} from "../../modules/templator";
+import Block from "../../modules/Block/Block";
+import {compile} from "../../modules/templator/templator";
 import template from "./ChatList";
 import ChatListItem from "../ChatListItem/index";
 

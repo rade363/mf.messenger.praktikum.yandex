@@ -1,6 +1,6 @@
 import ErrorPage from "../ErrorPage/index";
 import Button from "../../components/Button/index";
-import Router from "../../modules/Router";
+import Router from "../../modules/Router/Router";
 
 export default class ServerError extends ErrorPage {
     constructor() {

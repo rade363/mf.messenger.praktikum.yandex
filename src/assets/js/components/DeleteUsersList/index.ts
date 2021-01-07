@@ -1,5 +1,5 @@
-import Block from "../../modules/Block";
-import {compile} from "../../modules/templator";
+import Block from "../../modules/Block/Block";
+import {compile} from "../../modules/templator/templator";
 import template from "./DeleteUsersList";
 import Button from "../Button/index";
 import ChatsAPI from "../../api/chats-api";

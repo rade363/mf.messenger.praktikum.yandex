@@ -1,11 +1,11 @@
-import Block from "../../modules/Block";
+import Block from "../../modules/Block/Block";
 import BackButton from "../../components/BackButton/index";
 import template from "./template";
-import {compile} from "../../modules/templator";
+import {compile} from "../../modules/templator/templator";
 import Form from "../../components/Form/index";
 import {createInputField, setErrorTextForInputField} from "../../modules/formHelpers";
 
-import Router from "../../modules/Router";
+import Router from "../../modules/Router/Router";
 import AuthAPI from "../../api/auth-api";
 import UserAPI from "../../api/user-api";
 import GlobalState from "../../modules/GlobalState";

@@ -1,6 +1,6 @@
 import ChatsAPI from "../api/chats-api";
 import {handleExistingChats, renderChatsList} from "./existingChatsListController";
-import Router from "../modules/Router";
+import Router from "../modules/Router/Router";
 const chatsAPI = new ChatsAPI();
 
 export default function handleDeleteChat(globalStateInstance: IGlobalState, router: Router, deleteConversationModal: IBlock): void {

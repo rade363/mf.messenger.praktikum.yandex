@@ -1,5 +1,5 @@
-import {isEqual} from "./helpers";
-import {renderInterface} from "./domHelpers";
+import {isEqual} from "../helpers";
+import {renderInterface} from "../domHelpers";
 
 export default class Route {
     _pathname: string;

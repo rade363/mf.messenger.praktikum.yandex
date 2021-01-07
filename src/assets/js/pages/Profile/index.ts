@@ -1,13 +1,13 @@
-import Block from "../../modules/Block";
+import Block from "../../modules/Block/Block";
 import BackButton from "../../components/BackButton/index";
 import Button from "../../components/Button/index";
 import template from "./template";
-import {compile} from "../../modules/templator";
+import {compile} from "../../modules/templator/templator";
 import {getResponseErrorText} from "../../modules/helpers";
 import {createAPIUrl} from "../../modules/domHelpers";
 import {NO_AVATAR_IMG} from "../../constants/index";
 
-import Router from "../../modules/Router";
+import Router from "../../modules/Router/Router";
 import AuthAPI from "../../api/auth-api";
 import GlobalState from "../../modules/GlobalState";
 

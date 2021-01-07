@@ -1,5 +1,5 @@
-import Block from "../../modules/Block";
-import {compile} from "../../modules/templator";
+import Block from "../../modules/Block/Block";
+import {compile} from "../../modules/templator/templator";
 import template from "./MessageForm";
 import Button from "../Button/index";
 import Input from "../Input/index";

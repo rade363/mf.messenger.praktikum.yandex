@@ -1,7 +1,7 @@
 import Modal from "../components/Modal/index";
 import Form from "../components/Form/index";
 import createChat from "./createNewChatController";
-import Router from "../modules/Router";
+import Router from "../modules/Router/Router";
 
 export default function createNewGroupChatTitleModal(globalStateInstance: IGlobalState, router: Router) {
     const modal = new Modal({

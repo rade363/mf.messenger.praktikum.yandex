@@ -3,7 +3,7 @@ import ConfirmMessage from "../components/ConfirmMessage/index";
 import Double from "../components/Double/index";
 import Button from "../components/Button/index";
 import handleDeleteChat from "./deleteChatController";
-import Router from "../modules/Router";
+import Router from "../modules/Router/Router";
 
 export default function createDeleteConversationModal(globalStateInstance: IGlobalState, router: Router) {
     const modal: IBlock = new Modal({

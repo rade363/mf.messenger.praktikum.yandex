@@ -1,5 +1,5 @@
-import Block from "../../modules/Block";
-import {compile} from "../../modules/templator";
+import Block from "../../modules/Block/Block";
+import {compile} from "../../modules/templator/templator";
 import {useState} from "../../modules/state";
 import template from "./Form";
 import FormInput from "../FormInput/index";

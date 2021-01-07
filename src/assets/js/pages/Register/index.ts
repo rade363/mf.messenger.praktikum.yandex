@@ -1,12 +1,12 @@
-import Block from "../../modules/Block";
+import Block from "../../modules/Block/Block";
 import template from "./template";
-import {compile} from "../../modules/templator";
+import {compile} from "../../modules/templator/templator";
 import BackButton from "../../components/BackButton/index";
 import Form from "../../components/Form/index";
 import {getResponseErrorText} from "../../modules/helpers";
 import {setErrorTextForInputField} from "../../modules/formHelpers";
 
-import Router from "../../modules/Router";
+import Router from "../../modules/Router/Router";
 const router = new Router("#root");
 
 import AuthAPI from "../../api/auth-api";

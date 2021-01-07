@@ -11,11 +11,8 @@ export function generateUniqueId(): string {
     return '_' + Math.random().toString(36).substr(2, 20);
 }
 
-export function isPlainObject(value: unknown): value is TObjectType {
-    return typeof value === 'object'
-        && value !== null
-        && value.constructor === Object
-        && Object.prototype.toString.call(value) === '[object Object]';
+export function isPlainObject(item: any): boolean {
+    return item && typeof item === 'object' && !Array.isArray(item);
 }
 
 export function isArray(value: unknown): value is [] {
@@ -34,4 +31,48 @@ export function getResponseErrorText(payload: XMLHttpRequest): string | TObjectT
 export function isEmailValid(string: string): boolean {
     const emailRegexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return emailRegexp.test(string);
+}
+
+export function areObjectsEqual(a: TObjectType, b: TObjectType): boolean {
+    for (let key in a) {
+        if (a.hasOwnProperty(key)) {
+            if (!b.hasOwnProperty(key)) {
+                return false;
+            }
+            if (typeof a[key] !== typeof b[key]) {
+                return false;
+            }
+            if (Array.isArray(a[key])) {
+                if (a[key].length !== b[key].length) {
+                    return false;
+                }
+                const areArraysEqual = areObjectsEqual(a[key], b[key]);
+                if (!areArraysEqual) {
+                    return false;
+                }
+            } else if (isPlainObject(a[key]) && isPlainObject(b[key])) {
+                const objectsEqual = areObjectsEqual(a[key], b[key]);
+                if (!objectsEqual) {
+                    return false;
+                }
+            } else if (a[key] !== b[key]) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+export function createObjectWithoutPrivateProps(obj: TObjectType): TObjectType {
+    if (!isPlainObject(obj)) {
+        return obj;
+    }
+    let publicObj: TObjectType = {};
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key) && key.indexOf("_") !== 0) {
+            publicObj[key] = obj[key];
+        }
+    }
+    return publicObj;
 }

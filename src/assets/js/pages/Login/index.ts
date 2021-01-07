@@ -1,10 +1,10 @@
-import Block from "../../modules/Block";
+import Block from "../../modules/Block/Block";
 import template from "./template";
-import {compile} from "../../modules/templator";
+import {compile} from "../../modules/templator/templator";
 import Form from "../../components/Form/index";
 import {getResponseErrorText} from "../../modules/helpers";
 
-import Router from "../../modules/Router";
+import Router from "../../modules/Router/Router";
 import AuthAPI from "../../api/auth-api";
 import GlobalState from "../../modules/GlobalState";
 

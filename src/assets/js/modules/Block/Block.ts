@@ -1,6 +1,6 @@
-import EventBus from "./EventBus";
-import {generateUniqueId} from "./helpers";
-import {connectBlockWithDom} from "./domHelpers";
+import EventBus from "../EventBus";
+import {generateUniqueId, areObjectsEqual, createObjectWithoutPrivateProps} from "../helpers";
+import connectBlockWithDom from "../domConnector";
 
 export default class Block implements IBlock{
     static EVENTS: IBlockEvents = {
@@ -31,6 +31,7 @@ export default class Block implements IBlock{
         };
 
         this.props = this._makePropsProxy(props);
+        this.oldProps = { ...props };
 
         this.eventBus = () => eventBus;
 
@@ -41,15 +42,15 @@ export default class Block implements IBlock{
     _makePropsProxy(props: TObjectType): TObjectType {
         return new Proxy(props, {
             get(target: TObjectType, prop: string): unknown {
-                if (prop.indexOf('_') === 0) {
-                    throw new Error('Отказано в доступе');
+                if (prop && typeof prop === "string" && prop.indexOf("_") === 0) {
+                    throw new Error("Отказано в доступе");
                 }
 
                 const value = target[prop];
                 return typeof value === "function" ? value.bind(target) : value;
             },
             set(target: TObjectType, prop: string, val: unknown): never | boolean {
-                if (prop.indexOf('_') === 0) {
+                if (prop && prop.indexOf("_") === 0) {
                     throw new Error("Нет доступа");
                 }
 
@@ -57,7 +58,7 @@ export default class Block implements IBlock{
                 return true;
             },
             deleteProperty(): never {
-                throw new Error('Нет доступа');
+                throw new Error("Нет доступа");
             }
         });
     }
@@ -95,36 +96,29 @@ export default class Block implements IBlock{
     }
 
     _componentDidUpdate(): void {
-        const oldProps = Object.entries(this.oldProps).reduce((acc: TObjectType, [key, value]) => {
-            acc[key] = value;
-            return acc;
-        }, {});
-        const newProps = Object.entries(this.props).reduce((acc: TObjectType, [key, value]) => {
-            acc[key] = value;
-            return acc;
-        }, {});
-        const response = this.componentDidUpdate(oldProps, newProps);
-        if (response) {
+        const oldProps = createObjectWithoutPrivateProps(this.oldProps);
+        const newProps = createObjectWithoutPrivateProps(this.props);
+        const shouldBeUpdated = this.componentDidUpdate(oldProps, newProps);
+        if (shouldBeUpdated) {
             this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
         }
     }
 
     componentDidUpdate(oldProps: TObjectType, newProps: TObjectType): boolean {
-        if (oldProps !== undefined && newProps !== undefined) {
-            return true;
-        }
-        return true;
+        return !areObjectsEqual(oldProps, newProps);
     }
 
 
-    setProps(nextProps: TObjectType): void | boolean {
+    setProps(nextProps: TObjectType): void {
         if (!nextProps) {
-            return false;
+            return;
         }
 
-        this.oldProps = {
-            ...this.props
-        };
+        for (let key in this.props) {
+            if (this.props.hasOwnProperty(key) && key.indexOf("_") !== 0) {
+                this.oldProps[key] = this.props[key];
+            }
+        }
 
         Object.assign(this.props, nextProps);
 

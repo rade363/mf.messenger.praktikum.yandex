@@ -1,6 +1,6 @@
-import Block from "../../modules/Block";
+import Block from "../../modules/Block/Block";
 import template from "./template";
-import {compile} from "../../modules/templator";
+import {compile} from "../../modules/templator/templator";
 
 export default class ErrorPage extends Block {
     constructor(props: IErrorPage) {

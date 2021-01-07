@@ -1,4 +1,4 @@
-import Route from "./Route";
+import Route from "../Route/Route";
 
 export default class Router {
     private static __instance: Router;

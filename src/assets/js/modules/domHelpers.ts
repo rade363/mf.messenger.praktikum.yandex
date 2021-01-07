@@ -1,4 +1,5 @@
-import Router from "./Router";
+import connectBlockWithDom from "./domConnector";
+import Router from "./Router/Router";
 import Login from "../pages/Login/index";
 import Register from "../pages/Register/index";
 import Chats from "../pages/Chats/index";
@@ -32,23 +33,6 @@ export function renderInterface(query: string, block: IBlock): void {
     if (rootElement && pageElement) {
         rootElement.appendChild(pageElement);
         connectBlockWithDom(rootElement, block);
-    }
-}
-
-export function connectBlockWithDom(domElement: HTMLElement, block: any): void {
-    if (block.uniqueId !== undefined) {
-        const exactElement = domElement.querySelector(`.uid${block.uniqueId}`) as HTMLElement;
-        if (exactElement) {
-            block.connectElement(exactElement);
-
-            Object.values(block.props).forEach(prop => connectBlockWithDom(domElement, prop));
-        }
-    } else if (Array.isArray(block)) {
-        block.forEach(element => {
-            if (typeof element === "object") {
-                Object.values(element).forEach((value) => connectBlockWithDom(domElement, value))
-            }
-        });
     }
 }
 

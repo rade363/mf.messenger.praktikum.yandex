@@ -1,5 +1,5 @@
 import ChatsAPI from "../api/chats-api";
-import Router from "../modules/Router";
+import Router from "../modules/Router/Router";
 import {handleExistingChats, renderChatsList} from "./existingChatsListController";
 import {setConversationMain} from "./conversationMainController";
 import addUsersToChat from "./addUsersController";
