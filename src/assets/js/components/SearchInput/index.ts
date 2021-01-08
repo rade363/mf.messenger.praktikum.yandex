@@ -2,7 +2,6 @@ import Block from "../../modules/Block/Block";
 import {compile} from "../../modules/templator/templator";
 import template from "./SearchInput";
 import Input from "../Input/index";
-
 import {useState} from "../../modules/state";
 import {isXssPresent} from "../../modules/helpers";
 
@@ -42,7 +41,6 @@ export default class SearchInput extends Block {
                 if (isXssPresent(searchKey)) {
                     alert("Invalid symbols");
                 } else {
-                    console.log("[INFO] Search form submitted", searchKey);
                     props.search(searchKey);
                 }
             }

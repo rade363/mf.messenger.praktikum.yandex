@@ -8,8 +8,8 @@ const chatsAPI = new ChatsAPI();
 
 export default function createChat(title: string, globalStateInstance: IGlobalState, router: Router, userIds?: number[]): void {
     chatsAPI.createChat({title})
-        .then((xhr: XMLHttpRequest) => {
-            console.log('[SUCCESS] Chat created', xhr.response);
+        .then(() => {
+            console.log("[SUCCESS] Chat created");
             return chatsAPI.listChats();
         })
         .then((xhr: XMLHttpRequest) => {
@@ -36,7 +36,5 @@ export default function createChat(title: string, globalStateInstance: IGlobalSt
                 return renderChatsList(existingChatsList, pageBlock, selectedChat);
             }
         })
-        .catch((error: XMLHttpRequest) => {
-            console.log('[ERROR] Could not create new chat', error);
-        });
+        .catch((error: XMLHttpRequest) => console.error('[ERROR] Could not create new chat', JSON.parse(error.response)));
 }

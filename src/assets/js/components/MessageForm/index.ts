@@ -5,7 +5,6 @@ import Button from "../Button/index";
 import Input from "../Input/index";
 import ContextMenu from "../ContextMenu/index";
 import AttachmentContextButton from "../AttachmentContextButton/index";
-
 import {useState} from "../../modules/state";
 import {isXssPresent} from "../../modules/helpers";
 import {setImageUpload} from "../../modules/domHelpers";

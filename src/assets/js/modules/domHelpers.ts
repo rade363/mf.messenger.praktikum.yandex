@@ -27,7 +27,6 @@ export function initInterface(): void {
 }
 
 export function renderInterface(query: string, block: IBlock): void {
-    console.log('[RENDER INTERFACE]');
     const rootElement = document.querySelector(query) as HTMLElement;
     const pageElement = block.getContent();
     if (rootElement && pageElement) {

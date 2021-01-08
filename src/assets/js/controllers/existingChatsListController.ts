@@ -16,7 +16,7 @@ export function getExistingChats(globalStateInstance: IGlobalState) {
             return existingChats;
         })
         .catch((error: XMLHttpRequest) => {
-            console.log("[ERROR] Could not collect existing chats", error);
+            console.error("[ERROR] Could not collect existing chats", JSON.parse(error.response));
             throw new Error("Could not collect existing chats");
         })
 }

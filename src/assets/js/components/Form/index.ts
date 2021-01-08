@@ -8,7 +8,6 @@ import Input from "../Input/index";
 import Button from "../Button/index";
 import Double from "../Double/index";
 import ImageInput from "../ImageInput/index";
-
 import {validateField, setFormInput} from "../../modules/formHelpers";
 import {isEmpty} from "../../modules/helpers";
 import {createAPIUrl, setImageUpload} from "../../modules/domHelpers";
@@ -178,8 +177,6 @@ export default class Form extends Block {
             let areFieldsValid = true;
             let formObject: IFormObject = {};
 
-            console.log('State', state);
-
             Object.keys(state).forEach((fieldName) => {
                 const [isFieldValid, fieldValue] = validateField(fieldName, state);
                 if (isFieldValid) {
@@ -195,7 +192,7 @@ export default class Form extends Block {
             if (areFieldsValid) {
                 props.onSubmit(formObject);
             } else {
-                console.error("[ERROR] [FORM] Invalid form data", formObject);
+                console.error("[ERROR] [FORM] Invalid form data");
             }
         }
 

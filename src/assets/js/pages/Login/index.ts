@@ -56,8 +56,6 @@ export default class Login extends Block {
                     }
                 ],
                 onSubmit: (formObject: ISignIpProps) => {
-                    console.log("[INFO] Sign in", formObject);
-
                     authAPI.signIn(formObject)
                         .then((xhr: XMLHttpRequest) => {
                             if (xhr.response === "OK") {
@@ -71,7 +69,7 @@ export default class Login extends Block {
                             router.go("/chats/");
                         })
                         .catch((error: XMLHttpRequest | Error) => {
-                            console.log('[LOGIN] Error', error);
+                            console.error("[ERROR] Auth error", error);
                             if (error instanceof Error || error.status === 500) {
                                 router.go("/500/");
                                 return;
@@ -97,10 +95,6 @@ export default class Login extends Block {
                 const userDetails = JSON.parse(xhr.response);
                 globalStateInstance.setProp("currentUser", userDetails);
                 router.go("/chats/");
-            })
-            .catch((error: XMLHttpRequest) => {
-                const errorObj = getResponseErrorText(error);
-                console.error('[MOUNT] [LOGIN] [ERROR]', errorObj);
             });
     }
 

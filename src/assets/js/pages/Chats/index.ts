@@ -63,7 +63,6 @@ export default class Chats extends Block {
     }
 
     componentDidMount() {
-        console.log('[CHATS] Mounted');
         validateAuth(globalStateInstance)
             .then((isAuthenticated) => {
                 if (!isAuthenticated) {
@@ -74,7 +73,7 @@ export default class Chats extends Block {
             .then((existingChats: IExistingChat[]) => handleExistingChats(existingChats))
             .then((existingChatsList: IChatListItem[]) => renderChatsList(existingChatsList, this))
             .catch((error: XMLHttpRequest | Error) => {
-                console.log('[CHATS] ERROR', error)
+                console.error("[ERROR] Could not collect chats", error)
                 if (error instanceof Error) {
                     if (error.message === "Not authorized") {
                         router.go("/login/");

@@ -88,7 +88,6 @@ export default class Register extends Block {
                     }
                 ],
                 onSubmit: (formObject: ISignUpProps): void => {
-                    console.log("[INFO] Sign up", formObject);
                     authAPI.signUp(formObject)
                         .then((xhr: XMLHttpRequest) => {
                             const response = JSON.parse(xhr.response);
@@ -103,7 +102,7 @@ export default class Register extends Block {
                             router.go("/chats/");
                         })
                         .catch((error: XMLHttpRequest | Error) => {
-                            console.log('[REGISTER] Error', error);
+                            console.error("[ERROR] Could not create a new user", error);
                             if (error instanceof Error || error.status === 500) {
                                 router.go("/500/");
                                 return;
@@ -129,10 +128,6 @@ export default class Register extends Block {
                 const currentUser = JSON.parse(xhr.response);
                 globalStateInstance.setProp("currentUser", currentUser);
                 router.go("/chats/");
-            })
-            .catch((error: XMLHttpRequest) => {
-                const errorObj = getResponseErrorText(error);
-                console.error('[MOUNT] [REGISTER] [ERROR]', errorObj);
             });
     }
 

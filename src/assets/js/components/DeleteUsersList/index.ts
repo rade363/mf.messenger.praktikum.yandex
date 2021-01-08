@@ -27,15 +27,13 @@ export default class DeleteUsersList extends Block {
                                 chatId: selectedChat.id
                             };
                             chatsAPI.deleteUsers(userRemovalData)
-                                .then((xhr: XMLHttpRequest) => {
-                                    console.log(`[SUCCESS] User ${user.login} has been successfully removed from chat ${selectedChat.title}`, xhr.response);
+                                .then(() => {
+                                    console.log(`[SUCCESS] User ${user.login} has been successfully removed from chat ${selectedChat.title}`);
                                     const oldProps = this.props;
                                     const newUsers = oldProps.users.filter((renderedUser: IDeleteUserProps) => renderedUser.login !== user.login);
                                     this.setProps({users: newUsers});
                                 })
-                                .catch((error: XMLHttpRequest) => {
-                                    console.log(`[ERROR] Could not delete user ${user.login} from chat ${selectedChat.title}`, error);
-                                })
+                                .catch((error: XMLHttpRequest) => console.log(`[ERROR] Could not delete user ${user.login} from chat ${selectedChat.title}`, JSON.parse(error.response)))
                         }]
                     ]
                 })

@@ -14,7 +14,7 @@ export default function handleUserSearch(login: string, context: IBlock): void {
             const chatList = new ChatList({...oldProps, items: searchResults});
             context.setProps({ chatList });
         })
-        .catch((error: XMLHttpRequest) => console.log('[CHATS] [SEARCH] ERROR', error));
+        .catch((error: XMLHttpRequest) => console.error("[ERROR] Could not find users", JSON.parse(error.response)));
 }
 
 function createFoundUserPreviewObject(user: IUser): IChatListItem {

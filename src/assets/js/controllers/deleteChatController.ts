@@ -5,7 +5,6 @@ const chatsAPI = new ChatsAPI();
 
 export default function handleDeleteChat(globalStateInstance: IGlobalState, router: Router, deleteConversationModal: IBlock): void {
     const deletedChat = globalStateInstance.getProp("selectedChat");
-    console.log('[INFO] Deleting conversation...', deletedChat);
     removeDeletedChatFromState(globalStateInstance, deletedChat);
 
     deleteChat(deletedChat)
@@ -20,7 +19,7 @@ export default function handleDeleteChat(globalStateInstance: IGlobalState, rout
                 renderChatsList(existingChatsList, pageBlock, deletedChat);
             }
         })
-        .catch((error: XMLHttpRequest) => console.log('[ERROR] Could not delete chat', error));
+        .catch((error: XMLHttpRequest) => console.error('[ERROR] Could not delete chat', JSON.parse(error.response)));
 }
 
 function deleteChat(deletedChat: IExistingChat): Promise<XMLHttpRequest> {

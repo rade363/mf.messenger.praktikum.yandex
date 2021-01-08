@@ -11,12 +11,7 @@ export default class Double extends Block {
         });
     }
 
-    componentDidMount() {
-        // console.log(`[DOUBLE] Mounted - ${this.props.type}`, this);
-    }
-
     render() {
-        // console.log('[DOUBLE] Render');
         return compile(template, {
             children: this.props.children
         });

@@ -66,7 +66,6 @@ export default class ProfileChangePassword extends Block {
                     }
                 ],
                 onSubmit: (formObject: IUpdatePasswordProps): void => {
-                    console.log('[INFO] Password change object', formObject);
                     userAPI.changePassword(formObject)
                         .then((xhr: XMLHttpRequest) => {
                             if (xhr.response === "OK") {
@@ -74,7 +73,7 @@ export default class ProfileChangePassword extends Block {
                             }
                         })
                         .catch((error: XMLHttpRequest) => {
-                            console.log('[ERROR]', error);
+                            console.error("[ERROR] Password was not changed", error);
                             if (error.response === "Password is incorrect") {
                                 setErrorTextForInputField("oldPassword", error.response, this.props.child.props.inputFields);
                             }
@@ -105,8 +104,8 @@ export default class ProfileChangePassword extends Block {
                 const currentUser = JSON.parse(xhr.response);
                 globalStateInstance.setProp("currentUser", currentUser);
             })
-            .catch((error: XMLHttpRequest) => {
-                console.error('[PROFILE] [MOUNT] [ERROR]', error.response);
+            .catch(() => {
+                console.error("[ERROR] Not authorized");
                 router.go("/login/");
             });
     }

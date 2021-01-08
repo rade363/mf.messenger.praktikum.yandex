@@ -53,9 +53,8 @@ export default class ProfileEditInfo extends Block {
                 const child = createProfileForm(currentUser);
                 this.setProps({ child });
             })
-            .catch((error: XMLHttpRequest) => {
-                const errorObj = getResponseErrorText(error);
-                console.error('[PROFILE] [MOUNT] [ERROR]', errorObj);
+            .catch(() => {
+                console.error("[ERROR] Not authorized");
                 router.go("/login/");
             });
     }
@@ -111,7 +110,7 @@ function createProfileForm(currentUser: IUser) {
                     router.go("/profile/");
                 })
                 .catch((error: XMLHttpRequest) => {
-                    console.log('Error', error);
+                    console.error("[ERROR] User details have not been updated", JSON.parse(error.response));
                     const errorMessage = getResponseErrorText(error);
                     if (errorMessage === "Login already exists") {
                         setErrorTextForInputField("login", errorMessage, this.props.child.props.inputFields);
@@ -178,7 +177,5 @@ function handleAvatarSubmit(avatar: File, imageInput: IBlock) {
                 })
             }
         })
-        .catch((error: XMLHttpRequest) => {
-            console.log('[AVATAR] ERROR', error);
-        });
+        .catch((error: XMLHttpRequest) => console.error("[ERROR] Avatar has not been updated", JSON.parse(error.response)));
 }

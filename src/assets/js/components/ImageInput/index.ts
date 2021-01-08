@@ -7,12 +7,7 @@ export default class ImageInput extends Block {
         super("div", props);
     }
 
-    componentDidMount() {
-        console.log(`[IMAGE] Mounted - ${this.props.name}`);
-    }
-
     render() {
-        console.log('[IMAGE] Render', this);
         return compile(template, this.props);
     }
 }

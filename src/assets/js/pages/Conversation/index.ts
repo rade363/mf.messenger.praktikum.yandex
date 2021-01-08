@@ -175,7 +175,6 @@ export default class Conversation extends Block {
     }
 
     componentDidMount() {
-        console.log('[CONVERSATION] Mounted');
         validateAuth(globalStateInstance)
             .then((isAuthenticated) => {
                 if (!isAuthenticated) {
@@ -194,7 +193,7 @@ export default class Conversation extends Block {
                 }
             })
             .catch((error: XMLHttpRequest | Error) => {
-                console.log('[CONVERSATION] ERROR', error)
+                console.error("[ERROR] Could not display conversation", error)
                 if (error instanceof Error) {
                     if (error.message === "Not authorized") {
                         router.go("/login/");

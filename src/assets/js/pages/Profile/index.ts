@@ -3,7 +3,6 @@ import BackButton from "../../components/BackButton/index";
 import Button from "../../components/Button/index";
 import template from "./template";
 import {compile} from "../../modules/templator/templator";
-import {getResponseErrorText} from "../../modules/helpers";
 import {createAPIUrl} from "../../modules/domHelpers";
 import {NO_AVATAR_IMG} from "../../constants/index";
 import Router from "../../modules/Router/Router";
@@ -81,7 +80,7 @@ export default class Profile extends Block {
                     }
                 })
                 .catch((error: XMLHttpRequest) => {
-                    console.error("[LOG OUT] Could not log out. Details:", error.response)
+                    console.error("[ERROR] Could not log out", JSON.parse(error.response));
                     if (error.status === 500) {
                         router.go("/500");
                     }
@@ -103,9 +102,8 @@ export default class Profile extends Block {
                 const profile = createExistingUser(currentUser);
                 this.setProps({ profile });
             })
-            .catch((error: XMLHttpRequest) => {
-                const errorObj = getResponseErrorText(error);
-                console.error('[PROFILE] [MOUNT] [ERROR]', errorObj);
+            .catch(() => {
+                console.error("[ERROR] Not authorized");
                 router.go("/login/");
             });
     }

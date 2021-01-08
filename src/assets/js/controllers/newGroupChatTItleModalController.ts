@@ -44,7 +44,6 @@ export default function createNewGroupChatTitleModal(globalStateInstance: IGloba
                 }
             ],
             onSubmit: (formObject: INewGroupChatTitle): void => {
-                console.log("[INFO] Creating a new group chat...", formObject);
                 modal.hide();
                 createChat(`Group: ${formObject.title}`, globalStateInstance, router);
             }

@@ -4,8 +4,8 @@ const chatsAPI = new ChatsAPI();
 
 export default function addUsersToChat(users: number[], chatId: number): Promise<boolean> {
     return chatsAPI.addUsers({users, chatId})
-        .then((xhr: XMLHttpRequest) => {
-            console.log("[SUCCESS] User added to the new chat", xhr.response);
+        .then(() => {
+            console.log("[SUCCESS] User added to the new chat");
             return true;
         })
         .catch((error: XMLHttpRequest) => {
