@@ -11,7 +11,7 @@ import ImageInput from "../ImageInput/index";
 import {validateField, setFormInput} from "../../modules/formHelpers";
 import {isEmpty} from "../../modules/helpers";
 import {createAPIUrl, setImageUpload} from "../../modules/domHelpers";
-import {NO_AVATAR_IMG} from "../../constants/index";
+import {NO_IMAGE_IMG} from "../../constants/index";
 
 export default class Form extends Block {
     constructor(props: IFormProps) {
@@ -68,7 +68,7 @@ export default class Form extends Block {
                     class: `${inputFieldProps.attributes.class} ${inputFieldProps.name} ${isEmpty(inputFieldProps.src) ? `${inputFieldProps.name}_empty` : ""}`
                 },
                 name: inputFieldProps.name,
-                src: isEmpty(inputFieldProps.src) ? NO_AVATAR_IMG : createAPIUrl(inputFieldProps.src),
+                src: isEmpty(inputFieldProps.src) ? NO_IMAGE_IMG : createAPIUrl(inputFieldProps.src),
                 label: inputFieldProps.label,
                 input: new Input({
                     attributes: {

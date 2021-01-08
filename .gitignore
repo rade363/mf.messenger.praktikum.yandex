@@ -1,5 +1,4 @@
 .idea
 .git
 node_modules
-static/assets/js
-static/assets/css
+static/assets
