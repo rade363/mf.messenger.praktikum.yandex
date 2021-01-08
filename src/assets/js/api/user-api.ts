@@ -19,8 +19,4 @@ export default class UserAPI {
     searchUserByLogin(data: ISearchRequestProps): Promise<XMLHttpRequest> {
         return userAPIInstance.post("/search", {data});
     }
-
-    getUserById(id: number): Promise<XMLHttpRequest> {
-        return userAPIInstance.get(`/${id}`, {});
-    }
 }

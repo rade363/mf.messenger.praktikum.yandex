@@ -24,10 +24,6 @@ export default class ChatsAPI {
         return chatsAPIInstance.get(`/${chatId}/users`, {});
     }
 
-    getMessagesCount(chatId: number): Promise<XMLHttpRequest> {
-        return chatsAPIInstance.get(`/new/${chatId}`, {});
-    }
-
     addUsers(data: IChatActionUsersProps): Promise<XMLHttpRequest> {
         return chatsAPIInstance.put("/users", {data});
     }
