@@ -6,10 +6,11 @@
   "scripts": {
     "start": "node index.js",
     "dev": "ttsc -w",
-    "build": "ttsc && npm run compile:sass",
+    "build": "ttsc && npm run compile:sass && npm run moveimages",
     "test": "./node_modules/.bin/mocha",
     "watch:sass": "node-sass src/assets/scss/main.scss static/assets/css/style.css -w",
-    "compile:sass": "node-sass src/assets/scss/main.scss static/assets/css/style.css"
+    "compile:sass": "node-sass src/assets/scss/main.scss static/assets/css/style.css",
+    "moveimages": "cp -R src/assets/img static/assets"
   },
   "repository": {
     "type": "git",
