@@ -32,7 +32,6 @@ export default class Route {
     }
 
     render(): void {
-        console.log('[ROUTE] Render!', this._props.rootQuery);
         if (!this._block) {
             this._block = new this._blockClass("div", {});
         }

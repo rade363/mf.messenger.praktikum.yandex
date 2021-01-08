@@ -2,6 +2,10 @@ type TObjectType = {
     [key: string]: any;
 };
 type TRequestMethod = "GET" | "PUT" | "POST" | "DELETE";
+type TActionElement = IFormButtonProps | IDouble | string;
+type TFormElement = IInputFieldProps | IDouble | IAvatarInput;
+type TEventListener = (event: Event) => any;
+type TEventListenerTemplate = [string, TEventListener];
 
 interface IBlock {
     uniqueId: string | null;
@@ -114,9 +118,6 @@ interface IFormButtonProps {
     eventListeners?: unknown[]
 }
 
-type TActionElement = IFormButtonProps | IDouble | string;
-type TFormElement = IInputFieldProps | IDouble | IAvatarInput;
-
 interface IFormProps {
     name: string;
     inputFields: TFormElement[];
@@ -146,9 +147,6 @@ interface IContextMenuItem {
     name: string;
     eventListeners: unknown[]
 }
-
-type TEventListener = (event: Event) => any;
-type TEventListenerTemplate = [string, TEventListener];
 
 interface IAttachmentContextButtonProps {
     text: string;
