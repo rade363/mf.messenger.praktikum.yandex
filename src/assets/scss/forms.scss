@@ -1,0 +1,77 @@
+.form {
+  display: flex;
+  flex-direction: column;
+
+  &__item {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: left;
+    margin-bottom: 10px;
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12px;
+    line-height: 12px;
+    color: var(--fontDarkGrey);
+  }
+
+  &__input {
+    background: var(--white);
+    border: 1px solid var(--borderLightGrey);
+    box-sizing: border-box;
+    padding: 14px 10px;
+    width: 100%;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.1em;
+    color: var(--black);
+
+    &:focus {
+      border-color: var(--blue);
+    }
+    &_wide {
+      width: 100%;
+    }
+    &_error {
+      border-color: var(--red);
+    }
+  }
+
+  &__error {
+    display: block;
+    line-height: 14px;
+    min-height: 14px;
+    margin-top: 5px;
+    font-size: 11px;
+    color: var(--red);
+  }
+}
+
+.double {
+  display: flex;
+  flex: 2;
+  flex-direction: row;
+
+  &__child {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+
+    &:not(:last-child) {
+      margin-right: 30px;
+    }
+  }
+}
+
+.password-form {
+  padding-top: 60px;
+
+  &__actions {
+    margin-top: 40px;
+    margin-bottom: 30px;
+  }
+}

@@ -6,8 +6,10 @@
   "scripts": {
     "start": "node index.js",
     "dev": "ttsc -w",
-    "build": "ttsc",
-    "test": "./node_modules/.bin/mocha"
+    "build": "ttsc && npm run compile:sass",
+    "test": "./node_modules/.bin/mocha",
+    "watch:sass": "node-sass src/assets/scss/main.scss static/assets/css/style.css -w",
+    "compile:sass": "node-sass src/assets/scss/main.scss static/assets/css/style.css"
   },
   "repository": {
     "type": "git",
@@ -36,6 +38,7 @@
     "handlebars": "4.7.6",
     "jsdom": "16.4.0",
     "mocha": "8.2.1",
+    "node-sass": "5.0.0",
     "sinon": "9.2.3",
     "ttypescript": "1.5.12",
     "typescript": "4.1.2"
