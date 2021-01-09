@@ -2,21 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Root page</title>
+    <title>messenger</title>
+    <link href="/assets/css/style.css" type="text/css" rel="stylesheet" >
 </head>
 <body>
-    <h1>Hello, reviewer :)</h1>
-    <p>Here is a list of all created pages:</p>
-    <ul>
-        <li><a href="/login/">Login screen</a></li>
-        <li><a href="/register/">Register screen</a></li>
-        <li><a href="/chats/">Chats list screen</a></li>
-        <li><a href="/conversation/">Conversation screen</a></li>
-        <li><a href="/profile/">Profile/settings screen (avatar change is implemented by hovering over the profile avatar and clicking it)</a></li>
-        <li><a href="/profile-edit-info/">Edit profile info screen</a></li>
-        <li><a href="/profile-change-password/">Change password screen</a></li>
-        <li><a href="/404/">404</a></li>
-        <li><a href="/500/">500</a></li>
-    </ul>
+    <div id="root"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
+    <script type="module" src="/assets/js/index.js"></script>
 </body>
 </html>

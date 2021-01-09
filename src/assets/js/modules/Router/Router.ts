@@ -35,6 +35,10 @@ export default class Router {
                 this._onRoute(popEvent.location.pathname);
             }
         };
+        if (window.location.pathname === "/") {
+            this.go("/login/");
+            return;
+        }
         this._onRoute(window.location.pathname);
     }
 

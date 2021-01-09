@@ -1,6 +1,6 @@
 export default function connectBlockWithDom(domElement: HTMLElement, block: any): void {
     if (block.uniqueId !== undefined) {
-        const exactElement = domElement.querySelector(`.uid${block.uniqueId}`) as HTMLElement;
+        const exactElement = domElement.querySelector<HTMLElement>(`.uid${block.uniqueId}`);
         if (exactElement) {
             block.connectElement(exactElement);
 
