@@ -57,6 +57,12 @@ export default class HTTPRequest {
             xhr.withCredentials = true;
 
             const allHeaders = headers ? { ...this.defaultHeaders, ...headers } : this.defaultHeaders;
+            const lowercaseHeaders = Object
+                .entries(allHeaders)
+                .reduce((acc: TObjectType, [key, value]) => {
+                    acc[key.toLowerCase()] = value;
+                    return acc;
+                }, {});
             Object
                 .entries(allHeaders)
                 .forEach(([key, value]) => xhr.setRequestHeader(key, value));
@@ -78,10 +84,21 @@ export default class HTTPRequest {
             xhr.ontimeout = handleError;
 
             if (method === METHODS.GET || !data) {
+                if (!lowercaseHeaders["content-type"]) {
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                }
                 xhr.send();
             } else if (data instanceof FormData) {
+                // If uncommented, code below throws an error for some reason related to Access-Control-Allow-Origin. Probably something related to back-end?
+                // Access to XMLHttpRequest at 'https://ya-praktikum.tech/api/v2/user/profile/avatar' from origin 'http://localhost:4000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+                // if (!lowercaseHeaders["content-type"]) {
+                //     xhr.setRequestHeader("Content-Type", "multipart/form-data")
+                // }
                 xhr.send(data);
             } else {
+                if (!lowercaseHeaders["content-type"]) {
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                }
                 xhr.send(JSON.stringify(data));
             }
         });
