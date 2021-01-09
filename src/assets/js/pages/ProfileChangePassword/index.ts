@@ -5,12 +5,11 @@ import {compile} from "../../modules/templator/templator";
 import Form from "../../components/Form/index";
 import {createInputField, setErrorTextForInputField} from "../../modules/formHelpers";
 import Router from "../../modules/Router/Router";
-import AuthAPI from "../../api/auth-api";
 import UserAPI from "../../api/user-api";
 import GlobalState from "../../modules/GlobalState";
+import validateAuth from "../../controllers/authValidationController";
 
 const router = new Router("#root");
-const authAPI = new AuthAPI();
 const userAPI = new UserAPI();
 const globalStateInstance = new GlobalState();
 
@@ -70,6 +69,7 @@ export default class ProfileChangePassword extends Block {
                         .then((xhr: XMLHttpRequest) => {
                             if (xhr.response === "OK") {
                                 router.go("/profile/");
+                                router.refresh("/profile-change-password/");
                             }
                         })
                         .catch((error: XMLHttpRequest) => {
@@ -94,19 +94,19 @@ export default class ProfileChangePassword extends Block {
     }
 
     componentDidMount() {
-        const existingUser = globalStateInstance.getProp("currentUser");
-        if (existingUser) {
-            return;
-        }
-
-        authAPI.getCurrentUser()
-            .then((xhr: XMLHttpRequest) => {
-                const currentUser = JSON.parse(xhr.response);
-                globalStateInstance.setProp("currentUser", currentUser);
+        validateAuth(globalStateInstance)
+            .then((isAuthenticated) => {
+                if (!isAuthenticated) {
+                    throw new Error("Not authorized");
+                }
             })
-            .catch(() => {
-                console.error("[ERROR] Not authorized");
-                router.go("/login/");
+            .catch((error: XMLHttpRequest | Error) => {
+                console.error("[ERROR] Could not set profile edit info", error)
+                if (error instanceof Error) {
+                    if (error.message === "Not authorized") {
+                        router.go("/login/");
+                    }
+                }
             });
     }
 

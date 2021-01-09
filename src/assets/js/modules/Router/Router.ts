@@ -69,4 +69,15 @@ export default class Router {
     getRoute(pathname: string): Route | undefined {
         return this.routes.find(route => route.match(pathname));
     }
+
+    reset(): void {
+        this.routes = [];
+    }
+
+    refresh(pathname: string): void {
+        const route = this.getRoute(pathname);
+        if (route) {
+            route.refresh();
+        }
+    }
 }

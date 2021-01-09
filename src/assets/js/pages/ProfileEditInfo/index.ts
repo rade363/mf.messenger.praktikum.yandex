@@ -7,13 +7,13 @@ import {getResponseErrorText} from "../../modules/helpers";
 import {createInputField, setErrorTextForInputField} from "../../modules/formHelpers";
 import {createAPIUrl} from "../../modules/domHelpers";
 import Router from "../../modules/Router/Router";
-import AuthAPI from "../../api/auth-api";
 import UserAPI from "../../api/user-api";
 import AvatarAPI from "../../api/avatar-api";
 import GlobalState from "../../modules/GlobalState";
+import validateAuth from "../../controllers/authValidationController";
+import {createExistingUser} from "../../controllers/profileController";
 
 const router = new Router("#root");
-const authAPI = new AuthAPI();
 const userAPI = new UserAPI();
 const avatarAPI = new AvatarAPI();
 const globalStateInstance = new GlobalState();
@@ -41,21 +41,23 @@ export default class ProfileEditInfo extends Block {
     }
 
     componentDidMount() {
-        const existingUser = globalStateInstance.getProp("currentUser");
-        if (existingUser) {
-            return;
-        }
+        validateAuth(globalStateInstance)
+            .then((isAuthenticated) => {
+                if (!isAuthenticated) {
+                    throw new Error("Not authorized");
+                }
 
-        authAPI.getCurrentUser()
-            .then((xhr: XMLHttpRequest) => {
-                const currentUser = JSON.parse(xhr.response);
-                globalStateInstance.setProp("currentUser", currentUser);
+                const currentUser = globalStateInstance.getProp("currentUser");
                 const child = createProfileForm(currentUser);
                 this.setProps({ child });
             })
-            .catch(() => {
-                console.error("[ERROR] Not authorized");
-                router.go("/login/");
+            .catch((error: XMLHttpRequest | Error) => {
+                console.error("[ERROR] Could not set profile edit info", error)
+                if (error instanceof Error) {
+                    if (error.message === "Not authorized") {
+                        router.go("/login/");
+                    }
+                }
             });
     }
 
@@ -107,6 +109,9 @@ function createProfileForm(currentUser: IUser) {
                 .then((xhr: XMLHttpRequest) => {
                     const userDetails = JSON.parse(xhr.response);
                     globalStateInstance.setProp("currentUser", userDetails);
+
+                    updateProfilePageBlock(userDetails);
+
                     router.go("/profile/");
                 })
                 .catch((error: XMLHttpRequest) => {
@@ -174,8 +179,15 @@ function handleAvatarSubmit(avatar: File, imageInput: IBlock) {
                 imageInput.setProps({
                     ...prevProps,
                     src: createAPIUrl(userDetails.avatar)
-                })
+                });
+                updateProfilePageBlock(userDetails);
             }
         })
         .catch((error: XMLHttpRequest) => console.error("[ERROR] Avatar has not been updated", JSON.parse(error.response)));
+}
+
+function updateProfilePageBlock(userDetails: IUser): void {
+    const profilePage = router.getRoute("/profile/");
+    const profile = createExistingUser(userDetails);
+    profilePage?._block?.setProps({profile});
 }

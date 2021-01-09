@@ -38,4 +38,10 @@ export default class Route {
 
         renderInterface(this._props.rootQuery, this._block);
     }
+
+    refresh(): void {
+        if (this._block) {
+            this._block = new this._blockClass("div", {});
+        }
+    }
 }

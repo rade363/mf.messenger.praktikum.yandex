@@ -3,11 +3,11 @@ import BackButton from "../../components/BackButton/index";
 import Button from "../../components/Button/index";
 import template from "./template";
 import {compile} from "../../modules/templator/templator";
-import {createAPIUrl} from "../../modules/domHelpers";
-import {NO_AVATAR_IMG} from "../../constants/index";
 import Router from "../../modules/Router/Router";
 import AuthAPI from "../../api/auth-api";
 import GlobalState from "../../modules/GlobalState";
+import validateAuth from "../../controllers/authValidationController";
+import {createExistingUser} from "../../controllers/profileController";
 
 const router = new Router("#root");
 const authAPI = new AuthAPI();
@@ -89,59 +89,26 @@ export default class Profile extends Block {
     }
 
     componentDidMount() {
-        const existingUser = globalStateInstance.getProp("currentUser");
-        if (existingUser) {
-            return;
-        }
-
-        authAPI.getCurrentUser()
-            .then((xhr: XMLHttpRequest) => {
-                const currentUser = JSON.parse(xhr.response);
-                globalStateInstance.setProp("currentUser", currentUser);
-
+        validateAuth(globalStateInstance)
+            .then((isAuthenticated) => {
+                if (!isAuthenticated) {
+                    throw new Error("Not authorized");
+                }
+                const currentUser = globalStateInstance.getProp("currentUser");
                 const profile = createExistingUser(currentUser);
                 this.setProps({ profile });
             })
-            .catch(() => {
-                console.error("[ERROR] Not authorized");
-                router.go("/login/");
+            .catch((error: XMLHttpRequest | Error) => {
+                console.error("[ERROR] Could not set profile edit info", error)
+                if (error instanceof Error) {
+                    if (error.message === "Not authorized") {
+                        router.go("/login/");
+                    }
+                }
             });
     }
 
     render(): Element | null {
         return compile(template, this.props);
     }
-}
-
-function createExistingUser(currentUser: IUser | null): ICurrentUserDetails {
-    const avatar = currentUser && currentUser.avatar
-        ? { isEmpty: false, url: createAPIUrl(currentUser.avatar) }
-        : { isEmpty: true, url: NO_AVATAR_IMG};
-    const fullname = currentUser && currentUser.first_name && currentUser.second_name
-        ? `${currentUser.first_name} ${currentUser.second_name}`
-        : "";
-    const infoBlock = [];
-
-    infoBlock.push(createUserProperty("email", "Email", currentUser));
-    infoBlock.push(createUserProperty("login", "Login", currentUser));
-    infoBlock.push(createUserProperty("first_name", "First name", currentUser));
-    infoBlock.push(createUserProperty("second_name", "Last name", currentUser));
-    infoBlock.push(createUserProperty("display_name", "Display name", currentUser));
-    infoBlock.push(createUserProperty("phone", "Phone", currentUser));
-
-    return {
-        avatar,
-        fullname,
-        infoBlock
-    };
-}
-
-function createUserProperty(type: string, title: string, currentUser: IUser | null): IUserProperty {
-    if (currentUser && type in currentUser && typeof currentUser[type] === "string") {
-        const value = currentUser[type];
-        if (typeof value === "string") {
-            return { type, title, value };
-        }
-    }
-    return { type, title, value: "" };
 }

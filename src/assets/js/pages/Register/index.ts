@@ -128,7 +128,8 @@ export default class Register extends Block {
                 const currentUser = JSON.parse(xhr.response);
                 globalStateInstance.setProp("currentUser", currentUser);
                 router.go("/chats/");
-            });
+            })
+            .catch(() => console.info("[INFO] Not authorized"));
     }
 
     render(): Element | null {

@@ -46,7 +46,6 @@ export default function createAddUserModal(globalStateInstance: IGlobalState): I
                 }
             ],
             onSubmit: (formObject: ISearchRequestProps): void => {
-                console.log("[INFO] Username valid, add user event executed, form will be submitted later in this course", formObject);
                 userAPI.searchUserByLogin(formObject)
                     .then((xhr: XMLHttpRequest) => {
                         console.log("[SUCCESS] Users search results", xhr.response);
@@ -70,7 +69,17 @@ export default function createAddUserModal(globalStateInstance: IGlobalState): I
                         }
                         return getChatUsers(globalStateInstance);
                     })
-                    .then(() => modal.hide())
+                    .then(() => {
+                        modal.hide();
+                        const oldInputProps = modal.props.child.props.inputFields[0].inputField.props.input.props.attributes;
+                        modal.props.child.props.inputFields[0].inputField.props.input.setProps({
+                            attributes: {
+                                ...oldInputProps,
+                                value: ""
+                            }
+                        });
+                        modal.props.child.props.inputFields[0].inputField.props.input.getContent().value = "";
+                    })
                     .catch((error: XMLHttpRequest | Error) => {
                         console.log("[ERROR] Could not add users to the new chat", error);
                         const text = error instanceof Error ? error.message : JSON.parse(error.response);

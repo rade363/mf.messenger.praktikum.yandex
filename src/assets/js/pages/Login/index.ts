@@ -6,6 +6,7 @@ import {getResponseErrorText} from "../../modules/helpers";
 import Router from "../../modules/Router/Router";
 import AuthAPI from "../../api/auth-api";
 import GlobalState from "../../modules/GlobalState";
+import {initInterface} from "../../modules/domHelpers";
 
 const router = new Router("#root");
 const authAPI = new AuthAPI();
@@ -66,6 +67,11 @@ export default class Login extends Block {
                         .then((xhr: XMLHttpRequest) => {
                             const userDetails = JSON.parse(xhr.response);
                             globalStateInstance.setProp("currentUser", userDetails);
+
+                            router._currentRoute?.leave();
+                            router.reset();
+                            initInterface();
+
                             router.go("/chats/");
                         })
                         .catch((error: XMLHttpRequest | Error) => {
@@ -95,7 +101,8 @@ export default class Login extends Block {
                 const userDetails = JSON.parse(xhr.response);
                 globalStateInstance.setProp("currentUser", userDetails);
                 router.go("/chats/");
-            });
+            })
+            .catch(() => console.info("[INFO] Not authorized"));
     }
 
     render(): Element | null {

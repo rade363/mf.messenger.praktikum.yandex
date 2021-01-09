@@ -14,7 +14,7 @@ export default function validateAuth(globalStateInstance: IGlobalState): Promise
             return true;
         })
         .catch((error: XMLHttpRequest) => {
-            console.error('[PROFILE] [MOUNT] [ERROR]', error.response);
+            console.error("[ERROR]", error.response);
             return false;
         });
 }
