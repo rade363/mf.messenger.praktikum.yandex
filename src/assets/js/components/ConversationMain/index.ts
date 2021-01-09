@@ -6,11 +6,10 @@ import ContextMenu from "../ContextMenu/index";
 import {useState} from "../../modules/state";
 import MessageForm from "../MessageForm/index";
 import ContextButton from "../ContextButton/index";
-import GlobalState from "../../modules/GlobalState";
 import getChatUsers from "../../controllers/collectChatUsersController";
 import DeleteUsersList from "../DeleteUsersList/index";
+import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
 
-const globalStateInstance = new GlobalState();
 const state = {
     isConversationActionsMenuOpen: useState(false)
 };

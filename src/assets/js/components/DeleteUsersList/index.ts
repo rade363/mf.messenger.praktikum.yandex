@@ -3,10 +3,9 @@ import {compile} from "../../modules/templator/templator";
 import template from "./DeleteUsersList";
 import Button from "../Button/index";
 import ChatsAPI from "../../api/chats-api";
-import GlobalState from "../../modules/GlobalState";
+import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
 
 const chatsAPI = new ChatsAPI();
-const globalStateInstance = new GlobalState();
 
 export default class DeleteUsersList extends Block {
     constructor(props: IDeleteUsersListProps) {

@@ -5,12 +5,11 @@ import Form from "../../components/Form/index";
 import {getResponseErrorText} from "../../modules/helpers";
 import Router from "../../modules/Router/Router";
 import AuthAPI from "../../api/auth-api";
-import GlobalState from "../../modules/GlobalState";
 import {initInterface} from "../../modules/domHelpers";
+import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
 
 const router = new Router("#root");
 const authAPI = new AuthAPI();
-const globalStateInstance = new GlobalState();
 
 export default class Login extends Block {
     constructor() {

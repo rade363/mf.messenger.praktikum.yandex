@@ -5,13 +5,12 @@ import template from "./template";
 import {compile} from "../../modules/templator/templator";
 import Router from "../../modules/Router/Router";
 import AuthAPI from "../../api/auth-api";
-import GlobalState from "../../modules/GlobalState";
 import validateAuth from "../../controllers/authValidationController";
 import {createExistingUser} from "../../controllers/profileController";
+import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
 
 const router = new Router("#root");
 const authAPI = new AuthAPI();
-const globalStateInstance = new GlobalState();
 
 export default class Profile extends Block {
     constructor() {

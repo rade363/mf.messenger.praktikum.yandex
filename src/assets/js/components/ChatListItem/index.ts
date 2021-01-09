@@ -1,13 +1,12 @@
 import Block from "../../modules/Block/Block";
 import {compile} from "../../modules/templator/templator";
 import template from "./ChatListItem";
-import GlobalState from "../../modules/GlobalState";
 import Router from "../../modules/Router/Router";
 import createChat from "../../controllers/createNewChatController";
 import {handleExistingChats, renderChatsList} from "../../controllers/existingChatsListController";
 import {setConversationMain} from "../../controllers/conversationMainController";
+import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
 
-const globalStateInstance = new GlobalState();
 const router = new Router("#root");
 
 export default class ChatListItem extends Block {

@@ -7,11 +7,10 @@ import {getResponseErrorText} from "../../modules/helpers";
 import {setErrorTextForInputField} from "../../modules/formHelpers";
 import Router from "../../modules/Router/Router";
 import AuthAPI from "../../api/auth-api";
-import GlobalState from "../../modules/GlobalState";
+import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
 
 const authAPI = new AuthAPI();
 const router = new Router("#root");
-const globalStateInstance = new GlobalState();
 
 export default class Register extends Block {
     constructor() {

@@ -6,12 +6,11 @@ import Form from "../../components/Form/index";
 import {createInputField, setErrorTextForInputField} from "../../modules/formHelpers";
 import Router from "../../modules/Router/Router";
 import UserAPI from "../../api/user-api";
-import GlobalState from "../../modules/GlobalState";
 import validateAuth from "../../controllers/authValidationController";
+import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
 
 const router = new Router("#root");
 const userAPI = new UserAPI();
-const globalStateInstance = new GlobalState();
 
 export default class ProfileChangePassword extends Block {
     constructor() {

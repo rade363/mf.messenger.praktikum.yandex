@@ -6,7 +6,6 @@ import ChatList from "../../components/ChatList/index";
 import ConversationMain from "../../components/ConversationMain/index";
 import Button from "../../components/Button/index";
 import Router from "../../modules/Router/Router";
-import GlobalState from "../../modules/GlobalState";
 import handleUserSearch from "../../controllers/searchController";
 import validateAuth from "../../controllers/authValidationController";
 import {getExistingChats, handleExistingChats, renderChatsList} from "../../controllers/existingChatsListController";
@@ -14,9 +13,9 @@ import createNewGroupChatTitleModal from "../../controllers/newGroupChatTItleMod
 import createAddUserModal from "../../controllers/addUserModalController";
 import createDeleteUserModalController from "../../controllers/deleteUserFromGroupChatModalController";
 import createDeleteConversationModal from "../../controllers/deleteConversationModalController";
+import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
 
 const router = new Router("#root");
-const globalStateInstance = new GlobalState();
 
 export default class Conversation extends Block {
     constructor() {

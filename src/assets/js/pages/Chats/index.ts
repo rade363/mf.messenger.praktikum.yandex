@@ -5,14 +5,13 @@ import {compile} from "../../modules/templator/templator";
 import ChatList from "../../components/ChatList/index";
 import Button from "../../components/Button/index";
 import Router from "../../modules/Router/Router";
-import GlobalState from "../../modules/GlobalState";
 import handleUserSearch from "../../controllers/searchController";
 import validateAuth from "../../controllers/authValidationController";
 import {getExistingChats, handleExistingChats, renderChatsList} from "../../controllers/existingChatsListController";
 import createNewGroupChatTitleModal from "../../controllers/newGroupChatTItleModalController";
+import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
 
 const router = new Router("#root");
-const globalStateInstance = new GlobalState();
 
 export default class Chats extends Block {
     constructor() {

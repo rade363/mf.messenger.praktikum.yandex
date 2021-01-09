@@ -9,14 +9,13 @@ import {createAPIUrl} from "../../modules/domHelpers";
 import Router from "../../modules/Router/Router";
 import UserAPI from "../../api/user-api";
 import AvatarAPI from "../../api/avatar-api";
-import GlobalState from "../../modules/GlobalState";
 import validateAuth from "../../controllers/authValidationController";
 import {createExistingUser} from "../../controllers/profileController";
+import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
 
 const router = new Router("#root");
 const userAPI = new UserAPI();
 const avatarAPI = new AvatarAPI();
-const globalStateInstance = new GlobalState();
 
 export default class ProfileEditInfo extends Block {
     constructor() {
