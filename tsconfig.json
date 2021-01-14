@@ -12,12 +12,12 @@
     "rootDir": "src",
     "outDir": "static",
     "types": ["handlebars", "mocha", "chai", "sinon"],
-    "plugins": [
-      {
-        "transform": "@zoltu/typescript-transformer-append-js-extension/output/index.js",
-        "after": true
-      }
-    ]
+//    "plugins": [
+//      {
+//        "transform": "@zoltu/typescript-transformer-append-js-extension/output/index.js",
+//        "after": true
+//      }
+//    ]
   },
   "exclude": [
     "node_modules"

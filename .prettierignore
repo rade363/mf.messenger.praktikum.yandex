@@ -1,0 +1,8 @@
+.idea/
+.git/
+
+static/
+
+package-lock.json
+
+README.md
