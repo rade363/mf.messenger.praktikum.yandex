@@ -12,20 +12,22 @@ export function createChat(title: string, userIds?: number[]): void {
     chatsAPI
         .createChat({ title })
         .then(() => chatsAPI.listChats())
-        .then((xhr: XMLHttpRequest): never | Promise<boolean> => {
-            const refreshedExistingChats: IExistingChat[] = JSON.parse(xhr.response);
-            globalStateInstance.setProp("existingChats", refreshedExistingChats);
-            const createdChat = refreshedExistingChats.find((chat) => chat.title === title);
-            if (!createdChat) {
-                throw new Error("[ERROR] Chat was not created");
-            }
-            globalStateInstance.setProp("selectedChat", createdChat);
+        .then(
+            (xhr: XMLHttpRequest): Promise<boolean> => {
+                const refreshedExistingChats: IExistingChat[] = JSON.parse(xhr.response);
+                globalStateInstance.setProp("existingChats", refreshedExistingChats);
+                const createdChat = refreshedExistingChats.find((chat) => chat.title === title);
+                if (!createdChat) {
+                    throw new Error("[ERROR] Chat was not created");
+                }
+                globalStateInstance.setProp("selectedChat", createdChat);
 
-            if (userIds) {
-                return addUsersToChat(userIds, createdChat.id);
+                if (userIds) {
+                    return addUsersToChat(userIds, createdChat.id);
+                }
+                return Promise.resolve(false);
             }
-            throw new Error("[ERROR] Users ids are not available");
-        })
+        )
         .then((): void => {
             router.go("/conversation/");
             if (router._currentRoute && router._currentRoute._block) {
@@ -37,7 +39,7 @@ export function createChat(title: string, userIds?: number[]): void {
                 renderChatsList(existingChatsList, pageBlock, selectedChat);
             }
         })
-        .catch((error: XMLHttpRequest) => console.error("[ERROR] Could not create new chat", JSON.parse(error.response)));
+        .catch((error: XMLHttpRequest) => console.error("[ERROR] Could not create new chat", error));
 }
 
 export function handleChatClick(props: IChatListItem): void | undefined {

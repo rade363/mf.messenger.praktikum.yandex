@@ -24,6 +24,10 @@ export default class GlobalState {
         return null;
     }
 
+    reset(): void {
+        this.state = {};
+    }
+
     check(): TObjectType {
         return this.state;
     }

@@ -1,13 +1,14 @@
 import Block from "../../modules/Block/Block";
 import BackButton from "../../components/BackButton/index";
 import Button from "../../components/Button/index";
-import template from "./template";
+import template from "./template.handlebars";
 import compile from "../../modules/templator/templator";
 import Router from "../../modules/Router/Router";
 import AuthAPI from "../../api/auth-api";
 import validateAuth from "../../controllers/authValidationController";
 import createExistingUser from "../../controllers/profileController";
 import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
+import initInterface from "../../controllers/initInterfaceController";
 
 const router = new Router("#root");
 
@@ -20,6 +21,12 @@ function handleLogOutClick(event: Event): void {
         .logOut()
         .then((xhr: XMLHttpRequest) => {
             if (xhr.response === "OK") {
+                globalStateInstance.reset();
+
+                router._currentRoute?.leave();
+                router.reset();
+                initInterface();
+
                 router.go("/login/");
             }
         })
