@@ -4,9 +4,11 @@ export default class Router {
     private static __instance: Router;
 
     _currentRoute: null | Route;
+
     _rootQuery: string;
 
     routes: Route[];
+
     history: History;
 
     constructor(rootQuery: string) {
@@ -23,7 +25,7 @@ export default class Router {
     }
 
     use(pathname: string, block: IBlockConstructable): this {
-        const route = new Route(pathname, block, {rootQuery: this._rootQuery});
+        const route = new Route(pathname, block, { rootQuery: this._rootQuery });
         this.routes.push(route);
         return this;
     }
@@ -58,7 +60,7 @@ export default class Router {
     }
 
     go(pathname: string): void {
-        this.history.pushState({}, '', pathname);
+        this.history.pushState({}, "", pathname);
         this._onRoute(pathname);
     }
 
@@ -71,7 +73,7 @@ export default class Router {
     }
 
     getRoute(pathname: string): Route | undefined {
-        return this.routes.find(route => route.match(pathname));
+        return this.routes.find((route) => route.match(pathname));
     }
 
     reset(): void {

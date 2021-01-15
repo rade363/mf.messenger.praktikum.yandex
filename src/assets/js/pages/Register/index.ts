@@ -1,10 +1,10 @@
 import Block from "../../modules/Block/Block";
 import template from "./template";
-import {compile} from "../../modules/templator/templator";
+import compile from "../../modules/templator/templator";
 import BackButton from "../../components/BackButton/index";
 import Form from "../../components/Form/index";
-import {getResponseErrorText} from "../../modules/helpers";
-import {setErrorTextForInputField} from "../../modules/formHelpers";
+import { getResponseErrorText } from "../../modules/helpers";
+import { setErrorTextForInputField } from "../../modules/formHelpers";
 import Router from "../../modules/Router/Router";
 import AuthAPI from "../../api/auth-api";
 import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
@@ -22,10 +22,13 @@ export default class Register extends Block {
             backButton: new BackButton({
                 url: "/login/",
                 eventListeners: [
-                    ["click", (event: Event) => {
-                        event.preventDefault();
-                        router.back();
-                    }]
+                    [
+                        "click",
+                        (event: Event) => {
+                            event.preventDefault();
+                            router.back();
+                        }
+                    ]
                 ]
             }),
             child: new Form({
@@ -87,7 +90,8 @@ export default class Register extends Block {
                     }
                 ],
                 onSubmit: (formObject: ISignUpProps): void => {
-                    authAPI.signUp(formObject)
+                    authAPI
+                        .signUp(formObject)
                         .then((xhr: XMLHttpRequest) => {
                             const response = JSON.parse(xhr.response);
                             if (response.id && typeof response.id === "number") {
@@ -121,8 +125,9 @@ export default class Register extends Block {
         });
     }
 
-    componentDidMount() {
-        authAPI.getCurrentUser()
+    componentDidMount(): void {
+        authAPI
+            .getCurrentUser()
             .then((xhr: XMLHttpRequest) => {
                 const currentUser = JSON.parse(xhr.response);
                 globalStateInstance.setProp("currentUser", currentUser);

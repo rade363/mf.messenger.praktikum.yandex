@@ -1,10 +1,13 @@
-import {isEqual} from "../helpers";
-import {renderInterface} from "../domHelpers";
+import { isEqual } from "../helpers";
+import { renderInterface } from "../domHelpers";
 
 export default class Route {
     _pathname: string;
+
     _blockClass: IBlockConstructable;
+
     _block: null | IBlock;
+
     _props: TObjectType;
 
     constructor(pathname: string, view: IBlockConstructable, props: TObjectType) {

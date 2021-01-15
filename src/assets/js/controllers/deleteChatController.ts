@@ -1,7 +1,19 @@
 import ChatsAPI from "../api/chats-api";
-import {handleExistingChats, renderChatsList} from "./existingChatsListController";
+import { handleExistingChats, renderChatsList } from "./existingChatsListController";
 import Router from "../modules/Router/Router";
+
 const chatsAPI = new ChatsAPI();
+
+function deleteChat(deletedChat: IExistingChat): Promise<XMLHttpRequest> {
+    const chatId = deletedChat.id;
+    return chatsAPI.deleteChat({ chatId });
+}
+
+function removeDeletedChatFromState(globalStateInstance: IGlobalState, deletedChat: IExistingChat): void {
+    const existingChats = globalStateInstance.getProp("existingChats");
+    const updatedExistingChatsList = existingChats.filter((chat: IExistingChat) => chat.id !== deletedChat.id);
+    globalStateInstance.setProp("existingChats", updatedExistingChatsList);
+}
 
 export default function handleDeleteChat(globalStateInstance: IGlobalState, router: Router, deleteConversationModal: IBlock): void {
     const deletedChat = globalStateInstance.getProp("selectedChat");
@@ -19,16 +31,5 @@ export default function handleDeleteChat(globalStateInstance: IGlobalState, rout
                 renderChatsList(existingChatsList, pageBlock, deletedChat);
             }
         })
-        .catch((error: XMLHttpRequest) => console.error('[ERROR] Could not delete chat', JSON.parse(error.response)));
-}
-
-function deleteChat(deletedChat: IExistingChat): Promise<XMLHttpRequest> {
-    const chatId = deletedChat.id;
-    return chatsAPI.deleteChat({chatId});
-}
-
-function removeDeletedChatFromState(globalStateInstance: IGlobalState, deletedChat: IExistingChat): void {
-    const existingChats = globalStateInstance.getProp("existingChats");
-    const updatedExistingChatsList = existingChats.filter((chat: IExistingChat) => chat.id !== deletedChat.id);
-    globalStateInstance.setProp("existingChats", updatedExistingChatsList);
+        .catch((error: XMLHttpRequest) => console.error("[ERROR] Could not delete chat", JSON.parse(error.response)));
 }

@@ -1,5 +1,5 @@
 import Block from "../../modules/Block/Block";
-import {compile} from "../../modules/templator/templator";
+import compile from "../../modules/templator/templator";
 import template from "./Input";
 
 export default class Input extends Block {
@@ -7,7 +7,7 @@ export default class Input extends Block {
         super("input", props);
     }
 
-    render() {
+    render(): Element | null {
         return compile(template, this.props);
     }
 }

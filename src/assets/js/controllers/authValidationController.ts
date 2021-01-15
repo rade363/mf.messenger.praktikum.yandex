@@ -1,4 +1,5 @@
 import AuthAPI from "../api/auth-api";
+
 const authAPI = new AuthAPI();
 
 export default function validateAuth(globalStateInstance: IGlobalState): Promise<boolean> {
@@ -7,7 +8,8 @@ export default function validateAuth(globalStateInstance: IGlobalState): Promise
         return Promise.resolve(true);
     }
 
-    return authAPI.getCurrentUser()
+    return authAPI
+        .getCurrentUser()
         .then((xhr: XMLHttpRequest) => {
             const currentUser = JSON.parse(xhr.response);
             globalStateInstance.setProp("currentUser", currentUser);

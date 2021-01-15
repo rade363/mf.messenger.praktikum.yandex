@@ -5,7 +5,7 @@ import Button from "../components/Button/index";
 import handleDeleteChat from "./deleteChatController";
 import Router from "../modules/Router/Router";
 
-export default function createDeleteConversationModal(globalStateInstance: IGlobalState, router: Router) {
+export default function createDeleteConversationModal(globalStateInstance: IGlobalState, router: Router): IBlock {
     const modal: IBlock = new Modal({
         name: "delete-conversation",
         title: "Delete conversation",
@@ -26,9 +26,7 @@ export default function createDeleteConversationModal(globalStateInstance: IGlob
                                         type: "button",
                                         class: "delete-conversation__approve button button_wide button_danger"
                                     },
-                                    eventListeners: [
-                                        ["click", () => handleDeleteChat(globalStateInstance, router, modal)]
-                                    ]
+                                    eventListeners: [["click", () => handleDeleteChat(globalStateInstance, router, modal)]]
                                 })
                             },
                             {
@@ -38,9 +36,7 @@ export default function createDeleteConversationModal(globalStateInstance: IGlob
                                         type: "button",
                                         class: "delete-conversation__approve button button_wide button_secondary"
                                     },
-                                    eventListeners: [
-                                        ["click", () => modal.hide()]
-                                    ]
+                                    eventListeners: [["click", () => modal.hide()]]
                                 })
                             }
                         ]

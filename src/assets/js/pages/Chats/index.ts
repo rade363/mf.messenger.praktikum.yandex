@@ -1,13 +1,13 @@
 import Block from "../../modules/Block/Block";
 import SearchInput from "../../components/SearchInput/index";
 import template from "./template";
-import {compile} from "../../modules/templator/templator";
+import compile from "../../modules/templator/templator";
 import ChatList from "../../components/ChatList/index";
 import Button from "../../components/Button/index";
 import Router from "../../modules/Router/Router";
 import handleUserSearch from "../../controllers/searchController";
 import validateAuth from "../../controllers/authValidationController";
-import {getExistingChats, handleExistingChats, renderChatsList} from "../../controllers/existingChatsListController";
+import { getExistingChats, handleExistingChats, renderChatsList } from "../../controllers/existingChatsListController";
 import createNewGroupChatTitleModal from "../../controllers/newGroupChatTItleModalController";
 import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
 
@@ -15,7 +15,7 @@ const router = new Router("#root");
 
 export default class Chats extends Block {
     constructor() {
-        const createGroupChatModal = createNewGroupChatTitleModal(globalStateInstance, router);
+        const createGroupChatModal = createNewGroupChatTitleModal();
         super("div", {
             attributes: {
                 class: "wrapper wrapper_background_empty"
@@ -27,10 +27,13 @@ export default class Chats extends Block {
                     href: ""
                 },
                 eventListeners: [
-                    ["click", (event: Event) => {
-                        event.preventDefault();
-                        createGroupChatModal.show();
-                    }]
+                    [
+                        "click",
+                        (event: Event) => {
+                            event.preventDefault();
+                            createGroupChatModal.show();
+                        }
+                    ]
                 ]
             }),
             profileLink: new Button("a", {
@@ -40,10 +43,13 @@ export default class Chats extends Block {
                     href: "/profile/"
                 },
                 eventListeners: [
-                    ["click", (event: Event) => {
-                        event.preventDefault();
-                        router.go("/profile/");
-                    }]
+                    [
+                        "click",
+                        (event: Event) => {
+                            event.preventDefault();
+                            router.go("/profile/");
+                        }
+                    ]
                 ]
             }),
             searchInput: new SearchInput({
@@ -55,13 +61,11 @@ export default class Chats extends Block {
                 },
                 items: []
             }),
-            modals: [
-                { modal: createGroupChatModal }
-            ]
+            modals: [{ modal: createGroupChatModal }]
         });
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         validateAuth(globalStateInstance)
             .then((isAuthenticated) => {
                 if (!isAuthenticated) {
@@ -72,7 +76,7 @@ export default class Chats extends Block {
             .then((existingChats: IExistingChat[]) => handleExistingChats(existingChats))
             .then((existingChatsList: IChatListItem[]) => renderChatsList(existingChatsList, this))
             .catch((error: XMLHttpRequest | Error) => {
-                console.error("[ERROR] Could not collect chats", error)
+                console.error("[ERROR] Could not collect chats", error);
                 if (error instanceof Error) {
                     if (error.message === "Not authorized") {
                         router.go("/login/");

@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import Router from "./Router";
-import {initInterface} from "../domHelpers";
+import initInterface from "../../controllers/initInterfaceController";
 
 describe("Router", () => {
     initInterface();

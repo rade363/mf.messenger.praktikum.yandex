@@ -1,5 +1,5 @@
 import Block from "../../modules/Block/Block";
-import {compile} from "../../modules/templator/templator";
+import compile from "../../modules/templator/templator";
 import template from "./ErrorMessage";
 
 export default class ErrorMessage extends Block {
@@ -7,7 +7,7 @@ export default class ErrorMessage extends Block {
         super("span", props);
     }
 
-    render() {
+    render(): Element | null {
         return compile(template, this.props);
     }
 }

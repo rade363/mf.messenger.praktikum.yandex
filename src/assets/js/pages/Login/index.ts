@@ -1,11 +1,11 @@
 import Block from "../../modules/Block/Block";
 import template from "./template";
-import {compile} from "../../modules/templator/templator";
+import compile from "../../modules/templator/templator";
 import Form from "../../components/Form/index";
-import {getResponseErrorText} from "../../modules/helpers";
+import { getResponseErrorText } from "../../modules/helpers";
 import Router from "../../modules/Router/Router";
 import AuthAPI from "../../api/auth-api";
-import {initInterface} from "../../modules/domHelpers";
+import initInterface from "../../controllers/initInterfaceController";
 import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
 
 const router = new Router("#root");
@@ -48,15 +48,19 @@ export default class Login extends Block {
                             class: "register-button button button_wide button_secondary"
                         },
                         eventListeners: [
-                            ["click", (event: Event) => {
-                                event.preventDefault();
-                                router.go("/register/")
-                            }]
+                            [
+                                "click",
+                                (event: Event) => {
+                                    event.preventDefault();
+                                    router.go("/register/");
+                                }
+                            ]
                         ]
                     }
                 ],
                 onSubmit: (formObject: ISignIpProps) => {
-                    authAPI.signIn(formObject)
+                    authAPI
+                        .signIn(formObject)
                         .then((xhr: XMLHttpRequest) => {
                             if (xhr.response === "OK") {
                                 return authAPI.getCurrentUser();
@@ -94,14 +98,15 @@ export default class Login extends Block {
         });
     }
 
-    componentDidMount() {
-        authAPI.getCurrentUser()
+    componentDidMount(): void {
+        authAPI
+            .getCurrentUser()
             .then((xhr: XMLHttpRequest) => {
                 const userDetails = JSON.parse(xhr.response);
                 globalStateInstance.setProp("currentUser", userDetails);
                 router.go("/chats/");
             })
-            .catch(() => console.info("[INFO] Not authorized"));
+            .catch(() => console.error("[INFO] Not authorized"));
     }
 
     render(): Element | null {

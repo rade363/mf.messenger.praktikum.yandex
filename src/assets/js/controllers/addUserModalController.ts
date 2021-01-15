@@ -3,6 +3,7 @@ import Form from "../components/Form/index";
 import UserAPI from "../api/user-api";
 import addUsersToChat from "./addUsersController";
 import getChatUsers from "./collectChatUsersController";
+
 const userAPI = new UserAPI();
 
 export default function createAddUserModal(globalStateInstance: IGlobalState): IBlock {
@@ -38,17 +39,15 @@ export default function createAddUserModal(globalStateInstance: IGlobalState): I
                                 type: "button",
                                 class: "add-user-form__cancel-button button button_wide button_secondary"
                             },
-                            eventListeners: [
-                                ["click", () => modal.hide()]
-                            ]
+                            eventListeners: [["click", () => modal.hide()]]
                         }
                     ]
                 }
             ],
             onSubmit: (formObject: ISearchRequestProps): void => {
-                userAPI.searchUserByLogin(formObject)
+                userAPI
+                    .searchUserByLogin(formObject)
                     .then((xhr: XMLHttpRequest) => {
-                        console.log("[SUCCESS] Users search results", xhr.response);
                         const searchResults = JSON.parse(xhr.response);
                         const relevantUser = searchResults.find((foundUser: IUser) => foundUser.login === formObject.login);
                         if (!relevantUser) {
@@ -81,9 +80,9 @@ export default function createAddUserModal(globalStateInstance: IGlobalState): I
                         modal.props.child.props.inputFields[0].inputField.props.input.getContent().value = "";
                     })
                     .catch((error: XMLHttpRequest | Error) => {
-                        console.log("[ERROR] Could not add users to the new chat", error);
+                        console.error("[ERROR] Could not add users to the new chat", error);
                         const text = error instanceof Error ? error.message : JSON.parse(error.response);
-                        modal.props.child.props.inputFields[0].inputField.props.errorMessage.setProps({text});
+                        modal.props.child.props.inputFields[0].inputField.props.errorMessage.setProps({ text });
                     });
             }
         })

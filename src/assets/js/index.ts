@@ -1,5 +1,5 @@
-import {initInterface} from "./modules/domHelpers";
+import initInterface from "./controllers/initInterfaceController";
 
-document.addEventListener("DOMContentLoaded", initInterface)
+document.addEventListener("DOMContentLoaded", initInterface);
 
 export default {};

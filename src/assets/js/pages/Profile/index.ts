@@ -2,15 +2,34 @@ import Block from "../../modules/Block/Block";
 import BackButton from "../../components/BackButton/index";
 import Button from "../../components/Button/index";
 import template from "./template";
-import {compile} from "../../modules/templator/templator";
+import compile from "../../modules/templator/templator";
 import Router from "../../modules/Router/Router";
 import AuthAPI from "../../api/auth-api";
 import validateAuth from "../../controllers/authValidationController";
-import {createExistingUser} from "../../controllers/profileController";
+import createExistingUser from "../../controllers/profileController";
 import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
 
 const router = new Router("#root");
-const authAPI = new AuthAPI();
+
+function handleLogOutClick(event: Event): void {
+    event.preventDefault();
+
+    const authAPI = new AuthAPI();
+
+    authAPI
+        .logOut()
+        .then((xhr: XMLHttpRequest) => {
+            if (xhr.response === "OK") {
+                router.go("/login/");
+            }
+        })
+        .catch((error: XMLHttpRequest) => {
+            console.error("[ERROR] Could not log out", JSON.parse(error.response));
+            if (error.status === 500) {
+                router.go("/500");
+            }
+        });
+}
 
 export default class Profile extends Block {
     constructor() {
@@ -25,10 +44,13 @@ export default class Profile extends Block {
             backButton: new BackButton({
                 url: "/chats/",
                 eventListeners: [
-                    ["click", (event: Event) => {
-                        event.preventDefault();
-                        router.go("/chats/");
-                    }]
+                    [
+                        "click",
+                        (event: Event) => {
+                            event.preventDefault();
+                            router.go("/chats/");
+                        }
+                    ]
                 ]
             }),
             profile,
@@ -39,10 +61,13 @@ export default class Profile extends Block {
                 },
                 text: "Edit profile",
                 eventListeners: [
-                    ["click", (event: Event) => {
-                        event.preventDefault();
-                        router.go("/profile-edit-info/");
-                    }]
+                    [
+                        "click",
+                        (event: Event) => {
+                            event.preventDefault();
+                            router.go("/profile-edit-info/");
+                        }
+                    ]
                 ]
             }),
             changePasswordLink: new Button("a", {
@@ -52,10 +77,13 @@ export default class Profile extends Block {
                 },
                 text: "Change password",
                 eventListeners: [
-                    ["click", (event: Event) => {
-                        event.preventDefault();
-                        router.go("/profile-change-password/");
-                    }]
+                    [
+                        "click",
+                        (event: Event) => {
+                            event.preventDefault();
+                            router.go("/profile-change-password/");
+                        }
+                    ]
                 ]
             }),
             logOutButton: new Button("button", {
@@ -64,30 +92,12 @@ export default class Profile extends Block {
                     type: "button"
                 },
                 text: "Log out",
-                eventListeners: [
-                    ["click", handleLogOutClick]
-                ]
+                eventListeners: [["click", handleLogOutClick]]
             })
         });
-
-        function handleLogOutClick(event: Event): void {
-            event.preventDefault();
-            authAPI.logOut()
-                .then((xhr: XMLHttpRequest) => {
-                    if (xhr.response === "OK") {
-                        router.go("/login/");
-                    }
-                })
-                .catch((error: XMLHttpRequest) => {
-                    console.error("[ERROR] Could not log out", JSON.parse(error.response));
-                    if (error.status === 500) {
-                        router.go("/500");
-                    }
-                });
-        }
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         validateAuth(globalStateInstance)
             .then((isAuthenticated) => {
                 if (!isAuthenticated) {
@@ -98,7 +108,7 @@ export default class Profile extends Block {
                 this.setProps({ profile });
             })
             .catch((error: XMLHttpRequest | Error) => {
-                console.error("[ERROR] Could not set profile edit info", error)
+                console.error("[ERROR] Could not set profile edit info", error);
                 if (error instanceof Error) {
                     if (error.message === "Not authorized") {
                         router.go("/login/");

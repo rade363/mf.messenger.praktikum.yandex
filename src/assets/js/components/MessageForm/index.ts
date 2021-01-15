@@ -1,13 +1,13 @@
 import Block from "../../modules/Block/Block";
-import {compile} from "../../modules/templator/templator";
+import compile from "../../modules/templator/templator";
 import template from "./MessageForm";
 import Button from "../Button/index";
 import Input from "../Input/index";
 import ContextMenu from "../ContextMenu/index";
 import AttachmentContextButton from "../AttachmentContextButton/index";
-import {useState} from "../../modules/state";
-import {isXssPresent} from "../../modules/helpers";
-import {setImageUpload} from "../../modules/domHelpers";
+import useState from "../../modules/state";
+import { isXssPresent } from "../../modules/helpers";
+import { setImageUpload } from "../../modules/domHelpers";
 
 const state = {
     isAttachmentMenuOpen: useState(false),
@@ -30,10 +30,13 @@ export default class MessageForm extends Block {
                     icon: "../assets/img/attachment-photo.svg",
                     name: "photo",
                     eventListeners: [
-                        ["input", (event: Event) => {
-                            setImageUpload(event, setAttachment, this);
-                            attachmentContextMenu.hide();
-                        }]
+                        [
+                            "input",
+                            (event: Event) => {
+                                setImageUpload(event, setAttachment, this);
+                                attachmentContextMenu.hide();
+                            }
+                        ]
                     ]
                 }),
                 new AttachmentContextButton({
@@ -41,10 +44,13 @@ export default class MessageForm extends Block {
                     icon: "../assets/img/attachment-file.svg",
                     name: "file",
                     eventListeners: [
-                        ["input", (event: Event) => {
-                            setImageUpload(event, setAttachment, this);
-                            attachmentContextMenu.hide();
-                        }]
+                        [
+                            "input",
+                            (event: Event) => {
+                                setImageUpload(event, setAttachment, this);
+                                attachmentContextMenu.hide();
+                            }
+                        ]
                     ]
                 }),
                 new AttachmentContextButton({
@@ -52,10 +58,13 @@ export default class MessageForm extends Block {
                     icon: "../assets/img/attachment-location.svg",
                     name: "location",
                     eventListeners: [
-                        ["input", (event: Event) => {
-                            setImageUpload(event, setAttachment, this);
-                            attachmentContextMenu.hide();
-                        }]
+                        [
+                            "input",
+                            (event: Event) => {
+                                setImageUpload(event, setAttachment, this);
+                                attachmentContextMenu.hide();
+                            }
+                        ]
                     ]
                 })
             ]
@@ -76,17 +85,20 @@ export default class MessageForm extends Block {
                     class: "message-form__attachment-button"
                 },
                 eventListeners: [
-                    ["click", (event: Event) => {
-                        event.preventDefault();
-                        const isMenuOpen = getIsAttachmentMenuOpen();
-                        if (isMenuOpen) {
-                            attachmentContextMenu.hide();
-                            setIsAttachmentMenuOpen(false);
-                        } else {
-                            attachmentContextMenu.show();
-                            setIsAttachmentMenuOpen(true);
+                    [
+                        "click",
+                        (event: Event) => {
+                            event.preventDefault();
+                            const isMenuOpen = getIsAttachmentMenuOpen();
+                            if (isMenuOpen) {
+                                attachmentContextMenu.hide();
+                                setIsAttachmentMenuOpen(false);
+                            } else {
+                                attachmentContextMenu.show();
+                                setIsAttachmentMenuOpen(true);
+                            }
                         }
-                    }]
+                    ]
                 ]
             }),
             input: new Input({
@@ -98,25 +110,29 @@ export default class MessageForm extends Block {
                     pattern: "\\S+"
                 },
                 eventListeners: [
-                    ["input", (event: Event): void => {
-                        const element = event.target as HTMLInputElement;
-                        const {value} = element;
-                        setNewMessage(value);
+                    [
+                        "input",
+                        (event: Event): void => {
+                            const element = event.target as HTMLInputElement;
+                            const { value } = element;
+                            setNewMessage(value);
 
-                        const newClass = value === "" ? "message-form__submit-button" : "message-form__submit-button message-form__submit-button_active";
-                        const submitButtonAttributes = submitButton.props.attributes;
-                        submitButton.setProps({
-                            attributes: {
-                                ...submitButtonAttributes,
-                                class: newClass
-                            }
-                        });
-                    }]
+                            const newClass =
+                                value === "" ? "message-form__submit-button" : "message-form__submit-button message-form__submit-button_active";
+                            const submitButtonAttributes = submitButton.props.attributes;
+                            submitButton.setProps({
+                                attributes: {
+                                    ...submitButtonAttributes,
+                                    class: newClass
+                                }
+                            });
+                        }
+                    ]
                 ]
             }),
             submitButton,
             attachmentContextMenu,
-            onSubmit: function (event: Event): void {
+            onSubmit(event: Event): void {
                 event.preventDefault();
                 event.stopPropagation();
 
@@ -124,19 +140,20 @@ export default class MessageForm extends Block {
                 const attachment = getAttachment();
 
                 if (isXssPresent(newMessage)) {
+                    // eslint-disable-next-line no-alert
                     alert("Invalid symbols");
                 } else {
                     const formObject = {
                         newMessage,
                         attachment
                     };
-                    console.log("[INFO] New message submitted, this will be handled later in this course", formObject);
+                    console.info("[INFO] New message submitted, this will be handled later in this course", formObject);
                 }
             }
         });
     }
 
-    render() {
+    render(): Element | null {
         return compile(template, this.props);
     }
 }

@@ -1,4 +1,4 @@
-import {isPlainObject, isArray} from "./helpers";
+import { isPlainObject, isArray } from "./helpers";
 
 function isArrayOrObject(value: unknown): value is [] | TObjectType {
     return isPlainObject(value) || isArray(value);
@@ -11,21 +11,23 @@ function getKey(key: string, parentKey?: string) {
 function getParams(data: TObjectType | [], parentKey?: string) {
     const result: [string, string][] = [];
 
-    for(const [key, value] of Object.entries(data)) {
+    Object.entries(data).forEach(([key, value]) => {
         if (isArrayOrObject(value)) {
             result.push(...getParams(value, getKey(key, parentKey)));
         } else {
             result.push([getKey(key, parentKey), encodeURIComponent(String(value))]);
         }
-    }
+    });
 
     return result;
 }
 
-export default function queryString(data: TObjectType) {
+export default function queryString(data: TObjectType): string {
     if (!isPlainObject(data)) {
-        throw new Error('input must be an object');
+        throw new Error("input must be an object");
     }
 
-    return getParams(data).map(arr => arr.join('=')).join('&');
+    return getParams(data)
+        .map((arr) => arr.join("="))
+        .join("&");
 }

@@ -1,5 +1,5 @@
 import Block from "../../modules/Block/Block";
-import {compile} from "../../modules/templator/templator";
+import compile from "../../modules/templator/templator";
 import template from "./FormInput";
 
 export default class FormInput extends Block {
@@ -15,7 +15,7 @@ export default class FormInput extends Block {
         });
     }
 
-    render() {
+    render(): Element | null {
         return compile(template, this.props);
     }
 }

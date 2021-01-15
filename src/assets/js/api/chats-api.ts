@@ -8,27 +8,27 @@ const chatsAPIInstance = new HTTPRequest({
 });
 
 export default class ChatsAPI {
-    listChats(): Promise<XMLHttpRequest> {
+    listChats = (): Promise<XMLHttpRequest> => {
         return chatsAPIInstance.get("", {});
-    }
+    };
 
-    createChat(data: INewChatProps): Promise<XMLHttpRequest> {
-        return chatsAPIInstance.post("", {data});
-    }
+    createChat = (data: INewChatProps): Promise<XMLHttpRequest> => {
+        return chatsAPIInstance.post("", { data });
+    };
 
-    deleteChat(data: IDeleteChatProps): Promise<XMLHttpRequest> {
-        return chatsAPIInstance.delete("", {data});
-    }
+    deleteChat = (data: IDeleteChatProps): Promise<XMLHttpRequest> => {
+        return chatsAPIInstance.delete("", { data });
+    };
 
-    listChatUsers(chatId: number): Promise<XMLHttpRequest> {
+    listChatUsers = (chatId: number): Promise<XMLHttpRequest> => {
         return chatsAPIInstance.get(`/${chatId}/users`, {});
-    }
+    };
 
-    addUsers(data: IChatActionUsersProps): Promise<XMLHttpRequest> {
-        return chatsAPIInstance.put("/users", {data});
-    }
+    addUsers = (data: IChatActionUsersProps): Promise<XMLHttpRequest> => {
+        return chatsAPIInstance.put("/users", { data });
+    };
 
-    deleteUsers(data: IChatActionUsersProps): Promise<XMLHttpRequest> {
-        return chatsAPIInstance.delete("/users", {data});
-    }
+    deleteUsers = (data: IChatActionUsersProps): Promise<XMLHttpRequest> => {
+        return chatsAPIInstance.delete("/users", { data });
+    };
 }

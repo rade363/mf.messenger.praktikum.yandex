@@ -1,14 +1,14 @@
 import Block from "../../modules/Block/Block";
 import SearchInput from "../../components/SearchInput/index";
 import template from "./template";
-import {compile} from "../../modules/templator/templator";
+import compile from "../../modules/templator/templator";
 import ChatList from "../../components/ChatList/index";
 import ConversationMain from "../../components/ConversationMain/index";
 import Button from "../../components/Button/index";
 import Router from "../../modules/Router/Router";
 import handleUserSearch from "../../controllers/searchController";
 import validateAuth from "../../controllers/authValidationController";
-import {getExistingChats, handleExistingChats, renderChatsList} from "../../controllers/existingChatsListController";
+import { getExistingChats, handleExistingChats, renderChatsList } from "../../controllers/existingChatsListController";
 import createNewGroupChatTitleModal from "../../controllers/newGroupChatTItleModalController";
 import createAddUserModal from "../../controllers/addUserModalController";
 import createDeleteUserModalController from "../../controllers/deleteUserFromGroupChatModalController";
@@ -19,7 +19,7 @@ const router = new Router("#root");
 
 export default class Conversation extends Block {
     constructor() {
-        const createGroupChatModal = createNewGroupChatTitleModal(globalStateInstance, router);
+        const createGroupChatModal = createNewGroupChatTitleModal();
         const addUserModal = createAddUserModal(globalStateInstance);
         const deleteUserModal = createDeleteUserModalController(globalStateInstance);
         const deleteConversationModal: IBlock = createDeleteConversationModal(globalStateInstance, router);
@@ -34,10 +34,13 @@ export default class Conversation extends Block {
                     href: ""
                 },
                 eventListeners: [
-                    ["click", (event: Event) => {
-                        event.preventDefault();
-                        createGroupChatModal.show();
-                    }]
+                    [
+                        "click",
+                        (event: Event) => {
+                            event.preventDefault();
+                            createGroupChatModal.show();
+                        }
+                    ]
                 ]
             }),
             profileLink: new Button("a", {
@@ -47,10 +50,13 @@ export default class Conversation extends Block {
                     href: "/profile/"
                 },
                 eventListeners: [
-                    ["click", (event: Event) => {
-                        event.preventDefault();
-                        router.go("/profile/");
-                    }]
+                    [
+                        "click",
+                        (event: Event) => {
+                            event.preventDefault();
+                            router.go("/profile/");
+                        }
+                    ]
                 ]
             }),
             searchInput: new SearchInput({
@@ -91,7 +97,8 @@ export default class Conversation extends Block {
                     },
                     {
                         outgoing: true,
-                        text: "“Vans, the original action sports brand and advocate for creative expression, is proud to announce three-time Grammy award-winning artist, musician  and producer Anderson .Paak as the brand’s first Global Music Ambassador. Vans and AP share a mutual passion to promote creative expression through their active support of art and music. AP is longtime fan of the brand and always aspires to uplift the community around him, making him a natural addition to the Vans family. The Vans x Anderson .Paak collection will be available worldwide on November 13 and will retail for €45 - €115 / £37 - £95.”",
+                        text:
+                            "“Vans, the original action sports brand and advocate for creative expression, is proud to announce three-time Grammy award-winning artist, musician  and producer Anderson .Paak as the brand’s first Global Music Ambassador. Vans and AP share a mutual passion to promote creative expression through their active support of art and music. AP is longtime fan of the brand and always aspires to uplift the community around him, making him a natural addition to the Vans family. The Vans x Anderson .Paak collection will be available worldwide on November 13 and will retail for €45 - €115 / £37 - £95.”",
                         imageUrl: "",
                         time: "11:07",
                         status: "read"
@@ -164,16 +171,11 @@ export default class Conversation extends Block {
                 deleteConversationModal,
                 deleteUserModal
             }),
-            modals: [
-                { modal: addUserModal },
-                { modal: deleteConversationModal },
-                { modal: createGroupChatModal },
-                { modal: deleteUserModal }
-            ]
-        })
+            modals: [{ modal: addUserModal }, { modal: deleteConversationModal }, { modal: createGroupChatModal }, { modal: deleteUserModal }]
+        });
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         validateAuth(globalStateInstance)
             .then((isAuthenticated) => {
                 if (!isAuthenticated) {
@@ -192,7 +194,7 @@ export default class Conversation extends Block {
                 }
             })
             .catch((error: XMLHttpRequest | Error) => {
-                console.error("[ERROR] Could not display conversation", error)
+                console.error("[ERROR] Could not display conversation", error);
                 if (error instanceof Error) {
                     if (error.message === "Not authorized") {
                         router.go("/login/");

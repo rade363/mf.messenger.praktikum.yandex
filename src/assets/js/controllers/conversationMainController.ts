@@ -1,6 +1,6 @@
 import ConversationMain from "../components/ConversationMain/index";
 
-export function setConversationMain(selectedChat: IExistingChat, context: IBlock): void {
+export default function setConversationMain(selectedChat: IExistingChat, context: IBlock): void {
     const oldProps = context.props.conversationMain.props;
     context.setProps({
         conversationMain: new ConversationMain({
@@ -12,4 +12,3 @@ export function setConversationMain(selectedChat: IExistingChat, context: IBlock
         })
     });
 }
-

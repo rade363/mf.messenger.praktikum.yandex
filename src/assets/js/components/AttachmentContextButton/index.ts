@@ -1,5 +1,5 @@
 import Block from "../../modules/Block/Block";
-import {compile} from "../../modules/templator/templator";
+import compile from "../../modules/templator/templator";
 import template from "./AttachmentContextButton";
 import Input from "../Input/index";
 
@@ -23,7 +23,7 @@ export default class AttachmentContextButton extends Block {
         });
     }
 
-    render() {
+    render(): Element | null {
         return compile(template, this.props);
     }
 }

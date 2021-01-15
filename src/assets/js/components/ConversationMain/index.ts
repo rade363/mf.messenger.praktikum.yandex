@@ -1,9 +1,9 @@
 import Block from "../../modules/Block/Block";
-import {compile} from "../../modules/templator/templator";
+import compile from "../../modules/templator/templator";
 import template from "./ConversationMain";
 import Button from "../Button/index";
 import ContextMenu from "../ContextMenu/index";
-import {useState} from "../../modules/state";
+import useState from "../../modules/state";
 import MessageForm from "../MessageForm/index";
 import ContextButton from "../ContextButton/index";
 import getChatUsers from "../../controllers/collectChatUsersController";
@@ -31,13 +31,16 @@ export default class ConversationMain extends Block {
                     icon: "../assets/img/add.svg",
                     name: "context__add",
                     eventListeners: [
-                        ["click", (event: Event) => {
-                            event.preventDefault();
-                            conversationActionsMenu.hide();
-                            setIsConversationActionsMenuOpen(false);
+                        [
+                            "click",
+                            (event: Event) => {
+                                event.preventDefault();
+                                conversationActionsMenu.hide();
+                                setIsConversationActionsMenuOpen(false);
 
-                            props.addUserModal.show();
-                        }]
+                                props.addUserModal.show();
+                            }
+                        ]
                     ]
                 })
             );
@@ -47,22 +50,25 @@ export default class ConversationMain extends Block {
                     icon: "../assets/img/delete.svg",
                     name: "user__delete",
                     eventListeners: [
-                        ["click", (event: Event) => {
-                            event.preventDefault();
-                            conversationActionsMenu.hide();
-                            setIsConversationActionsMenuOpen(false);
+                        [
+                            "click",
+                            (event: Event) => {
+                                event.preventDefault();
+                                conversationActionsMenu.hide();
+                                setIsConversationActionsMenuOpen(false);
 
-                            const chatUsers = globalStateInstance.getProp("chatUsers");
-                            const oldDeleteUserListProps = props.deleteUserModal.props.child.props;
-                            const child = new DeleteUsersList({
-                                ...oldDeleteUserListProps,
-                                users: chatUsers
-                            })
-                            props.deleteUserModal.setProps({child});
-                            props.deleteUserModal.show();
-                        }]
+                                const chatUsers = globalStateInstance.getProp("chatUsers");
+                                const oldDeleteUserListProps = props.deleteUserModal.props.child.props;
+                                const child = new DeleteUsersList({
+                                    ...oldDeleteUserListProps,
+                                    users: chatUsers
+                                });
+                                props.deleteUserModal.setProps({ child });
+                                props.deleteUserModal.show();
+                            }
+                        ]
                     ]
-                }),
+                })
             );
         }
         contextMenuOptions.items.push(
@@ -71,13 +77,16 @@ export default class ConversationMain extends Block {
                 icon: "../assets/img/delete.svg",
                 name: "conversation__delete",
                 eventListeners: [
-                    ["click", (event: Event) => {
-                        event.preventDefault();
-                        conversationActionsMenu.hide();
-                        setIsConversationActionsMenuOpen(false);
+                    [
+                        "click",
+                        (event: Event) => {
+                            event.preventDefault();
+                            conversationActionsMenu.hide();
+                            setIsConversationActionsMenuOpen(false);
 
-                        props.deleteConversationModal.show();
-                    }]
+                            props.deleteConversationModal.show();
+                        }
+                    ]
                 ]
             })
         );
@@ -94,17 +103,20 @@ export default class ConversationMain extends Block {
                     type: "button"
                 },
                 eventListeners: [
-                    ["click", (event: Event) => {
-                        event.preventDefault();
-                        const isMenuOpen = getIsConversationActionsMenuOpen();
-                        if (isMenuOpen) {
-                            conversationActionsMenu.hide();
-                            setIsConversationActionsMenuOpen(false);
-                        } else {
-                            conversationActionsMenu.show();
-                            setIsConversationActionsMenuOpen(true);
+                    [
+                        "click",
+                        (event: Event) => {
+                            event.preventDefault();
+                            const isMenuOpen = getIsConversationActionsMenuOpen();
+                            if (isMenuOpen) {
+                                conversationActionsMenu.hide();
+                                setIsConversationActionsMenuOpen(false);
+                            } else {
+                                conversationActionsMenu.show();
+                                setIsConversationActionsMenuOpen(true);
+                            }
                         }
-                    }]
+                    ]
                 ]
             }),
             conversationActionsMenu,
@@ -112,15 +124,14 @@ export default class ConversationMain extends Block {
         });
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         const selectedChat = globalStateInstance.getProp("selectedChat");
         if (selectedChat) {
-            getChatUsers(globalStateInstance)
-                .then(() => console.log("[INFO] Chat users collected"))
+            getChatUsers(globalStateInstance);
         }
     }
 
-    render() {
+    render(): Element | null {
         return compile(template, this.props);
     }
 }

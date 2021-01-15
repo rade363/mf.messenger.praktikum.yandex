@@ -15,10 +15,12 @@ export default function createDeleteUserModalController(globalStateInstance: IGl
                     class: "delete-user-form__cancel-button button button_wide button_secondary"
                 },
                 eventListeners: [
-                    ["click", () => {
-                        getChatUsers(globalStateInstance)
-                            .then(() => modal.hide());
-                    }]
+                    [
+                        "click",
+                        () => {
+                            getChatUsers(globalStateInstance).then(() => modal.hide());
+                        }
+                    ]
                 ]
             })
         })

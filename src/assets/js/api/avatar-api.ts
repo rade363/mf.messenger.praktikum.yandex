@@ -5,7 +5,7 @@ const avatarAPIInstance = new HTTPRequest({
 });
 
 export default class AvatarAPI {
-    changeAvatar(data: FormData): Promise<XMLHttpRequest> {
-        return avatarAPIInstance.put("/avatar", {data});
-    }
+    changeAvatar = (data: FormData): Promise<XMLHttpRequest> => {
+        return avatarAPIInstance.put("/avatar", { data });
+    };
 }

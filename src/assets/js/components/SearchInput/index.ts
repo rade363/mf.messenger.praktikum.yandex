@@ -1,9 +1,9 @@
 import Block from "../../modules/Block/Block";
-import {compile} from "../../modules/templator/templator";
+import compile from "../../modules/templator/templator";
 import template from "./SearchInput";
 import Input from "../Input/index";
-import {useState} from "../../modules/state";
-import {isXssPresent} from "../../modules/helpers";
+import useState from "../../modules/state";
+import { isXssPresent } from "../../modules/helpers";
 
 const state: ISearchState = {
     searchKey: useState("")
@@ -26,19 +26,23 @@ export default class SearchInput extends Block {
                     pattern: "\\S+"
                 },
                 eventListeners: [
-                    ["input", (event: Event) => {
-                        const element = event.target as HTMLInputElement;
-                        const {value} = element;
-                        setSearchKey(value);
-                    }]
+                    [
+                        "input",
+                        (event: Event) => {
+                            const element = event.target as HTMLInputElement;
+                            const { value } = element;
+                            setSearchKey(value);
+                        }
+                    ]
                 ]
             }),
-            onSubmit: function(event: Event): void {
+            onSubmit(event: Event): void {
                 event.preventDefault();
                 event.stopPropagation();
 
                 const searchKey = getSearchKey();
                 if (isXssPresent(searchKey)) {
+                    // eslint-disable-next-line no-alert
                     alert("Invalid symbols");
                 } else {
                     props.search(searchKey);
@@ -47,7 +51,7 @@ export default class SearchInput extends Block {
         });
     }
 
-    render() {
+    render(): Element | null {
         return compile(template, this.props);
     }
 }

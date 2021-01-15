@@ -1,9 +1,9 @@
 import Block from "../../modules/Block/Block";
 import BackButton from "../../components/BackButton/index";
 import template from "./template";
-import {compile} from "../../modules/templator/templator";
+import compile from "../../modules/templator/templator";
 import Form from "../../components/Form/index";
-import {createInputField, setErrorTextForInputField} from "../../modules/formHelpers";
+import { createInputField, setErrorTextForInputField } from "../../modules/formHelpers";
 import Router from "../../modules/Router/Router";
 import UserAPI from "../../api/user-api";
 import validateAuth from "../../controllers/authValidationController";
@@ -11,6 +11,16 @@ import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
 
 const router = new Router("#root");
 const userAPI = new UserAPI();
+
+function createProfilePasswordChangeFields(currentUser: IUser): TFormElement[] {
+    const inputFields = [];
+
+    inputFields.push(createInputField("oldPassword", "Old password", "password", currentUser));
+    inputFields.push(createInputField("newPassword", "New password", "password", currentUser, "newPassword-repeat"));
+    inputFields.push(createInputField("newPassword-repeat", "Repeat new password", "password", currentUser, "newPassword"));
+
+    return inputFields;
+}
 
 export default class ProfileChangePassword extends Block {
     constructor() {
@@ -24,10 +34,13 @@ export default class ProfileChangePassword extends Block {
             backButton: new BackButton({
                 url: "/chats/",
                 eventListeners: [
-                    ["click", (event: Event) => {
-                        event.preventDefault();
-                        router.back();
-                    }]
+                    [
+                        "click",
+                        (event: Event) => {
+                            event.preventDefault();
+                            router.back();
+                        }
+                    ]
                 ]
             }),
             child: new Form({
@@ -54,17 +67,21 @@ export default class ProfileChangePassword extends Block {
                                     class: "profile-form__cancel-button button button_wide button_secondary"
                                 },
                                 eventListeners: [
-                                    ["click", (event: Event) => {
-                                        event.preventDefault();
-                                        router.back();
-                                    }]
+                                    [
+                                        "click",
+                                        (event: Event) => {
+                                            event.preventDefault();
+                                            router.back();
+                                        }
+                                    ]
                                 ]
                             }
                         ]
                     }
                 ],
                 onSubmit: (formObject: IUpdatePasswordProps): void => {
-                    userAPI.changePassword(formObject)
+                    userAPI
+                        .changePassword(formObject)
                         .then((xhr: XMLHttpRequest) => {
                             if (xhr.response === "OK") {
                                 router.go("/profile/");
@@ -80,19 +97,9 @@ export default class ProfileChangePassword extends Block {
                 }
             })
         });
-
-        function createProfilePasswordChangeFields(currentUser: IUser): TFormElement[] {
-            const inputFields = [];
-
-            inputFields.push(createInputField("oldPassword", "Old password", "password", currentUser));
-            inputFields.push(createInputField("newPassword", "New password", "password", currentUser, "newPassword-repeat"));
-            inputFields.push(createInputField("newPassword-repeat", "Repeat new password", "password", currentUser, "newPassword"));
-
-            return inputFields;
-        }
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         validateAuth(globalStateInstance)
             .then((isAuthenticated) => {
                 if (!isAuthenticated) {
@@ -100,7 +107,7 @@ export default class ProfileChangePassword extends Block {
                 }
             })
             .catch((error: XMLHttpRequest | Error) => {
-                console.error("[ERROR] Could not set profile edit info", error)
+                console.error("[ERROR] Could not set profile edit info", error);
                 if (error instanceof Error) {
                     if (error.message === "Not authorized") {
                         router.go("/login/");

@@ -1,8 +1,8 @@
 import { expect } from "chai";
-import Block from "./Block";
-import {compile} from "../templator/templator";
-import {renderInterface} from "../domHelpers";
 import * as sinon from "sinon";
+import Block from "./Block";
+import compile from "../templator/templator";
+import { renderInterface } from "../domHelpers";
 
 describe("Block", () => {
     const testProps = {
@@ -32,16 +32,16 @@ describe("Block", () => {
         });
 
         it("Existing regular props can be updated with setProps() method", () => {
-            button.setProps({someProp: "test123"});
+            button.setProps({ someProp: "test123" });
             expect(button.props.someProp).to.equal("test123");
         });
 
         it("Existing private props cannot be updated with setProps() method", () => {
-            expect(() => button.setProps({_privateProp: "someNewValue"})).to.throw("Нет доступа");
+            expect(() => button.setProps({ _privateProp: "someNewValue" })).to.throw("Нет доступа");
         });
 
         it("New props can be added with setProps() method", () => {
-            button.setProps({newProp: "54321"});
+            button.setProps({ newProp: "54321" });
             expect(button.props.newProp).to.equal("54321");
         });
 
@@ -52,7 +52,6 @@ describe("Block", () => {
 
     describe("Render", () => {
         it("Block is represented as a DOM element and is accessible via the getContent() method", () => {
-
             expect(button.getContent()?.tagName).to.equal("BUTTON");
         });
 
@@ -61,8 +60,11 @@ describe("Block", () => {
         });
 
         it("Block DOM representation cannot be overwritten using the .element property", () => {
-            // @ts-ignore
-            expect(() => button.element = document.createElement("h1")).to.throw();
+            expect(() => {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                button.element = document.createElement("h1");
+            }).to.throw();
         });
     });
 });
@@ -71,7 +73,7 @@ describe("Button (extended Block)", () => {
     interface ISampleButtonProps {
         text: string;
         attributes?: IAttributes;
-        eventListeners?: unknown[]
+        eventListeners?: unknown[];
     }
 
     class SampleButton extends Block {
@@ -79,7 +81,7 @@ describe("Button (extended Block)", () => {
             super("button", props);
         }
 
-        render() {
+        render(): Element | null {
             return compile(`<span>{{text}}</span>`, this.props);
         }
     }
@@ -91,9 +93,7 @@ describe("Button (extended Block)", () => {
             class: "btn",
             id: "test"
         },
-        eventListeners: [
-            ["click", () => console.log("Button clicked")]
-        ]
+        eventListeners: [["click", () => console.info("Button clicked")]]
     };
     const testButton = new SampleButton(buttonProps);
     renderInterface("#root", testButton);
@@ -108,8 +108,9 @@ describe("Button (extended Block)", () => {
         });
 
         it("Must be marked as connected to DOM (internally)", () => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            expect(testButton._isConnected).to.be.true;
+            expect(testButton._isConnected).to.be.true; // eslint-disable-line @typescript-eslint/no-unused-expressions
         });
 
         it("Must have correct attributes", () => {
@@ -121,13 +122,14 @@ describe("Button (extended Block)", () => {
         });
 
         it("Must have configured event listeners", () => {
-            const consoleSpy = sinon.spy(console, "log");
+            const consoleSpy = sinon.spy(console, "info");
             testButton.element?.click();
             sinon.assert.calledWith(consoleSpy, "Button clicked");
         });
 
         it("Must be deleted from DOM on the .detach() method", () => {
             testButton.detach();
+            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
             expect(document.querySelector(".btn")).to.be.null;
         });
     });

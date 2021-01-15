@@ -1,4 +1,4 @@
-export function useState<T>(initialValue: T): [() => T, (newState: T) => T] {
+export default function useState<T>(initialValue: T): [() => T, (newState: T) => T] {
     let state = initialValue;
 
     function setState(possibleCallback: T): T {

@@ -8,15 +8,15 @@ const userAPIInstance = new HTTPRequest({
 });
 
 export default class UserAPI {
-    editProfile(data: IUpdateUserProps): Promise<XMLHttpRequest> {
-        return userAPIInstance.put("/profile", {data});
-    }
+    editProfile = (data: IUpdateUserProps): Promise<XMLHttpRequest> => {
+        return userAPIInstance.put("/profile", { data });
+    };
 
-    changePassword(data: IUpdatePasswordProps): Promise<XMLHttpRequest> {
-        return userAPIInstance.put("/password", {data});
-    }
+    changePassword = (data: IUpdatePasswordProps): Promise<XMLHttpRequest> => {
+        return userAPIInstance.put("/password", { data });
+    };
 
-    searchUserByLogin(data: ISearchRequestProps): Promise<XMLHttpRequest> {
-        return userAPIInstance.post("/search", {data});
-    }
+    searchUserByLogin = (data: ISearchRequestProps): Promise<XMLHttpRequest> => {
+        return userAPIInstance.post("/search", { data });
+    };
 }

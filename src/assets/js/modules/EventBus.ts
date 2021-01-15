@@ -18,7 +18,7 @@ export default class EventBus implements IEventBus {
             throw new Error(`Нет события: ${event}`);
         }
 
-        this.listeners[event] = this.listeners[event].filter(listener => listener !== callback);
+        this.listeners[event] = this.listeners[event].filter((listener) => listener !== callback);
     }
 
     emit(event: string, ...args: unknown[]): void {
@@ -26,7 +26,7 @@ export default class EventBus implements IEventBus {
             throw new Error(`Нет события: ${event}`);
         }
 
-        this.listeners[event].forEach((listener: (...args: unknown[]) => unknown) => {
+        this.listeners[event].forEach((listener: (...listenerArgs: unknown[]) => unknown) => {
             if (typeof listener === "function") {
                 listener(...args);
             }

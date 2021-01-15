@@ -38,7 +38,7 @@ interface IBlock {
 }
 
 interface IBlockConstructable {
-    new(tagName: string, props: TObjectType): IBlock;
+    new (tagName: string, props: TObjectType): IBlock;
 }
 
 interface IFieldState {
@@ -62,7 +62,7 @@ interface IFormObject {
 }
 
 interface IListeners {
-    [key: string]: ((...args: unknown[]) => unknown)[]
+    [key: string]: ((...args: unknown[]) => unknown)[];
 }
 
 interface IEventBus {
@@ -109,20 +109,20 @@ interface IAvatarInput {
     src: string;
     label: string;
     attributes: IAttributes;
-    callback?: (avatar: File) => unknown;
+    callback?: (avatar: File, imageInput: IBlock) => void;
 }
 
 interface IFormButtonProps {
     attributes: IAttributes;
     text: string;
-    eventListeners?: unknown[]
+    eventListeners?: unknown[];
 }
 
 interface IFormProps {
     name: string;
     inputFields: TFormElement[];
     actions: TActionElement[];
-    onSubmit: (formObject: IFormObject) => unknown
+    onSubmit: (formObject: IFormObject) => unknown;
 }
 
 interface IChatListItem {
@@ -145,7 +145,7 @@ interface IContextMenuItem {
     text: string;
     icon: string;
     name: string;
-    eventListeners: unknown[]
+    eventListeners: unknown[];
 }
 
 interface IAttachmentContextButtonProps {
@@ -269,10 +269,6 @@ interface IRoute {
     match: (pathname: string) => boolean;
 }
 
-interface IRouteConstructable {
-    new(pathname: string, view: IBlockConstructable, props: TObjectType): IRoute;
-}
-
 interface IRootQuery {
     rootQuery: string;
 }
@@ -291,10 +287,6 @@ interface IRouter {
     go: (pathname: string) => void;
     back: () => void;
     forward: () => void;
-}
-
-interface IRouterConstructable {
-    new(rootQuery: string): IRouter;
 }
 
 interface ISignUpProps {
@@ -360,7 +352,7 @@ interface IUpdatePasswordProps {
 }
 
 interface INewChatProps {
-    title: string
+    title: string;
 }
 
 interface IDeleteChatProps {
@@ -405,4 +397,17 @@ interface IDeleteUsersListProps {
 interface IDeleteUserProps {
     login: string;
     deleteButton: IBlock;
+}
+
+interface IInputElement {
+    inputField: IBlock;
+}
+
+interface IActionElement {
+    action: TActionElement | IBlock;
+}
+
+interface IHandlebarsOptions {
+    fn: (context: unknown) => unknown;
+    inverse: (context: unknown) => unknown;
 }

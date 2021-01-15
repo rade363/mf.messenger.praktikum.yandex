@@ -18,10 +18,13 @@ export default class NotFound extends ErrorPage {
                 },
                 text: "Go back",
                 eventListeners: [
-                    ["click", (event: Event) => {
-                        event.preventDefault();
-                        router.back();
-                    }]
+                    [
+                        "click",
+                        (event: Event) => {
+                            event.preventDefault();
+                            router.back();
+                        }
+                    ]
                 ]
             })
         });

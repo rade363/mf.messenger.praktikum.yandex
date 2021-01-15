@@ -1,5 +1,5 @@
 import Block from "../../modules/Block/Block";
-import {compile} from "../../modules/templator/templator";
+import compile from "../../modules/templator/templator";
 import template from "./ChatList";
 import ChatListItem from "../ChatListItem/index";
 
@@ -13,7 +13,7 @@ export default class ChatList extends Block {
         });
     }
 
-    render() {
+    render(): Element | null {
         return compile(template, this.props);
     }
 }

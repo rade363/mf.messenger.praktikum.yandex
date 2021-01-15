@@ -24,14 +24,24 @@
     "prettier/@typescript-eslint"
   ],
   "rules": {
-    "no-var": "error",
     "indent": "off",
-    "prefer-spread": "off",
+    "import/no-cycle": "off",
+    "no-param-reassign": "off",
+    "no-underscore-dangle": "off",
+    "class-methods-use-this": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+
+    "no-var": "error",
     "no-multi-spaces": "error",
     "no-multiple-empty-lines": "error",
     "prefer-const": "error",
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-unused-vars": "warn",
+    "no-console": [
+      "error",
+      {
+        "allow": ["info","warn", "error"]
+      }
+    ],
     "@typescript-eslint/no-this-alias": [
       "error",
       {

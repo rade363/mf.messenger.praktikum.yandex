@@ -1,5 +1,6 @@
 export default class GlobalState {
     private static __instance: GlobalState;
+
     state: TObjectType;
 
     constructor(initialState: TObjectType = {}) {
@@ -12,9 +13,8 @@ export default class GlobalState {
     }
 
     setProp(propName: string, possibleCallback: unknown): void {
-        this.state[propName] = typeof possibleCallback === "function" && this.state[propName] !== undefined
-            ? possibleCallback(this.state[propName])
-            : possibleCallback;
+        this.state[propName] =
+            typeof possibleCallback === "function" && this.state[propName] !== undefined ? possibleCallback(this.state[propName]) : possibleCallback;
     }
 
     getProp(propName: string): any {
@@ -24,7 +24,7 @@ export default class GlobalState {
         return null;
     }
 
-    check() {
+    check(): TObjectType {
         return this.state;
     }
 }

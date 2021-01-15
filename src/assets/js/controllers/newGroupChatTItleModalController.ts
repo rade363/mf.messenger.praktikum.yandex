@@ -1,9 +1,8 @@
 import Modal from "../components/Modal/index";
 import Form from "../components/Form/index";
-import createChat from "./createNewChatController";
-import Router from "../modules/Router/Router";
+import { createChat } from "./createNewChatController";
 
-export default function createNewGroupChatTitleModal(globalStateInstance: IGlobalState, router: Router) {
+export default function createNewGroupChatTitleModal(): IBlock {
     const modal = new Modal({
         name: "new-group-chat-title",
         title: "New group chat title",
@@ -36,16 +35,14 @@ export default function createNewGroupChatTitleModal(globalStateInstance: IGloba
                                 type: "button",
                                 class: "new-group-chat-title-form__cancel-button button button_wide button_secondary"
                             },
-                            eventListeners: [
-                                ["click", () => modal.hide()]
-                            ]
+                            eventListeners: [["click", () => modal.hide()]]
                         }
                     ]
                 }
             ],
             onSubmit: (formObject: INewGroupChatTitle): void => {
                 modal.hide();
-                createChat(`Group: ${formObject.title}`, globalStateInstance, router);
+                createChat(`Group: ${formObject.title}`);
             }
         })
     });

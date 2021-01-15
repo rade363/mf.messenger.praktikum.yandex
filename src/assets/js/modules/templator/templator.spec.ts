@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { compile } from "./templator";
+import compile from "./templator";
 
 describe("templator", () => {
     describe("compile", () => {
@@ -20,6 +20,7 @@ describe("templator", () => {
         });
 
         it("Empty template string returns undefined", () => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
             expect(compile("", {})).to.be.undefined;
         });
     });

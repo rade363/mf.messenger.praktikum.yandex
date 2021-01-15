@@ -1,5 +1,5 @@
 import Block from "../../modules/Block/Block";
-import {compile} from "../../modules/templator/templator";
+import compile from "../../modules/templator/templator";
 import template from "./ConfirmMessage";
 
 export default class ConfirmMessage extends Block {
@@ -7,7 +7,7 @@ export default class ConfirmMessage extends Block {
         super("div", props);
     }
 
-    render() {
+    render(): Element | null {
         return compile(template, this.props);
     }
 }

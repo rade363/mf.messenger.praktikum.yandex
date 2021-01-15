@@ -1,5 +1,5 @@
 import Block from "../../modules/Block/Block";
-import {compile} from "../../modules/templator/templator";
+import compile from "../../modules/templator/templator";
 import template from "./ImageInput";
 
 export default class ImageInput extends Block {
@@ -7,7 +7,7 @@ export default class ImageInput extends Block {
         super("div", props);
     }
 
-    render() {
+    render(): Element | null {
         return compile(template, this.props);
     }
 }

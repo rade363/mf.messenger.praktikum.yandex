@@ -1,5 +1,5 @@
 import Block from "../../modules/Block/Block";
-import {compile} from "../../modules/templator/templator";
+import compile from "../../modules/templator/templator";
 import template from "./ContextButton";
 
 export default class ContextButton extends Block {
@@ -13,7 +13,7 @@ export default class ContextButton extends Block {
         });
     }
 
-    render() {
+    render(): Element | null {
         return compile(template, this.props);
     }
 }

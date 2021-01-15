@@ -1,8 +1,8 @@
 import EventBus from "../EventBus";
-import {generateUniqueId, areObjectsEqual, createObjectWithoutPrivateProps} from "../helpers";
+import { generateUniqueId, areObjectsEqual, createObjectWithoutPrivateProps } from "../helpers";
 import connectBlockWithDom from "../domConnector";
 
-export default class Block implements IBlock{
+export default class Block implements IBlock {
     static EVENTS: IBlockEvents = {
         INIT: "init",
         FLOW_CDM: "flow:component-did-mount",
@@ -11,16 +11,20 @@ export default class Block implements IBlock{
     };
 
     private _element: HTMLElement | null = null;
+
     private readonly _meta: IBlockMeta | null = null;
-    private _isConnected: boolean = false;
+
+    private _isConnected = false;
 
     uniqueId: string | null = null;
 
     props: TObjectType;
+
     oldProps: TObjectType;
+
     eventBus: () => IEventBus;
 
-    constructor(tagName: string = "div", props: TObjectType = {}) {
+    constructor(tagName = "div", props: TObjectType = {}) {
         const eventBus = new EventBus();
 
         this.uniqueId = generateUniqueId();
@@ -70,7 +74,6 @@ export default class Block implements IBlock{
         eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
     }
 
-
     init(): void {
         this._createResources();
         this.eventBus().emit(Block.EVENTS.FLOW_CDM);
@@ -78,7 +81,7 @@ export default class Block implements IBlock{
 
     _createResources(): void {
         if (this._meta) {
-            const tagName = this._meta.tagName;
+            const { tagName } = this._meta;
             this._element = this._createDocumentElement(tagName);
         }
     }
@@ -92,8 +95,7 @@ export default class Block implements IBlock{
         this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
 
-    componentDidMount(): void {
-    }
+    componentDidMount(): void {}
 
     _componentDidUpdate(): void {
         const oldProps = createObjectWithoutPrivateProps(this.oldProps);
@@ -108,13 +110,14 @@ export default class Block implements IBlock{
         return !areObjectsEqual(oldProps, newProps);
     }
 
-
     setProps(nextProps: TObjectType): void {
         if (!nextProps) {
             return;
         }
 
-        for (let key in this.props) {
+        // eslint-disable-next-line no-restricted-syntax
+        for (const key in this.props) {
+            // eslint-disable-next-line no-prototype-builtins
             if (this.props.hasOwnProperty(key) && key.indexOf("_") !== 0) {
                 this.oldProps[key] = this.props[key];
             }
@@ -123,36 +126,34 @@ export default class Block implements IBlock{
         Object.assign(this.props, nextProps);
 
         this.eventBus().emit(Block.EVENTS.FLOW_CDU);
-    };
+    }
 
     get element(): HTMLElement | null {
         return this._element;
     }
 
-    _render(): void | null {
+    _render(): void {
         const block = this.render();
         const element = this.getContent();
-        const attributes = this.props.attributes;
+        const { attributes } = this.props;
         if (!element) {
-            return null;
+            return;
         }
         if (block) {
             element.innerHTML = "";
             element.appendChild(block);
         }
         if (attributes) {
-            Object
-                .entries(attributes)
-                .forEach(([attributeName, attributeValue]) => {
-                    if (typeof attributeValue === "string") {
-                        element.setAttribute(attributeName, attributeValue);
-                    }
-                });
+            Object.entries(attributes).forEach(([attributeName, attributeValue]) => {
+                if (typeof attributeValue === "string") {
+                    element.setAttribute(attributeName, attributeValue);
+                }
+            });
         }
 
         if (this._isConnected) {
-            Object.values(this.props).forEach((prop: TObjectType) => {
-                connectBlockWithDom(element, prop)
+            Object.values(this.props).forEach((prop: IBlock | IBlock[]) => {
+                connectBlockWithDom(element, prop);
             });
         } else if (!element.classList.contains(`uid${this.uniqueId}`)) {
             element.classList.add(`uid${this.uniqueId}`);
@@ -167,18 +168,18 @@ export default class Block implements IBlock{
         return this.element;
     }
 
-    connectElement(domElement: HTMLElement | null): void | null {
+    connectElement(domElement: HTMLElement | null): void {
         this._element = domElement;
         this._isConnected = true;
 
         const element = this._element;
         if (!element) {
-            return null;
+            return;
         }
 
         element.classList.remove(`uid${this.uniqueId}`);
 
-        const {eventListeners, onSubmit} = this.props;
+        const { eventListeners, onSubmit } = this.props;
         if (eventListeners !== undefined) {
             eventListeners.forEach((eventListener: [string, () => unknown]) => {
                 const [eventName, callback] = eventListener;
