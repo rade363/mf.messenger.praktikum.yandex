@@ -1,6 +1,6 @@
 import Block from "../../modules/Block/Block";
 import compile from "../../modules/templator/templator";
-import template from "./ConversationMain";
+import template from "./ConversationMain.handlebars";
 import Button from "../Button/index";
 import ContextMenu from "../ContextMenu/index";
 import useState from "../../modules/state";

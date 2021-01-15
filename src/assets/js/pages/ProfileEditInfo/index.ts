@@ -1,6 +1,6 @@
 import Block from "../../modules/Block/Block";
 import BackButton from "../../components/BackButton/index";
-import template from "./template";
+import template from "./template.handlebars";
 import compile from "../../modules/templator/templator";
 import Router from "../../modules/Router/Router";
 import validateAuth from "../../controllers/authValidationController";

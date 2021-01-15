@@ -1,9 +1,9 @@
 import { expect } from "chai";
 import compile from "./templator";
+import testTemplate from "./testTemplate.handlebars";
 
 describe("templator", () => {
     describe("compile", () => {
-        const testTemplate = `<h1>{{text}}</h1>`;
         const testProps = {
             _privateProp: "someValue",
             text: "Hello world"
@@ -17,11 +17,6 @@ describe("templator", () => {
 
         it("Compiled HTML element tag is correct", () => {
             expect(compiledElement.tagName, "H1");
-        });
-
-        it("Empty template string returns undefined", () => {
-            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-            expect(compile("", {})).to.be.undefined;
         });
     });
 });

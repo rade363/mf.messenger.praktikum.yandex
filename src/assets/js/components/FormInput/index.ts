@@ -1,6 +1,6 @@
 import Block from "../../modules/Block/Block";
 import compile from "../../modules/templator/templator";
-import template from "./FormInput";
+import template from "./FormInput.handlebars";
 
 export default class FormInput extends Block {
     constructor(props: IFormInput) {

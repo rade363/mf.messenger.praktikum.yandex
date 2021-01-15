@@ -1,5 +1,5 @@
 import Block from "../../modules/Block/Block";
-import template from "./template";
+import template from "./template.handlebars";
 import compile from "../../modules/templator/templator";
 import BackButton from "../../components/BackButton/index";
 import Form from "../../components/Form/index";

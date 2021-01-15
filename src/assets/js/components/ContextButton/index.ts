@@ -1,6 +1,6 @@
 import Block from "../../modules/Block/Block";
 import compile from "../../modules/templator/templator";
-import template from "./ContextButton";
+import template from "./ContextButton.handlebars";
 
 export default class ContextButton extends Block {
     constructor(props: IContextButton) {

@@ -1,6 +1,6 @@
 import Block from "../../modules/Block/Block";
 import compile from "../../modules/templator/templator";
-import template from "./ConfirmMessage";
+import template from "./ConfirmMessage.handlebars";
 
 export default class ConfirmMessage extends Block {
     constructor(props: IConfirmMessage) {

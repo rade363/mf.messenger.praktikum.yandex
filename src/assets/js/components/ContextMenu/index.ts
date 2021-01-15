@@ -1,6 +1,6 @@
 import Block from "../../modules/Block/Block";
 import compile from "../../modules/templator/templator";
-import template from "./ContextMenu";
+import template from "./ContextMenu.handlebars";
 
 export default class ContextMenu extends Block {
     constructor(props: IContextMenuProps) {

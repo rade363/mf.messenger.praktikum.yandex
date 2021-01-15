@@ -1,6 +1,6 @@
 import Block from "../../modules/Block/Block";
 import compile from "../../modules/templator/templator";
-import template from "./ChatList";
+import template from "./ChatList.handlebars";
 import ChatListItem from "../ChatListItem/index";
 
 export default class ChatList extends Block {

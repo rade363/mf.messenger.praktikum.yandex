@@ -1,6 +1,6 @@
 import Block from "../../modules/Block/Block";
 import SearchInput from "../../components/SearchInput/index";
-import template from "./template";
+import template from "./template.handlebars";
 import compile from "../../modules/templator/templator";
 import ChatList from "../../components/ChatList/index";
 import ConversationMain from "../../components/ConversationMain/index";

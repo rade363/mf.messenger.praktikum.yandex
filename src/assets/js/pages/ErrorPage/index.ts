@@ -1,5 +1,5 @@
 import Block from "../../modules/Block/Block";
-import template from "./template";
+import template from "./template.handlebars";
 import compile from "../../modules/templator/templator";
 
 interface IErrorPage {

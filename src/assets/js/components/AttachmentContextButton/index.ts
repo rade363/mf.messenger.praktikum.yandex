@@ -1,6 +1,6 @@
 import Block from "../../modules/Block/Block";
 import compile from "../../modules/templator/templator";
-import template from "./AttachmentContextButton";
+import template from "./AttachmentContextButton.handlebars";
 import Input from "../Input/index";
 
 export default class AttachmentContextButton extends Block {

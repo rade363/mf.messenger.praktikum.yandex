@@ -1,6 +1,6 @@
 import Block from "../../modules/Block/Block";
 import compile from "../../modules/templator/templator";
-import template from "./Input";
+import template from "./Input.handlebars";
 
 export default class Input extends Block {
     constructor(props: IInput) {

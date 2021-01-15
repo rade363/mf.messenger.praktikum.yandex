@@ -1,6 +1,6 @@
 import Block from "../../modules/Block/Block";
 import compile from "../../modules/templator/templator";
-import template from "./Double";
+import template from "./Double.handlebars";
 
 export default class Double extends Block {
     constructor(props: TObjectType) {

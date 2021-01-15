@@ -1,6 +1,6 @@
 import Block from "../../modules/Block/Block";
 import compile from "../../modules/templator/templator";
-import template from "./SearchInput";
+import template from "./SearchInput.handlebars";
 import Input from "../Input/index";
 import useState from "../../modules/state";
 import { isXssPresent } from "../../modules/helpers";

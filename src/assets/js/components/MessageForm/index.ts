@@ -1,6 +1,6 @@
 import Block from "../../modules/Block/Block";
 import compile from "../../modules/templator/templator";
-import template from "./MessageForm";
+import template from "./MessageForm.handlebars";
 import Button from "../Button/index";
 import Input from "../Input/index";
 import ContextMenu from "../ContextMenu/index";

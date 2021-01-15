@@ -1,8 +1,8 @@
 import { expect } from "chai";
 import * as sinon from "sinon";
 import Block from "./Block";
-import compile from "../templator/templator";
 import { renderInterface } from "../domHelpers";
+import SampleButton from "./SampleButton";
 
 describe("Block", () => {
     const testProps = {
@@ -70,22 +70,6 @@ describe("Block", () => {
 });
 
 describe("Button (extended Block)", () => {
-    interface ISampleButtonProps {
-        text: string;
-        attributes?: IAttributes;
-        eventListeners?: unknown[];
-    }
-
-    class SampleButton extends Block {
-        constructor(props: ISampleButtonProps) {
-            super("button", props);
-        }
-
-        render(): Element | null {
-            return compile(`<span>{{text}}</span>`, this.props);
-        }
-    }
-
     const buttonProps = {
         text: "Click me",
         attributes: {

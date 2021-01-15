@@ -1,6 +1,6 @@
 import Block from "../../modules/Block/Block";
 import compile from "../../modules/templator/templator";
-import template from "./Button";
+import template from "./Button.handlebars";
 
 export default class Button extends Block {
     // eslint-disable-next-line @typescript-eslint/no-useless-constructor

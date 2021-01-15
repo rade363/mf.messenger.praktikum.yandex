@@ -1,6 +1,6 @@
 import Block from "../../modules/Block/Block";
 import compile from "../../modules/templator/templator";
-import template from "./DeleteUsersList";
+import template from "./DeleteUsersList.handlebars";
 import Button from "../Button/index";
 import handleUserClick from "../../controllers/excludeUserController";
 import globalStateInstance from "../../modules/GlobalState/globalStateInstance";

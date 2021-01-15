@@ -1,6 +1,6 @@
 import Block from "../../modules/Block/Block";
 import compile from "../../modules/templator/templator";
-import template from "./BackButton";
+import template from "./BackButton.handlebars";
 
 interface IBackButtonProps {
     url: string;

@@ -1,6 +1,6 @@
 import Block from "../../modules/Block/Block";
 import compile from "../../modules/templator/templator";
-import template from "./Form";
+import template from "./Form.handlebars";
 import { createInputElement, createActionElement, handleFormSubmit } from "../../controllers/formController";
 
 export default class Form extends Block {

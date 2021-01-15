@@ -6,6 +6,7 @@ type TActionElement = IFormButtonProps | IDouble | string;
 type TFormElement = IInputFieldProps | IDouble | IAvatarInput;
 type TEventListener = (event: Event) => any;
 type TEventListenerTemplate = [string, TEventListener];
+type THandlebarsPrecompiler = (props: TObjectType) => string;
 
 interface IBlock {
     uniqueId: string | null;

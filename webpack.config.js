@@ -12,6 +12,9 @@ module.exports = {
     },
     resolve: {
         extensions: [".ts", ".js"],
+        alias: {
+            handlebars: "handlebars/dist/handlebars.js",
+        }
     },
     watchOptions: {
         ignored: /node_modules/
@@ -47,6 +50,16 @@ module.exports = {
                     outputPath: "../img/",
                     publicPath: "../img/",
                     useRelativePaths: true
+                }
+            },
+            {
+                test: /\.handlebars$/,
+                loader: "handlebars-loader",
+                options: {
+                    helperDirs: path.join(__dirname, "/src/assets/js/handlebarsHelpers"),
+                    precompileOptions: {
+                        knownHelpersOnly: false
+                    }
                 }
             }
         ]
