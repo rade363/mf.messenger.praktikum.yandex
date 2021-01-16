@@ -1,6 +1,6 @@
 import Modal from "../components/Modal/index";
 import Form from "../components/Form/index";
-import { createChat } from "./createNewChatController";
+import createChat from "./createNewChatController";
 
 export default function createNewGroupChatTitleModal(): IBlock {
     const modal = new Modal({

@@ -31,4 +31,8 @@ export default class ChatsAPI {
     deleteUsers = (data: IChatActionUsersProps): Promise<XMLHttpRequest> => {
         return chatsAPIInstance.delete("/users", { data });
     };
+
+    connectToChat = (chatId: number): Promise<XMLHttpRequest> => {
+        return chatsAPIInstance.post(`/token/${chatId}`);
+    };
 }

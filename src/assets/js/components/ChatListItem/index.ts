@@ -1,7 +1,7 @@
 import Block from "../../modules/Block/Block";
 import compile from "../../modules/templator/templator";
 import template from "./ChatListItem.handlebars";
-import { handleChatClick } from "../../controllers/createNewChatController";
+import handleChatClick from "../../controllers/selectChatController";
 
 export default class ChatListItem extends Block {
     constructor(props: IChatListItem) {

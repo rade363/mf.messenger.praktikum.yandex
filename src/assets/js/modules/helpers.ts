@@ -83,3 +83,13 @@ export function createObjectWithoutPrivateProps(obj: TObjectType): TObjectType {
     }
     return publicObj;
 }
+
+export function getTime(timeStamp: string): string {
+    const date = new Date(timeStamp);
+    const hours = date.getHours();
+    const hh = hours < 10 ? `0${hours}` : `${hours}`;
+    const minutes = date.getMinutes();
+    const mm = minutes < 10 ? `0${minutes}` : `${minutes}`;
+
+    return `${hh}:${mm}`;
+}

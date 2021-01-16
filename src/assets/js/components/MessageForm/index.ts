@@ -8,6 +8,7 @@ import AttachmentContextButton from "../AttachmentContextButton/index";
 import useState from "../../modules/state";
 import { isXssPresent } from "../../modules/helpers";
 import { setImageUpload } from "../../modules/domHelpers";
+import createMessage from "../../controllers/createMessageController";
 
 const state = {
     isAttachmentMenuOpen: useState(false),
@@ -106,8 +107,7 @@ export default class MessageForm extends Block {
                     class: "message-form__message",
                     type: "text",
                     placeholder: "Write a message...",
-                    name: "message",
-                    pattern: "\\S+"
+                    name: "message"
                 },
                 eventListeners: [
                     [
@@ -147,7 +147,8 @@ export default class MessageForm extends Block {
                         newMessage,
                         attachment
                     };
-                    console.info("[INFO] New message submitted, this will be handled later in this course", formObject);
+                    console.info("[INFO] New message submitted", formObject);
+                    createMessage(newMessage);
                 }
             }
         });

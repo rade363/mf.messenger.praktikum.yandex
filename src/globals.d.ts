@@ -194,7 +194,7 @@ interface IMessage {
     text: string;
     imageUrl: string;
     time: string;
-    status: string;
+    status: "sent" | "read";
 }
 
 interface IConversationMain {
@@ -408,7 +408,23 @@ interface IActionElement {
     action: TActionElement | IBlock;
 }
 
-interface IHandlebarsOptions {
-    fn: (context: unknown) => unknown;
-    inverse: (context: unknown) => unknown;
+interface IUserConnected {
+    content: string;
+    type: "user connected";
+}
+
+interface ISocketMessage {
+    id: number;
+    user_id: number;
+    time: string;
+    content: string;
+    chat_id: number;
+}
+
+interface ISocketNewMessage {
+    id: number;
+    userId: number;
+    time: string;
+    content: string;
+    type: "message";
 }
