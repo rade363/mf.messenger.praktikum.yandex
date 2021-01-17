@@ -2,6 +2,7 @@ import globalStateInstance from "../modules/GlobalState/globalStateInstance";
 import ChatsAPI from "../api/chats-api";
 import { SOCKET_URL } from "../constants/index";
 import { isPlainObject, getTime } from "../modules/helpers";
+import ConversationMain from "../components/ConversationMain/index";
 
 const chatsAPI = new ChatsAPI();
 
@@ -11,7 +12,6 @@ export default function connectToChat(conversationPage: IBlock): Promise<boolean
         .connectToChat(selectedChat.id)
         .then((xhr: XMLHttpRequest) => {
             const response = JSON.parse(xhr.response);
-            // globalStateInstance.setProp("chatToken", response.token);
             openSocket(response.token, conversationPage);
             return true;
         })
@@ -88,8 +88,13 @@ function fixMessageObject(message: ISocketNewMessage, currentChat: IExistingChat
 
 function renderMessages(messages: ISocketMessage[], conversationPage: IBlock, currentUser: IUser) {
     globalStateInstance.setProp("messagesHistory", messages);
-    conversationPage.props.conversationMain.setProps({
-        messagesList: messages.map((message: ISocketMessage) => prepareMessage(message, currentUser)).reverse()
+
+    const oldProps = conversationPage.props.conversationMain.props;
+    conversationPage.setProps({
+        conversationMain: new ConversationMain({
+            ...oldProps,
+            messagesList: messages.map((message: ISocketMessage) => prepareMessage(message, currentUser)).reverse()
+        })
     });
 }
 
@@ -102,28 +107,3 @@ function prepareMessage(message: ISocketMessage, currentUser: IUser): IMessage {
         status: "read"
     };
 }
-
-// const sampleHistory = [
-//     {
-//         "user_id": 3376,
-//         "chat_id": 60,
-//         "content": "Моё первое сообщение миру!",
-//         "time": "2021-01-16T22:01:06+00:00",
-//         "id": 1
-//     },
-//     {
-//         "user_id": 3330,
-//         "chat_id": 60,
-//         "content": "Моё первое сообщение миру!",
-//         "time": "2021-01-16T22:00:46+00:00",
-//         "id": 2
-//     }
-// ];
-
-// {
-//     outgoing: false,
-//     text: "Hello bro!",
-//     imageUrl: "",
-//     time: "10:44",
-//     status: "read"
-// },
