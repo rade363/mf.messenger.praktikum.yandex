@@ -1,0 +1,19 @@
+<div class="messages__list">
+    {{#each messagesList}}
+        <div class="message message_{{#if outgoing}}outgoing{{else}}incoming{{/if}}">
+            <div class="message__bubble">
+                {{#notEmpty imageUrl}}
+                    <img class="message_media" src="../assets/img/{{imageUrl}}" alt="image" />
+                {{else}}
+                    <p class="message__text">{{text}}</p>
+                {{/notEmpty}}
+                <div class="message__meta">
+                    {{#if outgoing}}
+                        <div class="message__status message__status_{{status}}"></div>
+                    {{/if}}
+                    <time class="message__time">{{time}}</time>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+</div>

@@ -69,9 +69,9 @@ export default class Conversation extends Block {
                 items: []
             }),
             conversationMain: new ConversationMain({
-                user: {
+                userInfo: {
                     name: "",
-                    status: ""
+                    isOnline: false
                 },
                 messagesList: [],
                 addUserModal,

@@ -360,11 +360,14 @@
       color: var(--dotsBlack);
     }
 
-    &__activity {
+    &__status {
       display: flex;
       font-size: 10px;
       line-height: 10px;
       color: var(--fontGrey);
+      &_active {
+        color: var(--blue);
+      }
     }
   }
 }
@@ -535,20 +538,20 @@
       position: relative;
       overflow: hidden;
     }
+
+    &__input {
+      height: 78px;
+      width: 100%;
+      display: block;
+      margin-top: -22px;
+      cursor: pointer;
+      position: absolute;
+    }
   }
 
   &_active {
     display: flex;
     flex-direction: column;
-  }
-
-  &__input {
-    height: 78px;
-    width: 100%;
-    display: block;
-    margin-top: -22px;
-    cursor: pointer;
-    position: absolute;
   }
 }
 

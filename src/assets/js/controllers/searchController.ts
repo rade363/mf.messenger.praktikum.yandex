@@ -1,21 +1,10 @@
 import UserAPI from "../api/user-api";
 import { createAPIUrl } from "../modules/domHelpers";
+import { createUsername } from "../modules/helpers";
 import { NO_AVATAR_IMG } from "../constants/index";
 import ChatList from "../components/ChatList/index";
 
 const userAPI = new UserAPI();
-
-function createUsername(user: IUser): string {
-    if (user.display_name) {
-        return user.display_name;
-    }
-    if (!user.first_name && !user.second_name) {
-        return user.login;
-    }
-    const firstName = user.first_name ? user.first_name : "";
-    const lastName = user.second_name ? user.second_name : "";
-    return `${firstName}${firstName !== "" ? ` ${lastName}` : lastName}`;
-}
 
 function createFoundUserPreviewObject(user: IUser): IChatListItem {
     return {

@@ -6,6 +6,8 @@ import ContextMenu from "../ContextMenu/index";
 import useState from "../../modules/state";
 import MessageForm from "../MessageForm/index";
 import ContextButton from "../ContextButton/index";
+import ConversationUserInfo from "../ConversationUserInfo/index";
+import MessagesList from "../MessagesList/index";
 import getChatUsers from "../../controllers/collectChatUsersController";
 import DeleteUsersList from "../DeleteUsersList/index";
 import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
@@ -97,6 +99,7 @@ export default class ConversationMain extends Block {
             attributes: {
                 class: "chat__conversation"
             },
+            conversationUserInfo: new ConversationUserInfo(props.userInfo),
             conversationActionsButton: new Button("button", {
                 attributes: {
                     class: "conversation__actions-button actions-button",
@@ -120,6 +123,7 @@ export default class ConversationMain extends Block {
                 ]
             }),
             conversationActionsMenu,
+            messagesList: new MessagesList({ messagesList: props.messagesList }),
             messageForm: new MessageForm()
         });
     }

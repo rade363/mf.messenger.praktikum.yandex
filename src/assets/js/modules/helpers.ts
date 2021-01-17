@@ -93,3 +93,15 @@ export function getTime(timeStamp: string): string {
 
     return `${hh}:${mm}`;
 }
+
+export function createUsername(user: IUser): string {
+    if (user.display_name) {
+        return user.display_name;
+    }
+    if (!user.first_name && !user.second_name) {
+        return user.login;
+    }
+    const firstName = user.first_name ? user.first_name : "";
+    const lastName = user.second_name ? user.second_name : "";
+    return `${firstName}${firstName !== "" ? ` ${lastName}` : lastName}`;
+}

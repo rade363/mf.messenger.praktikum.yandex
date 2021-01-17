@@ -184,9 +184,9 @@ interface IContextMenuProps {
     items: TObjectType;
 }
 
-interface IUserInfo {
+interface IConversationUserInfo {
     name: string;
-    status: string;
+    isOnline: boolean;
 }
 
 interface IMessage {
@@ -198,11 +198,15 @@ interface IMessage {
 }
 
 interface IConversationMain {
-    user: IUserInfo;
+    userInfo: IConversationUserInfo;
     messagesList: IMessage[];
     addUserModal: IBlock;
     deleteConversationModal: IBlock;
     deleteUserModal: IBlock;
+}
+
+interface IMessagesList {
+    messagesList: IMessage[];
 }
 
 interface IErrorMessage {

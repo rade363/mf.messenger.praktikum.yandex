@@ -1,9 +1,10 @@
 import ChatsAPI from "../api/chats-api";
 import Router from "../modules/Router/Router";
 import { handleExistingChats, renderChatsList } from "./existingChatsListController";
-import setConversationMain from "./conversationMainController";
+import setConversationInfo from "./conversationInfoController";
 import addUsersToChat from "./addUsersController";
 import globalStateInstance from "../modules/GlobalState/globalStateInstance";
+import connectToChat from "./connectToChatController";
 
 const chatsAPI = new ChatsAPI();
 const router = new Router("#root");
@@ -35,7 +36,8 @@ export default function createChat(title: string, userIds?: number[]): void {
                 const existingChats = globalStateInstance.getProp("existingChats");
                 const selectedChat = globalStateInstance.getProp("selectedChat");
                 const existingChatsList = handleExistingChats(existingChats);
-                setConversationMain(selectedChat, pageBlock);
+                setConversationInfo(selectedChat, pageBlock, false);
+                connectToChat(pageBlock).catch((error) => console.error("[ERROR] Could not connect to chat", error));
                 renderChatsList(existingChatsList, pageBlock, selectedChat);
             }
         })

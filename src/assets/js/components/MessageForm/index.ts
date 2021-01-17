@@ -35,6 +35,7 @@ export default class MessageForm extends Block {
                             "input",
                             (event: Event) => {
                                 setImageUpload(event, setAttachment, this);
+                                setIsAttachmentMenuOpen(false);
                                 attachmentContextMenu.hide();
                             }
                         ]
@@ -49,6 +50,7 @@ export default class MessageForm extends Block {
                             "input",
                             (event: Event) => {
                                 setImageUpload(event, setAttachment, this);
+                                setIsAttachmentMenuOpen(false);
                                 attachmentContextMenu.hide();
                             }
                         ]
@@ -63,6 +65,7 @@ export default class MessageForm extends Block {
                             "input",
                             (event: Event) => {
                                 setImageUpload(event, setAttachment, this);
+                                setIsAttachmentMenuOpen(false);
                                 attachmentContextMenu.hide();
                             }
                         ]

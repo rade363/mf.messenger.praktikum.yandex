@@ -1,11 +1,10 @@
 import globalStateInstance from "../modules/GlobalState/globalStateInstance";
+import { sendMessage } from "./socketController";
 
 export default function createMessage(content: string): void {
     const socket: WebSocket = globalStateInstance.getProp("socketInstance");
-    socket.send(
-        JSON.stringify({
-            content,
-            type: "message"
-        })
-    );
+    const isSocketOpen: boolean = globalStateInstance.getProp("isSocketOpen");
+    if (isSocketOpen) {
+        sendMessage(socket, content);
+    }
 }

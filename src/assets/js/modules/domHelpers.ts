@@ -22,3 +22,7 @@ export function setImageUpload(event: Event, callback: (avatar: File, context: I
 export function createAPIUrl(path: string): string {
     return `${API_URL}${path}`;
 }
+
+export function scrollToBottomOfElement(element: Element): void {
+    element.scrollTop = element.scrollHeight;
+}
