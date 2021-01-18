@@ -17,12 +17,7 @@ export function openSocket(token: string, conversationPage: IBlock): void {
         console.info("[WS][INFO] Connected");
         globalStateInstance.setProp("isSocketOpen", true);
 
-        socket.send(
-            JSON.stringify({
-                content: "0",
-                type: "get old"
-            })
-        );
+        getHistory(socket);
     });
 
     socket.addEventListener("close", (event: CloseEvent) => {
@@ -45,14 +40,25 @@ export function openSocket(token: string, conversationPage: IBlock): void {
     socket.addEventListener("message", (event: MessageEvent<any>) => {
         const data: IUserConnected | ISocketNewMessage | ISocketMessage[] = JSON.parse(event.data);
         const previousMessages = globalStateInstance.getProp("messagesHistory");
+
         if (Array.isArray(data)) {
+            const previouslyCollectedHistoryMessages = globalStateInstance.getProp("historyLoaded");
+            const isHistoryCollectedFirstTime = !previouslyCollectedHistoryMessages;
             const allMessages = [...previousMessages, ...data];
-            renderMessages(allMessages, conversationPage, currentUser);
+            const newAmount = previouslyCollectedHistoryMessages + data.length;
+
+            globalStateInstance.setProp("historyLoaded", newAmount);
+
+            renderMessages(allMessages, conversationPage, currentUser, isHistoryCollectedFirstTime);
+
+            if (isHistoryCollectedFirstTime) {
+                addScrollEventListener(conversationPage);
+            }
         } else if (isPlainObject(data) && data.type) {
             if (data.type === "message") {
                 const correctMessage = fixMessageObject(data, selectedChat);
                 const allMessages = [correctMessage, ...previousMessages];
-                renderMessages(allMessages, conversationPage, currentUser);
+                renderMessages(allMessages, conversationPage, currentUser, true);
             } else if (data.type === "user connected") {
                 setConversationInfo(selectedChat, conversationPage, true);
             }
@@ -86,7 +92,7 @@ function prepareMessage(message: ISocketMessage, currentUser: IUser): IMessage {
     };
 }
 
-function renderMessages(messages: ISocketMessage[], conversationPage: IBlock, currentUser: IUser) {
+function renderMessages(messages: ISocketMessage[], conversationPage: IBlock, currentUser: IUser, shouldBeScrolledToBottom: boolean): void {
     globalStateInstance.setProp("messagesHistory", messages);
 
     conversationPage.props.conversationMain.props.messagesList.setProps({
@@ -94,7 +100,7 @@ function renderMessages(messages: ISocketMessage[], conversationPage: IBlock, cu
     });
 
     const messagesListElement = conversationPage.props.conversationMain.props.messagesList.getContent();
-    if (messagesListElement) {
+    if (messagesListElement && shouldBeScrolledToBottom) {
         scrollToBottomOfElement(messagesListElement);
     }
 }
@@ -106,4 +112,24 @@ export function sendMessage(socket: WebSocket, content: string): void {
             type: "message"
         })
     );
+}
+
+function getHistory(socket: WebSocket, page = 0): void {
+    socket.send(
+        JSON.stringify({
+            content: `${page}`,
+            type: "get old"
+        })
+    );
+}
+
+function addScrollEventListener(conversationPage: IBlock): void {
+    const messagesListElement = conversationPage.props.conversationMain.props.messagesList.getContent();
+    messagesListElement.addEventListener("scroll", () => {
+        if (messagesListElement.scrollTop === 0) {
+            const socket = globalStateInstance.getProp("socketInstance");
+            const previouslyCollectedHistoryMessages = globalStateInstance.getProp("historyLoaded");
+            getHistory(socket, previouslyCollectedHistoryMessages);
+        }
+    });
 }

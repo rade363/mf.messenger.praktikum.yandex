@@ -152,6 +152,7 @@ export default class MessageForm extends Block {
                     };
                     console.info("[INFO] New message submitted", formObject);
                     createMessage(newMessage);
+                    this.input.element.value = "";
                 }
             }
         });
