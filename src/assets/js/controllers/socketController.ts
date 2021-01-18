@@ -8,7 +8,6 @@ export function openSocket(token: string, conversationPage: IBlock): void {
     const currentUser: IUser = globalStateInstance.getProp("currentUser");
     const selectedChat: IExistingChat = globalStateInstance.getProp("selectedChat");
     const socket: WebSocket = new WebSocket(`${SOCKET_URL}/${currentUser.id}/${selectedChat.id}/${token}`);
-    // TODO: reopen socket
 
     globalStateInstance.setProp("socketInstance", socket);
     globalStateInstance.setProp("messagesHistory", []);
@@ -28,7 +27,7 @@ export function openSocket(token: string, conversationPage: IBlock): void {
             console.info("[WS][INFO] Disconnected");
         }
 
-        setConversationInfo(selectedChat, conversationPage, false);
+        setConversationInfo(selectedChat, conversationPage, currentUser, false);
 
         if (event.code === 1006) {
             openSocket(token, conversationPage);
@@ -60,7 +59,7 @@ export function openSocket(token: string, conversationPage: IBlock): void {
                 const allMessages = [correctMessage, ...previousMessages];
                 renderMessages(allMessages, conversationPage, currentUser, true);
             } else if (data.type === "user connected") {
-                setConversationInfo(selectedChat, conversationPage, true);
+                setConversationInfo(selectedChat, conversationPage, currentUser, true);
             }
         } else {
             console.info("[WS][INFO] Unknown message", data);

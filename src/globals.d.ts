@@ -181,7 +181,7 @@ interface IContextButton {
 
 interface IContextMenuProps {
     attributes?: IAttributes;
-    items: TObjectType;
+    items: IBlock[];
 }
 
 interface IConversationUserInfo {
@@ -203,6 +203,16 @@ interface IConversationMain {
     addUserModal: IBlock;
     deleteConversationModal: IBlock;
     deleteUserModal: IBlock;
+}
+
+interface IConversationActions {
+    addUserModal: IBlock;
+    deleteConversationModal: IBlock;
+    deleteUserModal: IBlock;
+}
+
+interface IConversationActionsMenu extends IConversationActions {
+    setIsConversationActionsMenuOpen: (isOpen: boolean) => unknown;
 }
 
 interface IMessagesList {

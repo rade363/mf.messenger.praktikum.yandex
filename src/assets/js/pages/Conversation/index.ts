@@ -88,7 +88,7 @@ export default class Conversation extends Block {
                 if (!isAuthenticated) {
                     throw new Error("Not authorized");
                 }
-                return getExistingChats(globalStateInstance);
+                return getExistingChats();
             })
             .then((existingChats: IExistingChat[]) => handleExistingChats(existingChats))
             .then((existingChatsList: IChatListItem[]) => {

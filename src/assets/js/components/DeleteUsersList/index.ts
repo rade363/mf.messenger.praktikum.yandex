@@ -2,7 +2,7 @@ import Block from "../../modules/Block/Block";
 import compile from "../../modules/templator/templator";
 import template from "./DeleteUsersList.handlebars";
 import Button from "../Button/index";
-import handleUserClick from "../../controllers/excludeUserController";
+import handleDeleteUserClick from "../../controllers/excludeUserController";
 import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
 
 export default class DeleteUsersList extends Block {
@@ -19,7 +19,7 @@ export default class DeleteUsersList extends Block {
                             attributes: {
                                 class: "button button_danger button_wide"
                             },
-                            eventListeners: [["click", () => handleUserClick(user)]]
+                            eventListeners: [["click", () => handleDeleteUserClick.call(this, user)]]
                         })
                     });
                 }

@@ -3,7 +3,7 @@ import globalStateInstance from "../modules/GlobalState/globalStateInstance";
 
 const chatsAPI = new ChatsAPI();
 
-export default function handleUserClick(user: IUser): void {
+export default function handleDeleteUserClick(user: IUser): void {
     const selectedChat: IExistingChat = globalStateInstance.getProp("selectedChat");
     const userRemovalData = {
         users: [user.id],
@@ -16,7 +16,5 @@ export default function handleUserClick(user: IUser): void {
             const newUsers = oldProps.users.filter((renderedUser: IDeleteUserProps) => renderedUser.login !== user.login);
             this.setProps({ users: newUsers });
         })
-        .catch((error: XMLHttpRequest) =>
-            console.error(`[ERROR] Could not delete user ${user.login} from chat ${selectedChat.title}`, JSON.parse(error.response))
-        );
+        .catch((error: XMLHttpRequest) => console.error(`[ERROR] Could not delete user ${user.login} from chat ${selectedChat.title}`, error));
 }

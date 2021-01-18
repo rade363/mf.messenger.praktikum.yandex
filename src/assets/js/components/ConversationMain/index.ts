@@ -1,128 +1,26 @@
 import Block from "../../modules/Block/Block";
 import compile from "../../modules/templator/templator";
 import template from "./ConversationMain.handlebars";
-import Button from "../Button/index";
-import ContextMenu from "../ContextMenu/index";
-import useState from "../../modules/state";
 import MessageForm from "../MessageForm/index";
-import ContextButton from "../ContextButton/index";
 import ConversationUserInfo from "../ConversationUserInfo/index";
 import MessagesList from "../MessagesList/index";
 import getChatUsers from "../../controllers/collectChatUsersController";
-import DeleteUsersList from "../DeleteUsersList/index";
 import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
-
-const state = {
-    isConversationActionsMenuOpen: useState(false)
-};
+import ConversationActionsButton from "../ConversationActionsButton/index";
 
 export default class ConversationMain extends Block {
     constructor(props: IConversationMain) {
-        const [getIsConversationActionsMenuOpen, setIsConversationActionsMenuOpen] = state.isConversationActionsMenuOpen;
-        const selectedChat: IExistingChat = globalStateInstance.getProp("selectedChat");
-        const contextMenuOptions: IContextMenuProps = {
-            attributes: {
-                class: "conversation__context"
-            },
-            items: []
-        };
-        if (selectedChat && selectedChat.title.indexOf("Group: ") === 0) {
-            contextMenuOptions.items.push(
-                new ContextButton({
-                    text: "Add user",
-                    icon: "../assets/img/add.svg",
-                    name: "context__add",
-                    eventListeners: [
-                        [
-                            "click",
-                            (event: Event) => {
-                                event.preventDefault();
-                                conversationActionsMenu.hide();
-                                setIsConversationActionsMenuOpen(false);
-
-                                props.addUserModal.show();
-                            }
-                        ]
-                    ]
-                })
-            );
-            contextMenuOptions.items.push(
-                new ContextButton({
-                    text: "Delete user",
-                    icon: "../assets/img/delete.svg",
-                    name: "user__delete",
-                    eventListeners: [
-                        [
-                            "click",
-                            (event: Event) => {
-                                event.preventDefault();
-                                conversationActionsMenu.hide();
-                                setIsConversationActionsMenuOpen(false);
-
-                                const chatUsers = globalStateInstance.getProp("chatUsers");
-                                const oldDeleteUserListProps = props.deleteUserModal.props.child.props;
-                                const child = new DeleteUsersList({
-                                    ...oldDeleteUserListProps,
-                                    users: chatUsers
-                                });
-                                props.deleteUserModal.setProps({ child });
-                                props.deleteUserModal.show();
-                            }
-                        ]
-                    ]
-                })
-            );
-        }
-        contextMenuOptions.items.push(
-            new ContextButton({
-                text: "Delete conversation",
-                icon: "../assets/img/delete.svg",
-                name: "conversation__delete",
-                eventListeners: [
-                    [
-                        "click",
-                        (event: Event) => {
-                            event.preventDefault();
-                            conversationActionsMenu.hide();
-                            setIsConversationActionsMenuOpen(false);
-
-                            props.deleteConversationModal.show();
-                        }
-                    ]
-                ]
-            })
-        );
-        const conversationActionsMenu = new ContextMenu(contextMenuOptions);
-
         super("div", {
             ...props,
             attributes: {
                 class: "chat__conversation"
             },
             conversationUserInfo: new ConversationUserInfo(props.userInfo),
-            conversationActionsButton: new Button("button", {
-                attributes: {
-                    class: "conversation__actions-button actions-button",
-                    type: "button"
-                },
-                eventListeners: [
-                    [
-                        "click",
-                        (event: Event) => {
-                            event.preventDefault();
-                            const isMenuOpen = getIsConversationActionsMenuOpen();
-                            if (isMenuOpen) {
-                                conversationActionsMenu.hide();
-                                setIsConversationActionsMenuOpen(false);
-                            } else {
-                                conversationActionsMenu.show();
-                                setIsConversationActionsMenuOpen(true);
-                            }
-                        }
-                    ]
-                ]
+            conversationActionsButton: new ConversationActionsButton({
+                addUserModal: props.addUserModal,
+                deleteConversationModal: props.deleteConversationModal,
+                deleteUserModal: props.deleteUserModal
             }),
-            conversationActionsMenu,
             messagesList: new MessagesList({ messagesList: props.messagesList }),
             messageForm: new MessageForm()
         });

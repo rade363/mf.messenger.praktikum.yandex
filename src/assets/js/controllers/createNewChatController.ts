@@ -35,8 +35,9 @@ export default function createChat(title: string, userIds?: number[]): void {
                 const pageBlock = router._currentRoute._block;
                 const existingChats = globalStateInstance.getProp("existingChats");
                 const selectedChat = globalStateInstance.getProp("selectedChat");
+                const currentUser = globalStateInstance.getProp("currentUser");
                 const existingChatsList = handleExistingChats(existingChats);
-                setConversationInfo(selectedChat, pageBlock, false);
+                setConversationInfo(selectedChat, pageBlock, currentUser, false);
                 connectToChat(pageBlock).catch((error) => console.error("[ERROR] Could not connect to chat", error));
                 renderChatsList(existingChatsList, pageBlock, selectedChat);
             }

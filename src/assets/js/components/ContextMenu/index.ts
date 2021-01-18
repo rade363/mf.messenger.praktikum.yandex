@@ -6,7 +6,7 @@ export default class ContextMenu extends Block {
     constructor(props: IContextMenuProps) {
         super("div", {
             ...props,
-            items: props.items.map((item: IContextMenuItem) => ({ item }))
+            items: props.items.map((item: IBlock) => ({ item }))
         });
     }
 

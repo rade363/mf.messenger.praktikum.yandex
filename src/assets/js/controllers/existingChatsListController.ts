@@ -1,11 +1,13 @@
 import ChatList from "../components/ChatList/index";
 import { createAPIUrl } from "../modules/domHelpers";
+import { filterCurrentUserFromTitle } from "../modules/helpers";
 import { NO_AVATAR_IMG } from "../constants/index";
 import ChatsAPI from "../api/chats-api";
+import globalStateInstance from "../modules/GlobalState/globalStateInstance";
 
 const chatsAPI = new ChatsAPI();
 
-export function getExistingChats(globalStateInstance: IGlobalState): Promise<IExistingChat[]> | never {
+export function getExistingChats(): Promise<IExistingChat[]> | never {
     const existingChats = globalStateInstance.getProp("existingChats");
     if (existingChats) {
         return existingChats;
@@ -40,13 +42,22 @@ export function handleExistingChats(existingChats: IExistingChat[]): IChatListIt
     return existingChats.map(createExistingChatPreviewObject);
 }
 
-function markSelectedListItem(item: IChatListItem, selectedChat: IExistingChat): IChatListItem {
-    return item.id === selectedChat.id ? { ...item, isSelected: true } : item;
-}
-
 export function renderChatsList(existingChatsList: IChatListItem[], context: IBlock, selectedChat?: IExistingChat): void {
     const oldProps = context.props.chatList.props;
-    const items = selectedChat && selectedChat.id ? existingChatsList.map((item) => markSelectedListItem(item, selectedChat)) : existingChatsList;
+    const currentUser: IUser = globalStateInstance.getProp("currentUser");
+
+    const items = existingChatsList.map(
+        (item: IChatListItem): IChatListItem => {
+            const isSelected = selectedChat && selectedChat.id && item.id === selectedChat.id;
+            const title = filterCurrentUserFromTitle(item.title, currentUser);
+            return {
+                ...item,
+                isSelected: isSelected === true,
+                title
+            };
+        }
+    );
+
     const chatList = new ChatList({ ...oldProps, items });
 
     context.setProps({ chatList });

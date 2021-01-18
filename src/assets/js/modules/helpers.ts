@@ -105,3 +105,26 @@ export function createUsername(user: IUser): string {
     const lastName = user.second_name ? user.second_name : "";
     return `${firstName}${firstName !== "" ? ` ${lastName}` : lastName}`;
 }
+
+export function filterCurrentUserFromTitle(title: string, user: IUser): string {
+    if (title.indexOf("Group:") > -1) {
+        return title;
+    }
+
+    if (typeof user.display_name === "string" && title.indexOf(user.display_name) > -1) {
+        return title.replace(user.display_name, "").trim();
+    }
+
+    if (title.indexOf(user.login) > -1) {
+        return title.replace(user.login, "").trim();
+    }
+
+    let temp = title;
+    if (user.first_name && temp.indexOf(user.first_name) > -1) {
+        temp = temp.replace(user.first_name, "").trim();
+    }
+    if (user.second_name && temp.indexOf(user.second_name) > -1) {
+        temp = temp.replace(user.second_name, "").trim();
+    }
+    return temp;
+}

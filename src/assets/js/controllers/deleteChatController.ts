@@ -5,8 +5,7 @@ import Router from "../modules/Router/Router";
 const chatsAPI = new ChatsAPI();
 
 function deleteChat(deletedChat: IExistingChat): Promise<XMLHttpRequest> {
-    const chatId = deletedChat.id;
-    return chatsAPI.deleteChat({ chatId });
+    return chatsAPI.deleteChat({ chatId: deletedChat.id });
 }
 
 function removeDeletedChatFromState(globalStateInstance: IGlobalState, deletedChat: IExistingChat): void {
