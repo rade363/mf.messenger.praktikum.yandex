@@ -4,7 +4,7 @@ import setConversationInfo from "./conversationInfoController";
 import createChat from "./createNewChatController";
 import connectToChat from "./connectToChatController";
 import Router from "../modules/Router/Router";
-import { createUsername } from "../modules/helpers";
+import { createUsername, isChatGroup } from "../modules/helpers";
 import getChatUsers from "./collectChatUsersController";
 import ConversationContextMenu from "../components/ConversationContextMenu/index";
 
@@ -32,10 +32,9 @@ export default function handleChatClick(props: IChatListItem): void | undefined 
         const existingChatsList = handleExistingChats(existingChats);
         setConversationInfo(selectedChat, pageBlock, currentUser, false);
 
-        const chatUsers = globalStateInstance.getProp("chatUsers");
+        const chatUsers: IUser[] = globalStateInstance.getProp("chatUsers");
         const contextMenu = pageBlock.props.conversationMain.props.conversationActionsButton.props.conversationContextMenu;
-        const isGroupChat = selectedChat.title.indexOf("Group: ") === 0;
-        if (!chatUsers && contextMenu.props.items.length < 2 && isGroupChat) {
+        if (!chatUsers && contextMenu.props.items.length < 2 && isChatGroup(selectedChat.title)) {
             getChatUsers(globalStateInstance).then(() => rerenderContextMenu(pageBlock));
         } else {
             rerenderContextMenu(pageBlock);

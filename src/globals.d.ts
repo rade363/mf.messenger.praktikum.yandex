@@ -195,6 +195,8 @@ interface IMessage {
     imageUrl: string;
     time: string;
     status: "sent" | "read";
+    isGroup: boolean;
+    username: string;
 }
 
 interface IConversationMain {

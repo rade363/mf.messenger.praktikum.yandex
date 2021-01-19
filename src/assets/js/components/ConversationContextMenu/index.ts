@@ -2,6 +2,7 @@ import ContextMenu from "../ContextMenu/index";
 import ContextButton from "../ContextButton/index";
 import DeleteUsersList from "../DeleteUsersList/index";
 import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
+import { isChatGroup } from "../../modules/helpers";
 
 export default class ConversationContextMenu extends ContextMenu {
     constructor(props: IConversationActionsMenu) {
@@ -12,7 +13,7 @@ export default class ConversationContextMenu extends ContextMenu {
             },
             items: []
         };
-        if (selectedChat && selectedChat.title.indexOf("Group: ") === 0) {
+        if (selectedChat && isChatGroup(selectedChat.title)) {
             options.items.push(
                 new ContextButton({
                     text: "Add user",

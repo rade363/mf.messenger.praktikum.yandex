@@ -2,6 +2,9 @@
     {{#each messagesList}}
         <div class="message message_{{#if outgoing}}outgoing{{else}}incoming{{/if}}">
             <div class="message__bubble">
+                {{#if isGroup}}
+                    <span class="message__author">{{username}}</span>
+                {{/if}}
                 {{#notEmpty imageUrl}}
                     <img class="message_media" src="../assets/img/{{imageUrl}}" alt="image" />
                 {{else}}

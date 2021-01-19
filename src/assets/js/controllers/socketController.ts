@@ -1,6 +1,6 @@
 import globalStateInstance from "../modules/GlobalState/globalStateInstance";
 import { SOCKET_URL } from "../constants/index";
-import { getTime, isPlainObject } from "../modules/helpers";
+import { getTime, isPlainObject, createUsername, isChatGroup } from "../modules/helpers";
 import { scrollToBottomOfElement } from "../modules/domHelpers";
 import setConversationInfo from "./conversationInfoController";
 
@@ -81,13 +81,30 @@ function fixMessageObject(message: ISocketNewMessage, currentChat: IExistingChat
     };
 }
 
+function specifyUser(authorId: number, currentUser: IUser): string {
+    if (authorId === currentUser.id) {
+        return "";
+    }
+
+    const chatUsers: IUser[] = globalStateInstance.getProp("chatUsers");
+    if (!chatUsers) {
+        return "";
+    }
+
+    const author = chatUsers.find((user: IUser) => user.id === authorId);
+    return author ? createUsername(author) : "UNKNOWN";
+}
+
 function prepareMessage(message: ISocketMessage, currentUser: IUser): IMessage {
+    const selectedChat: IExistingChat = globalStateInstance.getProp("selectedChat");
     return {
         outgoing: message.user_id === currentUser.id,
         text: message.content,
         imageUrl: "",
         time: getTime(message.time),
-        status: "read"
+        status: "read",
+        isGroup: isChatGroup(selectedChat.title),
+        username: specifyUser(message.user_id, currentUser)
     };
 }
 

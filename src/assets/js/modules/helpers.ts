@@ -106,8 +106,12 @@ export function createUsername(user: IUser): string {
     return `${firstName}${firstName !== "" ? ` ${lastName}` : lastName}`;
 }
 
+export function isChatGroup(title: string): boolean {
+    return title.indexOf("Group:") === 0;
+}
+
 export function filterCurrentUserFromTitle(title: string, user: IUser): string {
-    if (title.indexOf("Group:") > -1) {
+    if (isChatGroup(title)) {
         return title;
     }
 
