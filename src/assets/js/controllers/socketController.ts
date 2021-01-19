@@ -50,7 +50,7 @@ export function openSocket(token: string, conversationPage: IBlock): void {
 
             renderMessages(allMessages, conversationPage, currentUser, isHistoryCollectedFirstTime);
 
-            if (isHistoryCollectedFirstTime) {
+            if (isHistoryCollectedFirstTime && data.length === 20) {
                 addScrollEventListener(conversationPage);
             }
         } else if (isPlainObject(data) && data.type) {
