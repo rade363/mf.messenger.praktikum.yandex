@@ -11,6 +11,7 @@ export function openSocket(token: string, conversationPage: IBlock): void {
 
     globalStateInstance.setProp("socketInstance", socket);
     globalStateInstance.setProp("messagesHistory", []);
+    globalStateInstance.setProp("historyLoaded", 0)
 
     socket.addEventListener("open", () => {
         console.info("[WS][INFO] Connected");
