@@ -38,7 +38,7 @@ export default function renderChatsList(): void {
             return {
                 avatar: chat.avatar ? createAPIUrl(chat.avatar) : NO_AVATAR_IMG,
                 title: filterCurrentUserFromTitle(chat.title, currentUser),
-                lastMessage: lastMessage.length > 10 ? `${lastMessage.slice(0, 7)}...` : lastMessage,
+                lastMessage: lastMessage.length > 20 ? `${lastMessage.slice(0, 17)}...` : lastMessage,
                 lastMessageBy: getLastMessageAuthor(chat),
                 time: chat.lastMessage ? getTime(chat.lastMessage.time) : "",
                 unread: chat.unread,

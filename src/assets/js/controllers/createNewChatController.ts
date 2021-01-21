@@ -31,6 +31,7 @@ export default function createChat(title: string, userIds?: number[]): void {
         .then((chat: IChat): void => {
             controller.addChat(chat);
             controller.selectedChat = controller.chatsList[controller.chatsList.length - 1];
+            controller.initSocket(controller.selectedChat);
             renderChat(controller.selectedChat);
         })
         .catch((error: XMLHttpRequest) => console.error("[ERROR] Could not create new chat", error));

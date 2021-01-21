@@ -152,7 +152,7 @@ export default class MessageForm extends Block {
                         newMessage,
                         attachment
                     };
-                    console.info("[INFO] New message submitted", formObject);
+                    console.info("[INFO] Media files are not supported by YP API, unfortunately... So only the message can be sent", formObject);
                     controller.sendMessage(newMessage);
                     this.input.element.value = "";
                 }
