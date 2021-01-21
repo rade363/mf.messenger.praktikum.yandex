@@ -9,6 +9,7 @@ import validateAuth from "../../controllers/authValidationController";
 import createExistingUser from "../../controllers/profileController";
 import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
 import initInterface from "../../controllers/initInterfaceController";
+import ChatsController from "../../modules/ChatsController/ChatsController";
 
 const router = new Router("#root");
 
@@ -16,12 +17,15 @@ function handleLogOutClick(event: Event): void {
     event.preventDefault();
 
     const authAPI = new AuthAPI();
+    const controller = new ChatsController();
 
     authAPI
         .logOut()
         .then((xhr: XMLHttpRequest) => {
             if (xhr.response === "OK") {
                 globalStateInstance.reset();
+
+                controller.reset();
 
                 router._currentRoute?.leave();
                 router.reset();

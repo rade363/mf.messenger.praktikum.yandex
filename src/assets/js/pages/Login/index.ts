@@ -76,6 +76,7 @@ export default class Login extends Block {
                             initInterface();
 
                             router.go("/chats/");
+                            router._currentRoute?._block?.componentDidMount();
                         })
                         .catch((error: XMLHttpRequest | Error) => {
                             console.error("[ERROR] Auth error", error);

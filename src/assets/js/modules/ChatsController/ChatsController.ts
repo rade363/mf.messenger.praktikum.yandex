@@ -115,7 +115,9 @@ export default class ChatsController {
 
     addSocketCloseEventListener(chat: IChat): void {
         chat.socket.addEventListener("close", (event: CloseEvent) => {
-            renderConversationInfo(chat, false);
+            if (this.selectedChat && this.selectedChat.id === chat.id) {
+                renderConversationInfo(chat, false);
+            }
 
             if (event.code === 1006) {
                 this.reopenSocket(chat);
@@ -161,7 +163,7 @@ export default class ChatsController {
     }
 
     addSocketMessageListener(chat: IChat): void {
-        chat.socket.addEventListener("message", (event: MessageEvent<any>) => {
+        chat.socket.addEventListener("message", (event: MessageEvent) => {
             const data: IUserConnected | ISocketNewMessage | ISocketMessage[] = JSON.parse(event.data);
             if (Array.isArray(data)) {
                 this.handleBulkMessages(chat, data);
@@ -169,7 +171,9 @@ export default class ChatsController {
                 if (data.type === "message") {
                     this.handleSingleMessage(chat, data);
                 } else if (data.type === "user connected") {
-                    renderConversationInfo(chat, true);
+                    if (this.selectedChat && this.selectedChat.id === chat.id) {
+                        renderConversationInfo(chat, true);
+                    }
                 }
             } else {
                 console.info("[WS][INFO] Unknown message", data);
@@ -237,5 +241,11 @@ export default class ChatsController {
                 type: "message"
             })
         );
+    }
+
+    reset(): void {
+        this.selectedChat = null;
+        this.chatsList = [];
+        this.wasInitialized = false;
     }
 }

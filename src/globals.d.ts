@@ -485,4 +485,5 @@ interface IChatsController {
     addChat: (newChat: IChat) => void;
     removeChat: (chatId: number) => void;
     sendMessage: (soclet: WebSocket, content: string) => void;
+    reset: () => void;
 }
