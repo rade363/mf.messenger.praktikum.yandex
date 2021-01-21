@@ -8,21 +8,22 @@ import Button from "../../components/Button/index";
 import Router from "../../modules/Router/Router";
 import handleUserSearch from "../../controllers/searchController";
 import validateAuth from "../../controllers/authValidationController";
-import { getExistingChats, handleExistingChats, renderChatsList } from "../../controllers/existingChatsListController";
 import createNewGroupChatTitleModal from "../../controllers/newGroupChatTItleModalController";
 import createAddUserModal from "../../controllers/addUserModalController";
 import createDeleteUserModalController from "../../controllers/deleteUserFromGroupChatModalController";
 import createDeleteConversationModal from "../../controllers/deleteConversationModalController";
 import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
+import ChatsController from "../../modules/ChatsController/ChatsController";
 
 const router = new Router("#root");
+const chatsControllerInstance = new ChatsController();
 
 export default class Conversation extends Block {
     constructor() {
         const createGroupChatModal = createNewGroupChatTitleModal();
-        const addUserModal = createAddUserModal(globalStateInstance);
-        const deleteUserModal = createDeleteUserModalController(globalStateInstance);
-        const deleteConversationModal: IBlock = createDeleteConversationModal(globalStateInstance, router);
+        const addUserModal = createAddUserModal();
+        const deleteUserModal = createDeleteUserModalController();
+        const deleteConversationModal: IBlock = createDeleteConversationModal();
         super("div", {
             attributes: {
                 class: "wrapper"
@@ -88,15 +89,7 @@ export default class Conversation extends Block {
                 if (!isAuthenticated) {
                     throw new Error("Not authorized");
                 }
-                return getExistingChats();
-            })
-            .then((existingChats: IExistingChat[]) => handleExistingChats(existingChats))
-            .then((existingChatsList: IChatListItem[]) => {
-                const selectedChat: IExistingChat = globalStateInstance.getProp("selectedChat");
-                if (selectedChat) {
-                    renderChatsList(existingChatsList, this, selectedChat);
-                } else {
-                    renderChatsList(existingChatsList, this);
+                if (!chatsControllerInstance.selectedChat) {
                     throw new Error("No chat selected");
                 }
             })

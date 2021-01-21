@@ -20,7 +20,7 @@ export default class ChatsAPI {
         return chatsAPIInstance.delete("", { data });
     };
 
-    listChatUsers = (chatId: number): Promise<XMLHttpRequest> => {
+    getChatUsers = (chatId: number): Promise<XMLHttpRequest> => {
         return chatsAPIInstance.get(`/${chatId}/users`, {});
     };
 
@@ -32,7 +32,11 @@ export default class ChatsAPI {
         return chatsAPIInstance.delete("/users", { data });
     };
 
-    connectToChat = (chatId: number): Promise<XMLHttpRequest> => {
+    getToken = (chatId: number): Promise<XMLHttpRequest> => {
         return chatsAPIInstance.post(`/token/${chatId}`);
+    };
+
+    collectNewMessagesCount = (chatId: number): Promise<XMLHttpRequest> => {
+        return chatsAPIInstance.get(`/new/${chatId}`);
     };
 }

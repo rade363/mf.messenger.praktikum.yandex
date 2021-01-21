@@ -7,11 +7,13 @@ import Button from "../../components/Button/index";
 import Router from "../../modules/Router/Router";
 import handleUserSearch from "../../controllers/searchController";
 import validateAuth from "../../controllers/authValidationController";
-import { getExistingChats, handleExistingChats, renderChatsList } from "../../controllers/existingChatsListController";
+import renderChatsList from "../../controllers/renderChatsListController";
 import createNewGroupChatTitleModal from "../../controllers/newGroupChatTItleModalController";
 import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
+import ChatsController from "../../modules/ChatsController/ChatsController";
 
 const router = new Router("#root");
+const chatsControllerInstance = new ChatsController();
 
 export default class Chats extends Block {
     constructor() {
@@ -71,10 +73,17 @@ export default class Chats extends Block {
                 if (!isAuthenticated) {
                     throw new Error("Not authorized");
                 }
-                return getExistingChats();
+                if (chatsControllerInstance.wasInitialized) {
+                    return true;
+                }
+                return chatsControllerInstance.init();
             })
-            .then((existingChats: IExistingChat[]) => handleExistingChats(existingChats))
-            .then((existingChatsList: IChatListItem[]) => renderChatsList(existingChatsList, this))
+            .then((wasInitialized: boolean) => {
+                if (!wasInitialized) {
+                    throw new Error("Could not initialize chats controller");
+                }
+                renderChatsList();
+            })
             .catch((error: XMLHttpRequest | Error) => {
                 console.error("[ERROR] Could not collect chats", error);
                 if (error instanceof Error) {

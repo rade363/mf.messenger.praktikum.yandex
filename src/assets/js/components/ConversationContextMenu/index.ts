@@ -1,12 +1,13 @@
 import ContextMenu from "../ContextMenu/index";
 import ContextButton from "../ContextButton/index";
 import DeleteUsersList from "../DeleteUsersList/index";
-import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
 import { isChatGroup } from "../../modules/helpers";
+import ChatsController from "../../modules/ChatsController/ChatsController";
 
 export default class ConversationContextMenu extends ContextMenu {
     constructor(props: IConversationActionsMenu) {
-        const selectedChat: IExistingChat = globalStateInstance.getProp("selectedChat");
+        const controller = new ChatsController();
+        const { selectedChat } = controller;
         const options: IContextMenuProps = {
             attributes: {
                 class: "conversation__context"
@@ -45,14 +46,18 @@ export default class ConversationContextMenu extends ContextMenu {
                                 this.hide();
                                 props.setIsConversationActionsMenuOpen(false);
 
-                                const chatUsers = globalStateInstance.getProp("chatUsers");
-                                const oldDeleteUserListProps = props.deleteUserModal.props.child.props;
-                                const child = new DeleteUsersList({
-                                    ...oldDeleteUserListProps,
-                                    users: chatUsers
-                                });
-                                props.deleteUserModal.setProps({ child });
-                                props.deleteUserModal.show();
+                                const chatsController = new ChatsController();
+                                const chat = chatsController.selectedChat;
+                                if (chat) {
+                                    const chatUsers = chat.users;
+                                    const oldDeleteUserListProps = props.deleteUserModal.props.child.props;
+                                    const child = new DeleteUsersList({
+                                        ...oldDeleteUserListProps,
+                                        users: chatUsers
+                                    });
+                                    props.deleteUserModal.setProps({ child });
+                                    props.deleteUserModal.show();
+                                }
                             }
                         ]
                     ]

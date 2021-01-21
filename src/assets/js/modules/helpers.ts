@@ -110,25 +110,25 @@ export function isChatGroup(title: string): boolean {
     return title.indexOf("Group:") === 0;
 }
 
-export function filterCurrentUserFromTitle(title: string, user: IUser): string {
+export function filterCurrentUserFromTitle(title: string, currentUser: IUser): string {
     if (isChatGroup(title)) {
         return title;
     }
 
-    if (typeof user.display_name === "string" && title.indexOf(user.display_name) > -1) {
-        return title.replace(user.display_name, "").trim();
+    if (typeof currentUser.display_name === "string" && title.indexOf(currentUser.display_name) > -1) {
+        return title.replace(currentUser.display_name, "").trim();
     }
 
-    if (title.indexOf(user.login) > -1) {
-        return title.replace(user.login, "").trim();
+    if (title.indexOf(currentUser.login) > -1) {
+        return title.replace(currentUser.login, "").trim();
     }
 
     let temp = title;
-    if (user.first_name && temp.indexOf(user.first_name) > -1) {
-        temp = temp.replace(user.first_name, "").trim();
+    if (currentUser.first_name && temp.indexOf(currentUser.first_name) > -1) {
+        temp = temp.replace(currentUser.first_name, "").trim();
     }
-    if (user.second_name && temp.indexOf(user.second_name) > -1) {
-        temp = temp.replace(user.second_name, "").trim();
+    if (currentUser.second_name && temp.indexOf(currentUser.second_name) > -1) {
+        temp = temp.replace(currentUser.second_name, "").trim();
     }
     return temp;
 }

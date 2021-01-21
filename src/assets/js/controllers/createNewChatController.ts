@@ -1,46 +1,37 @@
 import ChatsAPI from "../api/chats-api";
-import Router from "../modules/Router/Router";
-import { handleExistingChats, renderChatsList } from "./existingChatsListController";
-import setConversationInfo from "./conversationInfoController";
 import addUsersToChat from "./addUsersController";
-import globalStateInstance from "../modules/GlobalState/globalStateInstance";
-import connectToChat from "./connectToChatController";
+import ChatsController, { collectChatPrerequisites } from "../modules/ChatsController/ChatsController";
+import renderChat from "./renderChatController";
 
 const chatsAPI = new ChatsAPI();
-const router = new Router("#root");
+const controller = new ChatsController();
 
 export default function createChat(title: string, userIds?: number[]): void {
     chatsAPI
         .createChat({ title })
-        .then(() => chatsAPI.listChats())
         .then(
-            (xhr: XMLHttpRequest): Promise<boolean> => {
-                const refreshedExistingChats: IExistingChat[] = JSON.parse(xhr.response);
-                globalStateInstance.setProp("existingChats", refreshedExistingChats);
-                const createdChat = refreshedExistingChats.find((chat) => chat.title === title);
-                if (!createdChat) {
-                    throw new Error("[ERROR] Chat was not created");
-                }
-                globalStateInstance.setProp("selectedChat", createdChat);
-
+            (xhr: XMLHttpRequest): Promise<ICreatedChatResponse> => {
+                const newChatResponse: ICreatedChatResponse = JSON.parse(xhr.response);
                 if (userIds) {
-                    return addUsersToChat(userIds, createdChat.id);
+                    return addUsersToChat(userIds, newChatResponse.id).then(() => newChatResponse);
                 }
-                return Promise.resolve(false);
+                return Promise.resolve(newChatResponse);
             }
         )
-        .then((): void => {
-            router.go("/conversation/");
-            if (router._currentRoute && router._currentRoute._block) {
-                const pageBlock = router._currentRoute._block;
-                const existingChats = globalStateInstance.getProp("existingChats");
-                const selectedChat = globalStateInstance.getProp("selectedChat");
-                const currentUser = globalStateInstance.getProp("currentUser");
-                const existingChatsList = handleExistingChats(existingChats);
-                setConversationInfo(selectedChat, pageBlock, currentUser, false);
-                connectToChat(pageBlock).catch((error) => console.error("[ERROR] Could not connect to chat", error));
-                renderChatsList(existingChatsList, pageBlock, selectedChat);
+        .then(
+            (newChatResponse: ICreatedChatResponse): Promise<IChat> => {
+                const createdChat: IExistingChat = {
+                    ...newChatResponse,
+                    title,
+                    avatar: ""
+                };
+                return collectChatPrerequisites(createdChat);
             }
+        )
+        .then((chat: IChat): void => {
+            controller.addChat(chat);
+            controller.selectedChat = controller.chatsList[controller.chatsList.length - 1];
+            renderChat(controller.selectedChat);
         })
         .catch((error: XMLHttpRequest) => console.error("[ERROR] Could not create new chat", error));
 }

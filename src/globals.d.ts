@@ -389,10 +389,31 @@ interface ISearchRequestProps {
     login: string;
 }
 
+interface ICreatedChatResponse {
+    id: number;
+}
+
 interface IExistingChat {
     id: number;
     title: string;
     avatar: string;
+}
+
+interface IChat extends IExistingChat {
+    unread: number;
+    token: string;
+    socket: WebSocket;
+    users: IUser[];
+    messages: ISocketMessage[];
+    lastMessage: ISocketMessage | null;
+    totalHistory: number;
+    wasInitialized: boolean;
+}
+
+interface IAllSettledResponse {
+    status: "fulfilled" | "rejected";
+    value?: any;
+    reason?: any;
 }
 
 interface IGlobalState {
@@ -443,4 +464,25 @@ interface ISocketNewMessage {
     time: string;
     content: string;
     type: "message";
+}
+
+interface IChatsController {
+    chatsList: IChat[];
+    selectedChat: null | IChat;
+    wasInitialized: boolean;
+    getHistory: (socket: WebSocket, page: number) => void;
+    openSocket: (chat: IChat) => void;
+    addSocketCloseEventListener: (chat: IChat) => void;
+    handleBulkMessages: (chat: IChat, newMessages: ISocketMessage[]) => void;
+    fixMessageObject: (message: ISocketNewMessage, chatId: number) => void;
+    handleSingleMessage: (chat: IChat, newMessages: ISocketNewMessage) => void;
+    addSocketMessageListener: (chat: IChat) => void;
+    addSocketErrorListener: (chat: IChat) => void;
+    initSocket: (chat: IChat) => void;
+    init: () => Promise<boolean>;
+    getChat: (chatId: number) => IChat | undefined;
+    setSelectedChat: (selectedChat: IChat) => void;
+    addChat: (newChat: IChat) => void;
+    removeChat: (chatId: number) => void;
+    sendMessage: (soclet: WebSocket, content: string) => void;
 }

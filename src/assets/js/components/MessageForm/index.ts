@@ -8,13 +8,15 @@ import AttachmentContextButton from "../AttachmentContextButton/index";
 import useState from "../../modules/state";
 import { isXssPresent } from "../../modules/helpers";
 import { setImageUpload } from "../../modules/domHelpers";
-import createMessage from "../../controllers/createMessageController";
+import ChatsController from "../../modules/ChatsController/ChatsController";
 
 const state = {
     isAttachmentMenuOpen: useState(false),
     newMessage: useState(""),
     attachment: useState({})
 };
+
+const controller = new ChatsController();
 
 export default class MessageForm extends Block {
     constructor() {
@@ -151,7 +153,7 @@ export default class MessageForm extends Block {
                         attachment
                     };
                     console.info("[INFO] New message submitted", formObject);
-                    createMessage(newMessage);
+                    controller.sendMessage(newMessage);
                     this.input.element.value = "";
                 }
             }

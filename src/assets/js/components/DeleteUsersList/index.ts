@@ -2,7 +2,7 @@ import Block from "../../modules/Block/Block";
 import compile from "../../modules/templator/templator";
 import template from "./DeleteUsersList.handlebars";
 import Button from "../Button/index";
-import handleDeleteUserClick from "../../controllers/excludeUserController";
+import handleDeleteUserClick from "../../controllers/deleteUserFromChatController";
 import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
 
 export default class DeleteUsersList extends Block {

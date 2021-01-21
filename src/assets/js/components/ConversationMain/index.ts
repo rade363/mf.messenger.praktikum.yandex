@@ -4,8 +4,6 @@ import template from "./ConversationMain.handlebars";
 import MessageForm from "../MessageForm/index";
 import ConversationUserInfo from "../ConversationUserInfo/index";
 import MessagesList from "../MessagesList/index";
-import getChatUsers from "../../controllers/collectChatUsersController";
-import globalStateInstance from "../../modules/GlobalState/globalStateInstance";
 import ConversationActionsButton from "../ConversationActionsButton/index";
 
 export default class ConversationMain extends Block {
@@ -24,13 +22,6 @@ export default class ConversationMain extends Block {
             messagesList: new MessagesList({ messagesList: props.messagesList }),
             messageForm: new MessageForm()
         });
-    }
-
-    componentDidMount(): void {
-        const selectedChat = globalStateInstance.getProp("selectedChat");
-        if (selectedChat) {
-            getChatUsers(globalStateInstance);
-        }
     }
 
     render(): Element | null {
