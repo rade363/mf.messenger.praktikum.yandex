@@ -22,7 +22,7 @@ export default class ServerError extends ErrorPage {
                         "click",
                         (event: Event) => {
                             event.preventDefault();
-                            router.back();
+                            router.go("/chats/");
                         }
                     ]
                 ]

@@ -22,7 +22,7 @@ export default class NotFound extends ErrorPage {
                         "click",
                         (event: Event) => {
                             event.preventDefault();
-                            router.back();
+                            router.go("/chats/");
                         }
                     ]
                 ]
