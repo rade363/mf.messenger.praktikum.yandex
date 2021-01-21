@@ -7,12 +7,13 @@
     "start": "node index.js",
     "dev": "webpack --watch --mode development",
     "pack": "webpack --mode production",
-    "build": "npm-run-all pack moveimages",
+    "build": "npm-run-all pack move:*",
     "test": "./node_modules/.bin/mocha",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "format": "prettier \"src/**/*.ts\" --ignore-path ./.prettierignore --write",
-    "moveimages": "cp -R src/assets/img static/assets"
+    "move:images": "cp -R src/assets/img static/assets",
+    "move:html": "cp src/index.html static/"
   },
   "repository": {
     "type": "git",
