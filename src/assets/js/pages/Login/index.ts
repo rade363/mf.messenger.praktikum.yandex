@@ -2,7 +2,7 @@ import Block from "../../modules/Block/Block";
 import template from "./template.handlebars";
 import compile from "../../modules/templator/templator";
 import Form from "../../components/Form/index";
-import { getResponseErrorText } from "../../modules/helpers";
+import { getResponseErrorText } from "../../modules/utils";
 import Router from "../../modules/Router/Router";
 import AuthAPI from "../../api/auth-api";
 import initInterface from "../../controllers/initInterfaceController";

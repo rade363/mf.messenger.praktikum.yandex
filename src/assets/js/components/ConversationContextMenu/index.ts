@@ -1,7 +1,7 @@
 import ContextMenu from "../ContextMenu/index";
 import ContextButton from "../ContextButton/index";
 import DeleteUsersList from "../DeleteUsersList/index";
-import { isChatGroup } from "../../modules/helpers";
+import { isChatGroup } from "../../modules/utils";
 import ChatsController from "../../modules/ChatsController/ChatsController";
 
 export default class ConversationContextMenu extends ContextMenu {

@@ -1,7 +1,7 @@
 import ChatsAPI from "../../api/chats-api";
 import globalStateInstance from "../GlobalState/globalStateInstance";
 import { SOCKET_URL } from "../../constants/index";
-import { isPlainObject } from "../helpers";
+import { isPlainObject } from "../utils";
 import renderChatsList from "../../controllers/renderChatsListController";
 import renderMessages from "../../controllers/renderMessagesController";
 import renderConversationInfo from "../../controllers/renderConversationInfoController";

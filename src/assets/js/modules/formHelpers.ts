@@ -1,4 +1,4 @@
-import { isEmpty, isXssPresent, isEmailValid } from "./helpers";
+import { isEmpty, isXssPresent, isEmailValid } from "./utils";
 
 function addClass(inputField: TObjectType, className: string): void {
     const { attributes } = inputField.props;

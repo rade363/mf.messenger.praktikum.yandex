@@ -2,7 +2,7 @@ import Router from "../modules/Router/Router";
 import ChatsController from "../modules/ChatsController/ChatsController";
 import globalStateInstance from "../modules/GlobalState/globalStateInstance";
 import { scrollToBottomOfElement } from "../modules/domHelpers";
-import { createUsername, getTime, isChatGroup } from "../modules/helpers";
+import { createUsername, getTime, isChatGroup } from "../modules/utils";
 
 function specifyUser(authorId: number, currentUser: IUser, chatUsers: IUser[]): string {
     if (authorId === currentUser.id) {

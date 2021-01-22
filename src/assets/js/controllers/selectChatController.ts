@@ -1,7 +1,7 @@
 import globalStateInstance from "../modules/GlobalState/globalStateInstance";
 import createChat from "./createNewChatController";
 import ChatsController from "../modules/ChatsController/ChatsController";
-import { createUsername } from "../modules/helpers";
+import { createUsername } from "../modules/utils";
 import renderChat from "./renderChatController";
 
 const chatsController = new ChatsController();

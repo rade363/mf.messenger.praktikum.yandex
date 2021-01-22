@@ -1,5 +1,5 @@
 import EventBus from "../EventBus";
-import { generateUniqueId, areObjectsEqual, createObjectWithoutPrivateProps } from "../helpers";
+import { generateUniqueId, areObjectsEqual, createObjectWithoutPrivateProps } from "../utils";
 import connectBlockWithDom from "../domConnector";
 
 export default class Block implements IBlock {

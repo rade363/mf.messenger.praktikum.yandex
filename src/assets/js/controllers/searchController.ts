@@ -1,6 +1,6 @@
 import UserAPI from "../api/user-api";
 import { createAPIUrl } from "../modules/domHelpers";
-import { createUsername } from "../modules/helpers";
+import { createUsername } from "../modules/utils";
 import { NO_AVATAR_IMG } from "../constants/index";
 import ChatList from "../components/ChatList/index";
 

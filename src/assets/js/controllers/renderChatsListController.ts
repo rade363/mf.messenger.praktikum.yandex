@@ -1,6 +1,6 @@
 import ChatList from "../components/ChatList/index";
 import { createAPIUrl } from "../modules/domHelpers";
-import { filterCurrentUserFromTitle, createUsername, getTime } from "../modules/helpers";
+import { filterCurrentUserFromTitle, createUsername, getTime } from "../modules/utils";
 import { NO_AVATAR_IMG } from "../constants/index";
 import globalStateInstance from "../modules/GlobalState/globalStateInstance";
 import ChatsController from "../modules/ChatsController/ChatsController";

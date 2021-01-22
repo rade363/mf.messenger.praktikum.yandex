@@ -6,7 +6,7 @@ import Input from "../Input/index";
 import ContextMenu from "../ContextMenu/index";
 import AttachmentContextButton from "../AttachmentContextButton/index";
 import useState from "../../modules/state";
-import { isXssPresent } from "../../modules/helpers";
+import { isXssPresent } from "../../modules/utils";
 import { setImageUpload } from "../../modules/domHelpers";
 import ChatsController from "../../modules/ChatsController/ChatsController";
 

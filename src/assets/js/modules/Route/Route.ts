@@ -1,4 +1,4 @@
-import { isEqual } from "../helpers";
+import { isEqual } from "../utils";
 import { renderInterface } from "../domHelpers";
 
 export default class Route {

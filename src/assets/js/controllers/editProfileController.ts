@@ -1,6 +1,6 @@
 import Form from "../components/Form/index";
 import globalStateInstance from "../modules/GlobalState/globalStateInstance";
-import { getResponseErrorText } from "../modules/helpers";
+import { getResponseErrorText } from "../modules/utils";
 import { createInputField, setErrorTextForInputField } from "../modules/formHelpers";
 import { createAPIUrl } from "../modules/domHelpers";
 import createExistingUser from "./profileController";

@@ -1,4 +1,4 @@
-import { filterCurrentUserFromTitle } from "../modules/helpers";
+import { filterCurrentUserFromTitle } from "../modules/utils";
 import globalStateInstance from "../modules/GlobalState/globalStateInstance";
 import Router from "../modules/Router/Router";
 

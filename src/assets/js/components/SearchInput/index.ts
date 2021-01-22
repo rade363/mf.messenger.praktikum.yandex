@@ -3,7 +3,7 @@ import compile from "../../modules/templator/templator";
 import template from "./SearchInput.handlebars";
 import Input from "../Input/index";
 import useState from "../../modules/state";
-import { isXssPresent } from "../../modules/helpers";
+import { isXssPresent } from "../../modules/utils";
 
 const state: ISearchState = {
     searchKey: useState("")

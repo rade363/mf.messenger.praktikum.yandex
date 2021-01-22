@@ -3,7 +3,7 @@ import template from "./template.handlebars";
 import compile from "../../modules/templator/templator";
 import BackButton from "../../components/BackButton/index";
 import Form from "../../components/Form/index";
-import { getResponseErrorText } from "../../modules/helpers";
+import { getResponseErrorText } from "../../modules/utils";
 import { setErrorTextForInputField } from "../../modules/formHelpers";
 import Router from "../../modules/Router/Router";
 import AuthAPI from "../../api/auth-api";

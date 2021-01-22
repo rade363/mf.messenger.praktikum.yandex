@@ -1,7 +1,7 @@
 import Double from "../components/Double/index";
 import useState from "../modules/state";
 import ImageInput from "../components/ImageInput/index";
-import { isEmpty } from "../modules/helpers";
+import { isEmpty } from "../modules/utils";
 import { NO_IMAGE_IMG } from "../constants/index";
 import { createAPIUrl, setImageUpload } from "../modules/domHelpers";
 import Input from "../components/Input/index";

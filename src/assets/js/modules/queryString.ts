@@ -1,4 +1,4 @@
-import { isPlainObject, isArray } from "./helpers";
+import { isPlainObject, isArray } from "./utils";
 
 function isArrayOrObject(value: unknown): value is [] | TObjectType {
     return isPlainObject(value) || isArray(value);
