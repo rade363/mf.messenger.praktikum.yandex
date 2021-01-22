@@ -45,10 +45,15 @@
     display: flex;
   }
 
-  &-list {
+  &__list {
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
+  }
+
+  &-list {
+    display: flex;
+    flex-direction: column;
 
     &__item {
       display: flex;
