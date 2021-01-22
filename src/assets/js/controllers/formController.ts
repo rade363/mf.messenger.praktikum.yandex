@@ -48,7 +48,11 @@ function createAttributes(className: string, type: string, name: string, value: 
         value
     };
     if (type === "tel") {
-        return Object.assign(attributes, { pattern: "[0-9]+" });
+        return Object.assign(attributes, {
+            pattern: "\\+?[0-9]+",
+            placeholder: "+79991112233",
+            title: "+79991112233"
+        });
     }
     return attributes;
 }
