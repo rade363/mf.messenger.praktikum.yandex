@@ -24,20 +24,17 @@ function handleAvatarSubmit(avatar: File, imageInput: IBlock): void {
 
     avatarAPI
         .changeAvatar(formData)
-        .then((xhr: XMLHttpRequest) => {
-            if (xhr.status === 200) {
-                const userDetails = JSON.parse(xhr.response);
-                globalStateInstance.setProp("currentUser", userDetails);
+        .then((userDetails: IAvatarResponse) => {
+            globalStateInstance.setProp("currentUser", userDetails);
 
-                const prevProps = imageInput.props;
-                imageInput.setProps({
-                    ...prevProps,
-                    src: createAPIUrl(userDetails.avatar)
-                });
-                updateProfilePageBlock(userDetails);
-            }
+            const prevProps = imageInput.props;
+            imageInput.setProps({
+                ...prevProps,
+                src: createAPIUrl(userDetails.avatar)
+            });
+            updateProfilePageBlock(userDetails);
         })
-        .catch((error: XMLHttpRequest) => console.error("[ERROR] Avatar has not been updated", JSON.parse(error.response)));
+        .catch((error: XMLHttpRequest) => console.error("[ERROR] Avatar has not been updated", error));
 }
 
 function createAvatarField(currentUser: IUser): IAvatarInput {
@@ -116,8 +113,7 @@ export default function createProfileForm(currentUser: IUser): IBlock {
         onSubmit: (formObject: IUpdateUserProps): void => {
             userAPI
                 .editProfile(formObject)
-                .then((xhr: XMLHttpRequest) => {
-                    const userDetails = JSON.parse(xhr.response);
+                .then((userDetails: IUser) => {
                     globalStateInstance.setProp("currentUser", userDetails);
 
                     updateProfilePageBlock(userDetails);

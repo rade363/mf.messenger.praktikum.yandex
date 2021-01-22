@@ -13,15 +13,15 @@ function isPromiseFulfilled(response: IAllSettledResponse): boolean {
     return response.status === "fulfilled" && response.value !== undefined;
 }
 
-function getParsedResponse(response: IAllSettledResponse): any {
-    const payload: XMLHttpRequest = response.value;
-    return JSON.parse(payload.response);
-}
+// function getParsedResponse(response: IAllSettledResponse): any { // TODO: check this
+//     const payload: XMLHttpRequest = response.value;
+//     return JSON.parse(payload.response);
+// }
 
 function getUnreadMessagesAmount(payload: IAllSettledResponse): number {
     if (isPromiseFulfilled(payload)) {
-        const response = getParsedResponse(payload);
-        if (typeof response.unread_count === "number") {
+        const response: IUnreadMessagesResponse = payload.value;
+        if (response.unread_count !== undefined) {
             return response.unread_count;
         }
     }
@@ -30,8 +30,8 @@ function getUnreadMessagesAmount(payload: IAllSettledResponse): number {
 
 function getTokenResponse(payload: IAllSettledResponse): string {
     if (isPromiseFulfilled(payload)) {
-        const response = getParsedResponse(payload);
-        if (typeof response.token === "string") {
+        const response: ITokenResponse = payload.value;
+        if (response.token) {
             return response.token;
         }
     }
@@ -42,7 +42,7 @@ function mergeCollectedResponses(responses: IAllSettledResponse[], chat: IExisti
     const [newMessageResponse, tokenResponse, chatUsersResponse] = responses;
     const unread: number = getUnreadMessagesAmount(newMessageResponse);
     const token: string = getTokenResponse(tokenResponse);
-    const users: IUser[] = isPromiseFulfilled(chatUsersResponse) ? getParsedResponse(chatUsersResponse) : [];
+    const users: IUser[] = isPromiseFulfilled(chatUsersResponse) ? chatUsersResponse.value : [];
     const currentUser: IUser = globalStateInstance.getProp("currentUser");
     const socket: WebSocket = new WebSocket(`${SOCKET_URL}/${currentUser.id}/${chat.id}/${token}`);
     return {
@@ -197,7 +197,6 @@ export default class ChatsController {
     init(): Promise<boolean> {
         return chatsAPI
             .listChats()
-            .then((xhr: XMLHttpRequest): IExistingChat[] => JSON.parse(xhr.response))
             .then(collectChatsPrerequisites)
             .then((chats: IChat[]): true => {
                 this.chatsList = chats;

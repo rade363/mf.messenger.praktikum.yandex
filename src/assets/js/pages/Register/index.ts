@@ -92,15 +92,13 @@ export default class Register extends Block {
                 onSubmit: (formObject: ISignUpProps): void => {
                     authAPI
                         .signUp(formObject)
-                        .then((xhr: XMLHttpRequest) => {
-                            const response = JSON.parse(xhr.response);
-                            if (response.id && typeof response.id === "number") {
+                        .then((createdUser: ISignUpResponse) => {
+                            if (createdUser.id) {
                                 return authAPI.getCurrentUser();
                             }
                             throw new Error("Could not create user");
                         })
-                        .then((xhr: XMLHttpRequest) => {
-                            const userDetails = JSON.parse(xhr.response);
+                        .then((userDetails: IUser) => {
                             globalStateInstance.setProp("currentUser", userDetails);
                             router.go("/chats/");
                         })
@@ -128,8 +126,7 @@ export default class Register extends Block {
     componentDidMount(): void {
         authAPI
             .getCurrentUser()
-            .then((xhr: XMLHttpRequest) => {
-                const currentUser = JSON.parse(xhr.response);
+            .then((currentUser: IUser) => {
                 globalStateInstance.setProp("currentUser", currentUser);
                 router.go("/chats/");
             })

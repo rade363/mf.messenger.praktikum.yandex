@@ -61,14 +61,13 @@ export default class Login extends Block {
                 onSubmit: (formObject: ISignIpProps) => {
                     authAPI
                         .signIn(formObject)
-                        .then((xhr: XMLHttpRequest) => {
-                            if (xhr.response === "OK") {
+                        .then((response: TOkResponse) => {
+                            if (response === "OK") {
                                 return authAPI.getCurrentUser();
                             }
                             throw new Error("Could not log in");
                         })
-                        .then((xhr: XMLHttpRequest) => {
-                            const userDetails = JSON.parse(xhr.response);
+                        .then((userDetails: IUser) => {
                             globalStateInstance.setProp("currentUser", userDetails);
 
                             router._currentRoute?.leave();
@@ -102,8 +101,7 @@ export default class Login extends Block {
     componentDidMount(): void {
         authAPI
             .getCurrentUser()
-            .then((xhr: XMLHttpRequest) => {
-                const userDetails = JSON.parse(xhr.response);
+            .then((userDetails: IUser) => {
                 globalStateInstance.setProp("currentUser", userDetails);
                 router.go("/chats/");
             })

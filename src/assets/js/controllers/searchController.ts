@@ -22,8 +22,7 @@ function createFoundUserPreviewObject(user: IUser): IChatListItem {
 export default function handleUserSearch(login: string, context: IBlock): void {
     userAPI
         .searchUserByLogin({ login })
-        .then((xhr: XMLHttpRequest) => {
-            const response: IUser[] = JSON.parse(xhr.response);
+        .then((response: IUser[]) => {
             const searchResults = response.map(createFoundUserPreviewObject);
             const oldProps = context.props.chatList.props;
             const chatList = new ChatList({ ...oldProps, items: searchResults });

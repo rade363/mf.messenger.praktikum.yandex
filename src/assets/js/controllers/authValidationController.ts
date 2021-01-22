@@ -10,8 +10,7 @@ export default function validateAuth(globalStateInstance: IGlobalState): Promise
 
     return authAPI
         .getCurrentUser()
-        .then((xhr: XMLHttpRequest) => {
-            const currentUser = JSON.parse(xhr.response);
+        .then((currentUser: IUser) => {
             globalStateInstance.setProp("currentUser", currentUser);
             return true;
         })

@@ -82,8 +82,8 @@ export default class ProfileChangePassword extends Block {
                 onSubmit: (formObject: IUpdatePasswordProps): void => {
                     userAPI
                         .changePassword(formObject)
-                        .then((xhr: XMLHttpRequest) => {
-                            if (xhr.response === "OK") {
+                        .then((response: TOkResponse) => {
+                            if (response === "OK") {
                                 router.go("/profile/");
                                 router.refresh("/profile-change-password/");
                             }

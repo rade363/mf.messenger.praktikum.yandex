@@ -23,19 +23,19 @@ export default class HTTPRequest {
         }
     }
 
-    GET(url: string, options: IRequestOptions = {}): Promise<XMLHttpRequest> {
+    GET(url: string, options: IRequestOptions = {}): Promise<any> {
         return this.request(url, { ...options, method: METHODS.GET }, options.timeout);
     }
 
-    POST(url: string, options: IRequestOptions = {}): Promise<XMLHttpRequest> {
+    POST(url: string, options: IRequestOptions = {}): Promise<any> {
         return this.request(url, { ...options, method: METHODS.POST }, options.timeout);
     }
 
-    PUT(url: string, options: IRequestOptions = {}): Promise<XMLHttpRequest> {
+    PUT(url: string, options: IRequestOptions = {}): Promise<any> {
         return this.request(url, { ...options, method: METHODS.PUT }, options.timeout);
     }
 
-    DELETE(url: string, options: IRequestOptions = {}): Promise<XMLHttpRequest> {
+    DELETE(url: string, options: IRequestOptions = {}): Promise<any> {
         return this.request(url, { ...options, method: METHODS.DELETE }, options.timeout);
     }
 
@@ -47,7 +47,7 @@ export default class HTTPRequest {
 
     delete = this.DELETE;
 
-    request(url: string, options: IFetchRequestOptions, timeout = 5000): Promise<XMLHttpRequest> {
+    request(url: string, options: IFetchRequestOptions, timeout = 5000): Promise<any> {
         const { method, headers, data } = options;
         const realUrl = method === METHODS.GET && data !== undefined ? `${url}?${queryString(data)}` : url;
         const fullUrl = `${this.baseUrl}${realUrl}`;
@@ -69,7 +69,12 @@ export default class HTTPRequest {
 
             function handleResponse() {
                 if (`${xhr.status}`[0] === "2") {
-                    resolve(xhr);
+                    try {
+                        const parsedResponse = JSON.parse(xhr.response);
+                        resolve(parsedResponse);
+                    } catch {
+                        resolve(xhr.response);
+                    }
                     return;
                 }
                 reject(xhr);
@@ -106,7 +111,7 @@ export default class HTTPRequest {
     }
 }
 
-export function fetchWithRetry(url: string, options: IFetchWithRetryOptions): Promise<XMLHttpRequest> | never {
+export function fetchWithRetry(url: string, options: IFetchWithRetryOptions): Promise<any> | never {
     const { retries, method } = options;
     const request = new HTTPRequest();
     const requestMethod = request[method];

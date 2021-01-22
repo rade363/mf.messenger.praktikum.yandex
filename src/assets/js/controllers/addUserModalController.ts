@@ -48,8 +48,7 @@ export default function createAddUserModal(): IBlock {
                 userAPI
                     .searchUserByLogin(formObject)
                     .then(
-                        (xhr: XMLHttpRequest): Promise<boolean> => {
-                            const searchResults = JSON.parse(xhr.response);
+                        (searchResults: IUser[]): Promise<boolean> => {
                             const relevantUser = searchResults.find((foundUser: IUser) => foundUser.login === formObject.login);
                             if (!relevantUser) {
                                 throw new Error(`User ${formObject.login} was not found`);

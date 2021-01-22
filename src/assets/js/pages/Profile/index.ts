@@ -21,8 +21,8 @@ function handleLogOutClick(event: Event): void {
 
     authAPI
         .logOut()
-        .then((xhr: XMLHttpRequest) => {
-            if (xhr.response === "OK") {
+        .then((response: TOkResponse) => {
+            if (response === "OK") {
                 globalStateInstance.reset();
 
                 controller.reset();

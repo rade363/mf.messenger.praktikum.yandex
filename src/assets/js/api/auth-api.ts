@@ -8,19 +8,19 @@ const authAPIInstance = new HTTPRequest({
 });
 
 export default class AuthAPI {
-    signUp = (data: ISignUpProps): Promise<XMLHttpRequest> => {
+    signUp = (data: ISignUpProps): Promise<ISignUpResponse> => {
         return authAPIInstance.post("/signup", { data });
     };
 
-    signIn = (data: ISignIpProps): Promise<XMLHttpRequest> => {
+    signIn = (data: ISignIpProps): Promise<TOkResponse> => {
         return authAPIInstance.post("/signin", { data });
     };
 
-    getCurrentUser = (): Promise<XMLHttpRequest> => {
+    getCurrentUser = (): Promise<IUser> => {
         return authAPIInstance.get("/user");
     };
 
-    logOut = (): Promise<XMLHttpRequest> => {
+    logOut = (): Promise<TOkResponse> => {
         return authAPIInstance.post("/logout");
     };
 }

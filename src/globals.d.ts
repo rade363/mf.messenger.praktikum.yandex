@@ -7,6 +7,7 @@ type TFormElement = IInputFieldProps | IDouble | IAvatarInput;
 type TEventListener = (event: Event) => any;
 type TEventListenerTemplate = [string, TEventListener];
 type THandlebarsPrecompiler = (props: TObjectType) => string;
+type TOkResponse = "OK";
 
 interface IBlock {
     uniqueId: string | null;
@@ -397,6 +398,7 @@ interface IExistingChat {
     id: number;
     title: string;
     avatar: string;
+    created_by?: number;
 }
 
 interface IChat extends IExistingChat {
@@ -486,4 +488,25 @@ interface IChatsController {
     removeChat: (chatId: number) => void;
     sendMessage: (soclet: WebSocket, content: string) => void;
     reset: () => void;
+}
+
+interface ISignUpResponse {
+    id: number;
+}
+
+interface IDeleteChatResponse {
+    result: IExistingChat;
+    userId: number;
+}
+
+interface IUnreadMessagesResponse {
+    unread_count: number;
+}
+
+interface ITokenResponse {
+    token: string;
+}
+
+interface IAvatarResponse extends IUser {
+    avatar: string;
 }

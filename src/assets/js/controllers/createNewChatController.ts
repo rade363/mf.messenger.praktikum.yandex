@@ -10,8 +10,7 @@ export default function createChat(title: string, userIds?: number[]): void {
     chatsAPI
         .createChat({ title })
         .then(
-            (xhr: XMLHttpRequest): Promise<ICreatedChatResponse> => {
-                const newChatResponse: ICreatedChatResponse = JSON.parse(xhr.response);
+            (newChatResponse: ICreatedChatResponse): Promise<ICreatedChatResponse> => {
                 if (userIds) {
                     return addUsersToChat(userIds, newChatResponse.id).then(() => newChatResponse);
                 }
