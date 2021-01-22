@@ -6,7 +6,6 @@ import Input from "../Input/index";
 import ContextMenu from "../ContextMenu/index";
 import AttachmentContextButton from "../AttachmentContextButton/index";
 import useState from "../../modules/state";
-import { isXssPresent } from "../../modules/utils";
 import { setImageUpload } from "../../modules/domHelpers";
 import ChatsController from "../../modules/ChatsController/ChatsController";
 
@@ -144,18 +143,13 @@ export default class MessageForm extends Block {
                 const newMessage = getNewMessage();
                 const attachment = getAttachment();
 
-                if (isXssPresent(newMessage)) {
-                    // eslint-disable-next-line no-alert
-                    alert("Invalid symbols");
-                } else {
-                    const formObject = {
-                        newMessage,
-                        attachment
-                    };
-                    console.info("[INFO] Media files are not supported by YP API, unfortunately... So only the message can be sent", formObject);
-                    controller.sendMessage(newMessage);
-                    this.input.element.value = "";
-                }
+                const formObject = {
+                    newMessage,
+                    attachment
+                };
+                console.info("[INFO] Media files are not supported by YP API, unfortunately... So only the message can be sent", formObject);
+                controller.sendMessage(newMessage);
+                this.input.element.value = "";
             }
         });
     }
